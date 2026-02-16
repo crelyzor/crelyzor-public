@@ -1,6 +1,6 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import { api } from '../lib/api';
-import type { PublicCardResponse, CardLink } from '../types/card';
+import type { PublicCardResponse, CardLink, CardTheme } from '../types/card';
 import { ContactForm } from './ContactForm';
 
 // Link type → SVG icon mapping
@@ -34,6 +34,27 @@ function getDefaultIcon() {
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
+}
+
+function getThemeVars(theme?: CardTheme) {
+  const t = theme ?? {};
+  const primary = t.primaryColor || '#171717';
+  const bg = t.backgroundColor || '#ffffff';
+  const isDark = t.darkMode ?? false;
+
+  return {
+    primary,
+    bg,
+    surface: isDark ? '#171717' : bg,
+    text: isDark ? '#fafafa' : '#0a0a0a',
+    textSecondary: isDark ? '#a3a3a3' : '#737373',
+    textMuted: isDark ? '#525252' : '#a3a3a3',
+    border: isDark ? '#262626' : '#f5f5f5',
+    borderHover: isDark ? '#404040' : '#e5e5e5',
+    hoverBg: isDark ? '#262626' : '#fafafa',
+    fontFamily: t.fontFamily || 'Inter, system-ui, sans-serif',
+    layout: t.layout || 'classic',
+  };
 }
 
 interface CardPageProps {
@@ -78,6 +99,7 @@ export function CardPage({ username, slug }: CardPageProps) {
   const { user, card } = data;
   const contactFields = card.contactFields ?? {};
   const links = (card.links ?? []) as CardLink[];
+  const tv = getThemeVars(card.theme);
 
   const handleLinkClick = (link: CardLink) => {
     api.trackClick(card.id, link.url).catch(() => {});
@@ -88,25 +110,39 @@ export function CardPage({ username, slug }: CardPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex items-start justify-center px-4 py-12 sm:py-20">
+    <div
+      className="min-h-screen flex items-start justify-center px-4 py-12 sm:py-20"
+      style={{ backgroundColor: tv.border, fontFamily: tv.fontFamily }}
+    >
       <div className="w-full max-w-md">
         {/* Card container */}
-        <div className="bg-white rounded-3xl shadow-sm border border-neutral-100 overflow-hidden">
+        <div
+          className="rounded-3xl shadow-sm overflow-hidden"
+          style={{ backgroundColor: tv.surface, border: `1px solid ${tv.border}` }}
+        >
           {/* Cover / Header area */}
-          <div className="relative h-32 bg-gradient-to-br from-neutral-900 to-neutral-700">
-            {card.coverUrl && (
-              <img
-                src={card.coverUrl}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            )}
-          </div>
+          {tv.layout !== 'minimal' && (
+            <div
+              className="relative h-32"
+              style={{ background: `linear-gradient(135deg, ${tv.primary}, ${tv.primary}cc)` }}
+            >
+              {card.coverUrl && (
+                <img
+                  src={card.coverUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+            </div>
+          )}
 
           {/* Avatar - overlapping */}
-          <div className="relative px-6">
-            <div className="-mt-12 mb-4">
-              <div className="w-24 h-24 rounded-2xl bg-white border-4 border-white shadow-lg overflow-hidden">
+          <div className={`relative px-6 ${tv.layout === 'minimal' ? 'pt-8' : ''}`}>
+            <div className={tv.layout !== 'minimal' ? '-mt-12 mb-4' : 'mb-4'}>
+              <div
+                className="w-24 h-24 rounded-2xl shadow-lg overflow-hidden"
+                style={{ border: `4px solid ${tv.surface}`, backgroundColor: tv.border }}
+              >
                 {card.avatarUrl || user.avatarUrl ? (
                   <img
                     src={card.avatarUrl || user.avatarUrl || ''}
@@ -114,8 +150,8 @@ export function CardPage({ username, slug }: CardPageProps) {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center">
-                    <span className="text-2xl font-semibold text-neutral-400">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-2xl font-semibold" style={{ color: tv.textMuted }}>
                       {card.displayName.charAt(0).toUpperCase()}
                     </span>
                   </div>
@@ -125,14 +161,14 @@ export function CardPage({ username, slug }: CardPageProps) {
 
             {/* Name & title */}
             <div className="mb-6">
-              <h1 className="text-xl font-semibold text-neutral-950 tracking-tight">
+              <h1 className="text-xl font-semibold tracking-tight" style={{ color: tv.text }}>
                 {card.displayName}
               </h1>
               {card.title && (
-                <p className="text-sm text-neutral-500 mt-1">{card.title}</p>
+                <p className="text-sm mt-1" style={{ color: tv.textSecondary }}>{card.title}</p>
               )}
               {card.bio && (
-                <p className="text-sm text-neutral-600 mt-3 leading-relaxed">
+                <p className="text-sm mt-3 leading-relaxed" style={{ color: tv.textSecondary }}>
                   {card.bio}
                 </p>
               )}
@@ -143,7 +179,8 @@ export function CardPage({ username, slug }: CardPageProps) {
               {contactFields.email && (
                 <a
                   href={`mailto:${contactFields.email}`}
-                  className="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-white text-sm font-medium transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: tv.primary }}
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
                     <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -155,7 +192,8 @@ export function CardPage({ username, slug }: CardPageProps) {
               {contactFields.phone && (
                 <a
                   href={`tel:${contactFields.phone}`}
-                  className="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl border border-neutral-200 text-neutral-700 text-sm font-medium hover:bg-neutral-50 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-medium transition-colors"
+                  style={{ border: `1px solid ${tv.border}`, color: tv.textSecondary }}
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -168,7 +206,8 @@ export function CardPage({ username, slug }: CardPageProps) {
                   href={contactFields.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-xl border border-neutral-200 text-neutral-500 hover:bg-neutral-50 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-colors"
+                  style={{ border: `1px solid ${tv.border}`, color: tv.textSecondary }}
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
                     <circle cx="12" cy="12" r="10" />
@@ -181,7 +220,7 @@ export function CardPage({ username, slug }: CardPageProps) {
 
             {/* Location */}
             {contactFields.location && (
-              <div className="flex items-center gap-2 mb-6 text-sm text-neutral-500">
+              <div className="flex items-center gap-2 mb-6 text-sm" style={{ color: tv.textSecondary }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 shrink-0">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                   <circle cx="12" cy="10" r="3" />
@@ -194,7 +233,7 @@ export function CardPage({ username, slug }: CardPageProps) {
           {/* Social links */}
           {links.length > 0 && (
             <div className="px-6 pb-6">
-              <div className="h-px bg-neutral-100 mb-5" />
+              <div className="h-px mb-5" style={{ backgroundColor: tv.border }} />
               <div className="space-y-2">
                 {links.map((link, i) => (
                   <a
@@ -203,15 +242,24 @@ export function CardPage({ username, slug }: CardPageProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => handleLinkClick(link)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-neutral-100 hover:border-neutral-200 hover:bg-neutral-50 transition-all group"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group"
+                    style={{ border: `1px solid ${tv.border}` }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = tv.borderHover;
+                      e.currentTarget.style.backgroundColor = tv.hoverBg;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = tv.border;
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
-                    <span className="text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                    <span style={{ color: tv.textMuted }}>
                       {linkIcons[link.type] || getDefaultIcon()}
                     </span>
-                    <span className="flex-1 text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors">
+                    <span className="flex-1 text-sm font-medium" style={{ color: tv.text }}>
                       {link.label || link.type}
                     </span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 text-neutral-300 group-hover:text-neutral-500 transition-colors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" style={{ color: tv.textMuted }}>
                       <path d="M7 17L17 7M17 7H7M17 7v10" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
@@ -225,7 +273,8 @@ export function CardPage({ username, slug }: CardPageProps) {
         <div className="mt-4 flex gap-2">
           <button
             onClick={handleSaveContact}
-            className="flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-white text-sm font-medium transition-opacity hover:opacity-90"
+            style={{ backgroundColor: tv.primary }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
               <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
@@ -236,7 +285,8 @@ export function CardPage({ username, slug }: CardPageProps) {
           </button>
           <button
             onClick={() => setShowContactForm(true)}
-            className="flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl border border-neutral-200 bg-white text-neutral-700 text-sm font-medium hover:bg-neutral-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-medium transition-colors"
+            style={{ backgroundColor: tv.surface, border: `1px solid ${tv.border}`, color: tv.textSecondary }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -248,8 +298,25 @@ export function CardPage({ username, slug }: CardPageProps) {
           </button>
         </div>
 
+        {/* Book a Meeting button */}
+        {contactFields.bookingUrl && (
+          <a
+            href={contactFields.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-medium transition-colors"
+            style={{ backgroundColor: tv.surface, border: `1px solid ${tv.border}`, color: tv.text }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            Book a Meeting
+          </a>
+        )}
+
         {/* Footer */}
-        <p className="text-center text-[11px] text-neutral-300 mt-8 tracking-wide">
+        <p className="text-center text-[11px] mt-8 tracking-wide" style={{ color: tv.textMuted }}>
           Powered by Calendar
         </p>
       </div>
