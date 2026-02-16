@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import { CardPage } from './pages/CardPage';
+import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function CardRoute() {
   const { username, slug } = useParams();
@@ -7,24 +9,14 @@ function CardRoute() {
   return <CardPage username={username} slug={slug} />;
 }
 
-function NotFound() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-50">
-      <div className="text-center">
-        <p className="text-6xl font-light text-neutral-200 mb-4">404</p>
-        <p className="text-neutral-500 text-sm">Page not found</p>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/:username" element={<CardRoute />} />
         <Route path="/:username/:slug" element={<CardRoute />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
