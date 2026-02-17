@@ -32,6 +32,10 @@ export interface CardData {
   links: CardLink[];
   contactFields: CardContactFields;
   theme: CardTheme;
+  templateId: string;
+  showQr: boolean;
+  htmlContent: string | null;
+  htmlBackContent: string | null;
 }
 
 export interface CardUser {
