@@ -115,10 +115,14 @@ export function CardPage({ username, slug }: CardPageProps) {
       style={{ backgroundColor: tv.border, fontFamily: tv.fontFamily }}
     >
       <div className="w-full max-w-md">
-        {/* Card container */}
+        {/* Card container — business card aspect ratio (3.5 × 2 inches) */}
         <div
           className="rounded-3xl shadow-sm overflow-hidden"
-          style={{ backgroundColor: tv.surface, border: `1px solid ${tv.border}` }}
+          style={{
+            backgroundColor: tv.surface,
+            border: `1px solid ${tv.border}`,
+            aspectRatio: '7 / 4',
+          }}
         >
           {/* Cover / Header area */}
           {tv.layout !== 'minimal' && (
