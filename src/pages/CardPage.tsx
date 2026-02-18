@@ -87,12 +87,14 @@ interface CardPageProps {
 }
 
 export function CardPage({ username, slug }: CardPageProps) {
+  // All hooks must be called unconditionally at the top (before any early return).
   const [data, setData] = useState<PublicCardResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactSaved, setContactSaved] = useState(false);
+  const [savingContact, setSavingContact] = useState(false);
 
   useEffect(() => {
     api
@@ -135,8 +137,16 @@ export function CardPage({ username, slug }: CardPageProps) {
     api.trackClick(card.id, link.url).catch(() => {});
   };
 
-  const handleSaveContact = () => {
-    window.open(api.getVCardUrl(username, slug), '_blank');
+  const handleSaveContact = async () => {
+    setSavingContact(true);
+    try {
+      await api.downloadVCard(username, slug);
+    } catch {
+      // Fallback: open in new tab if blob download fails (e.g. CORS)
+      window.open(api.getVCardUrl(username, slug), '_blank');
+    } finally {
+      setSavingContact(false);
+    }
   };
 
   const avatarInitial = card.displayName.charAt(0).toUpperCase();
@@ -723,22 +733,33 @@ export function CardPage({ username, slug }: CardPageProps) {
           <div className="h-px bg-neutral-50 mx-4" />
           <div className="p-4 flex gap-2">
             <button
+              type="button"
               onClick={handleSaveContact}
-              className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-90"
+              disabled={savingContact}
+              className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#0a0a0a', color: accent }}
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="w-4 h-4"
-              >
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-                <polyline points="17,21 17,13 7,13 7,21" />
-                <polyline points="7,3 7,8 15,8" />
-              </svg>
-              Save Contact
+              {savingContact ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-4 h-4"
+                  >
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                    <polyline points="17,21 17,13 7,13 7,21" />
+                    <polyline points="7,3 7,8 15,8" />
+                  </svg>
+                  Save Contact
+                </>
+              )}
             </button>
             <button
               onClick={() => setShowContactForm(true)}
