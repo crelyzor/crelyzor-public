@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000/api/v1';
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000/api/v1';
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -11,7 +12,12 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   }
 
   const json = await res.json();
-  if (json && typeof json === 'object' && 'data' in json && 'statusCode' in json) {
+  if (
+    json &&
+    typeof json === 'object' &&
+    'data' in json &&
+    'statusCode' in json
+  ) {
     return json.data as T;
   }
   return json as T;
@@ -23,7 +29,16 @@ export const api = {
       `/public/card/${username}${slug ? `/${slug}` : ''}`
     ),
 
-  submitContact: (cardId: string, data: { name: string; email?: string; phone?: string; company?: string; note?: string }) =>
+  submitContact: (
+    cardId: string,
+    data: {
+      name: string;
+      email?: string;
+      phone?: string;
+      company?: string;
+      note?: string;
+    }
+  ) =>
     request<{ id: string }>(`/public/card/${cardId}/contact`, {
       method: 'POST',
       body: JSON.stringify(data),

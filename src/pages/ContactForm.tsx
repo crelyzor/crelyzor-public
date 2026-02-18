@@ -8,7 +8,12 @@ interface ContactFormProps {
   onSuccess: () => void;
 }
 
-export function ContactForm({ cardId, cardOwner, onClose, onSuccess }: ContactFormProps) {
+export function ContactForm({
+  cardId,
+  cardOwner,
+  onClose,
+  onSuccess,
+}: ContactFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -59,15 +64,19 @@ export function ContactForm({ cardId, cardOwner, onClose, onSuccess }: ContactFo
             <h2 className="text-lg font-semibold text-neutral-950 tracking-tight">
               Share your info
             </h2>
-            <p className="text-sm text-neutral-500 mt-0.5">
-              with {cardOwner}
-            </p>
+            <p className="text-sm text-neutral-500 mt-0.5">with {cardOwner}</p>
           </div>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 hover:bg-neutral-200 transition-colors"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="w-4 h-4"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -138,9 +147,7 @@ export function ContactForm({ cardId, cardOwner, onClose, onSuccess }: ContactFo
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500 mt-3">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
 
           <button
             type="submit"

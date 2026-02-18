@@ -56,9 +56,23 @@ const socialIconsLarge: Record<string, ReactNode> = {
 
 function getDefaultIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      className="w-4 h-4"
+    >
+      <path
+        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -100,8 +114,12 @@ export function CardPage({ username, slug }: CardPageProps) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-neutral-100">
         <div className="text-center">
-          <p className="text-7xl font-thin text-neutral-300 mb-3 tracking-tighter">404</p>
-          <p className="text-neutral-400 text-sm tracking-wide">This card doesn't exist</p>
+          <p className="text-7xl font-thin text-neutral-300 mb-3 tracking-tighter">
+            404
+          </p>
+          <p className="text-neutral-400 text-sm tracking-wide">
+            This card doesn't exist
+          </p>
         </div>
       </div>
     );
@@ -122,11 +140,16 @@ export function CardPage({ username, slug }: CardPageProps) {
   };
 
   const avatarInitial = card.displayName.charAt(0).toUpperCase();
-  const hasQuickActions = contactFields.email || contactFields.phone || contactFields.website;
+  const hasQuickActions =
+    contactFields.email || contactFields.phone || contactFields.website;
 
   // Separate social links (known types) from other links
-  const socialLinks = links.filter((l) => ['linkedin', 'twitter', 'github', 'instagram'].includes(l.type));
-  const otherLinks = links.filter((l) => !['linkedin', 'twitter', 'github', 'instagram'].includes(l.type));
+  const socialLinks = links.filter((l) =>
+    ['linkedin', 'twitter', 'github', 'instagram'].includes(l.type)
+  );
+  const otherLinks = links.filter(
+    (l) => !['linkedin', 'twitter', 'github', 'instagram'].includes(l.type)
+  );
 
   return (
     <div
@@ -134,7 +157,6 @@ export function CardPage({ username, slug }: CardPageProps) {
       style={{ fontFamily }}
     >
       <div className="w-full max-w-sm">
-
         {/* ── FLIPPABLE CARD ──────────────────────────────────────── */}
         <div
           className="w-full cursor-pointer"
@@ -154,7 +176,8 @@ export function CardPage({ username, slug }: CardPageProps) {
               style={{
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
-                boxShadow: '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
+                boxShadow:
+                  '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
               }}
             >
               {card.htmlContent ? (
@@ -164,7 +187,10 @@ export function CardPage({ username, slug }: CardPageProps) {
                 />
               ) : (
                 /* Fallback: React rendering for pre-migration cards */
-                <div className="w-full h-full" style={{ background: '#0a0a0a' }}>
+                <div
+                  className="w-full h-full"
+                  style={{ background: '#0a0a0a' }}
+                >
                   {/* Subtle diagonal line texture */}
                   <div
                     className="absolute inset-0 opacity-[0.03]"
@@ -182,7 +208,11 @@ export function CardPage({ username, slug }: CardPageProps) {
                   {/* Cover image */}
                   {card.coverUrl && (
                     <div className="absolute inset-0">
-                      <img src={card.coverUrl} alt="" className="w-full h-full object-cover opacity-15" />
+                      <img
+                        src={card.coverUrl}
+                        alt=""
+                        className="w-full h-full object-cover opacity-15"
+                      />
                       <div className="absolute inset-0 bg-linear-to-br from-black/80 to-black/60" />
                     </div>
                   )}
@@ -206,7 +236,12 @@ export function CardPage({ username, slug }: CardPageProps) {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-xl font-semibold" style={{ color: accent }}>{avatarInitial}</span>
+                            <span
+                              className="text-xl font-semibold"
+                              style={{ color: accent }}
+                            >
+                              {avatarInitial}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -216,7 +251,10 @@ export function CardPage({ username, slug }: CardPageProps) {
                           {card.displayName}
                         </h1>
                         {card.title && (
-                          <p className="text-[12px] mt-1 leading-snug" style={{ color: accent }}>
+                          <p
+                            className="text-[12px] mt-1 leading-snug"
+                            style={{ color: accent }}
+                          >
                             {card.title}
                           </p>
                         )}
@@ -228,7 +266,14 @@ export function CardPage({ username, slug }: CardPageProps) {
                       <div className="space-y-1 min-w-0">
                         {contactFields.email && (
                           <p className="text-neutral-300 text-[10px] tracking-wide truncate flex items-center gap-1.5">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-2.5 h-2.5 shrink-0" style={{ color: accent }}>
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              className="w-2.5 h-2.5 shrink-0"
+                              style={{ color: accent }}
+                            >
                               <rect x="2" y="4" width="20" height="16" rx="2" />
                               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                             </svg>
@@ -237,7 +282,14 @@ export function CardPage({ username, slug }: CardPageProps) {
                         )}
                         {contactFields.phone && (
                           <p className="text-neutral-300 text-[10px] tracking-wide flex items-center gap-1.5">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-2.5 h-2.5 shrink-0" style={{ color: accent }}>
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              className="w-2.5 h-2.5 shrink-0"
+                              style={{ color: accent }}
+                            >
                               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                             </svg>
                             {contactFields.phone}
@@ -245,7 +297,14 @@ export function CardPage({ username, slug }: CardPageProps) {
                         )}
                         {contactFields.location && (
                           <p className="text-neutral-400 text-[10px] tracking-wide flex items-center gap-1.5">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-2.5 h-2.5 shrink-0" style={{ color: accent }}>
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              className="w-2.5 h-2.5 shrink-0"
+                              style={{ color: accent }}
+                            >
                               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                               <circle cx="12" cy="10" r="3" />
                             </svg>
@@ -256,11 +315,33 @@ export function CardPage({ username, slug }: CardPageProps) {
 
                       {/* Flip hint */}
                       <p className="text-neutral-500 text-[8px] tracking-widest uppercase flex items-center gap-1">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-2.5 h-2.5">
-                          <path d="M17 1l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M3 11V9a4 4 0 0 1 4-4h14" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M7 23l-4-4 4-4" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M21 13v2a4 4 0 0 1-4 4H3" strokeLinecap="round" strokeLinejoin="round"/>
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="w-2.5 h-2.5"
+                        >
+                          <path
+                            d="M17 1l4 4-4 4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M3 11V9a4 4 0 0 1 4-4h14"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M7 23l-4-4 4-4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M21 13v2a4 4 0 0 1-4 4H3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                         Tap to flip
                       </p>
@@ -270,7 +351,9 @@ export function CardPage({ username, slug }: CardPageProps) {
                   {/* Bottom accent bar */}
                   <div
                     className="absolute bottom-0 left-0 right-0 h-0.5"
-                    style={{ background: `linear-gradient(90deg, ${accent}, ${accent}66)` }}
+                    style={{
+                      background: `linear-gradient(90deg, ${accent}, ${accent}66)`,
+                    }}
                   />
                 </div>
               )}
@@ -283,7 +366,8 @@ export function CardPage({ username, slug }: CardPageProps) {
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
-                boxShadow: '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
+                boxShadow:
+                  '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
               }}
             >
               {card.htmlBackContent ? (
@@ -293,7 +377,10 @@ export function CardPage({ username, slug }: CardPageProps) {
                 />
               ) : (
                 /* Fallback: React rendering for pre-migration cards */
-                <div className="w-full h-full" style={{ background: '#0a0a0a' }}>
+                <div
+                  className="w-full h-full"
+                  style={{ background: '#0a0a0a' }}
+                >
                   {/* Subtle texture */}
                   <div
                     className="absolute inset-0 opacity-[0.03]"
@@ -318,11 +405,20 @@ export function CardPage({ username, slug }: CardPageProps) {
                         </p>
                       ) : (
                         <div className="flex items-center gap-2">
-                          <div className="h-px flex-1" style={{ backgroundColor: `${accent}55` }} />
-                          <span className="text-[10px] tracking-widest uppercase" style={{ color: accent }}>
+                          <div
+                            className="h-px flex-1"
+                            style={{ backgroundColor: `${accent}55` }}
+                          />
+                          <span
+                            className="text-[10px] tracking-widest uppercase"
+                            style={{ color: accent }}
+                          >
                             {card.displayName}
                           </span>
-                          <div className="h-px flex-1" style={{ backgroundColor: `${accent}55` }} />
+                          <div
+                            className="h-px flex-1"
+                            style={{ backgroundColor: `${accent}55` }}
+                          />
                         </div>
                       )}
                     </div>
@@ -359,17 +455,42 @@ export function CardPage({ username, slug }: CardPageProps) {
                           onClick={(e) => e.stopPropagation()}
                           className="text-neutral-300 text-[10px] tracking-wide hover:text-white transition-colors truncate max-w-[60%]"
                         >
-                          {contactFields.website.replace(/^https?:\/\/(www\.)?/, '')}
+                          {contactFields.website.replace(
+                            /^https?:\/\/(www\.)?/,
+                            ''
+                          )}
                         </a>
                       ) : (
                         <span />
                       )}
                       <p className="text-neutral-500 text-[8px] tracking-widest uppercase flex items-center gap-1">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-2.5 h-2.5">
-                          <path d="M17 1l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M3 11V9a4 4 0 0 1 4-4h14" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M7 23l-4-4 4-4" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M21 13v2a4 4 0 0 1-4 4H3" strokeLinecap="round" strokeLinejoin="round"/>
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="w-2.5 h-2.5"
+                        >
+                          <path
+                            d="M17 1l4 4-4 4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M3 11V9a4 4 0 0 1 4-4h14"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M7 23l-4-4 4-4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M21 13v2a4 4 0 0 1-4 4H3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                         Tap to flip
                       </p>
@@ -379,7 +500,9 @@ export function CardPage({ username, slug }: CardPageProps) {
                   {/* Top accent bar */}
                   <div
                     className="absolute top-0 left-0 right-0 h-0.5"
-                    style={{ background: `linear-gradient(90deg, ${accent}66, ${accent})` }}
+                    style={{
+                      background: `linear-gradient(90deg, ${accent}66, ${accent})`,
+                    }}
                   />
                 </div>
               )}
@@ -388,8 +511,10 @@ export function CardPage({ username, slug }: CardPageProps) {
         </div>
 
         {/* ── DETAIL SECTION ──────────────────────────────────────── */}
-        <div className="mt-5 rounded-2xl bg-white overflow-hidden" style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
-
+        <div
+          className="mt-5 rounded-2xl bg-white overflow-hidden"
+          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
+        >
           {/* Quick actions */}
           {hasQuickActions && (
             <div className="p-4 flex gap-2">
@@ -399,11 +524,20 @@ export function CardPage({ username, slug }: CardPageProps) {
                   className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-white transition-opacity hover:opacity-90"
                   style={{ backgroundColor: '#0a0a0a' }}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" style={{ color: accent }}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-4 h-4"
+                    style={{ color: accent }}
+                  >
                     <rect x="2" y="4" width="20" height="16" rx="2" />
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                   </svg>
-                  <span className="text-white text-[11px] font-medium">Email</span>
+                  <span className="text-white text-[11px] font-medium">
+                    Email
+                  </span>
                 </a>
               )}
               {contactFields.phone && (
@@ -411,10 +545,19 @@ export function CardPage({ username, slug }: CardPageProps) {
                   href={`tel:${contactFields.phone}`}
                   className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 transition-colors hover:bg-neutral-50"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" style={{ color: accent }}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-4 h-4"
+                    style={{ color: accent }}
+                  >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
-                  <span className="text-neutral-600 text-[11px] font-medium">Call</span>
+                  <span className="text-neutral-600 text-[11px] font-medium">
+                    Call
+                  </span>
                 </a>
               )}
               {contactFields.website && (
@@ -424,12 +567,21 @@ export function CardPage({ username, slug }: CardPageProps) {
                   rel="noopener noreferrer"
                   className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 transition-colors hover:bg-neutral-50"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" style={{ color: accent }}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-4 h-4"
+                    style={{ color: accent }}
+                  >
                     <circle cx="12" cy="12" r="10" />
                     <line x1="2" y1="12" x2="22" y2="12" />
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                   </svg>
-                  <span className="text-neutral-600 text-[11px] font-medium">Website</span>
+                  <span className="text-neutral-600 text-[11px] font-medium">
+                    Website
+                  </span>
                 </a>
               )}
             </div>
@@ -439,7 +591,9 @@ export function CardPage({ username, slug }: CardPageProps) {
           {card.bio && (
             <>
               <div className="h-px bg-neutral-50 mx-4" />
-              <p className="px-4 py-4 text-sm text-neutral-500 leading-relaxed">{card.bio}</p>
+              <p className="px-4 py-4 text-sm text-neutral-500 leading-relaxed">
+                {card.bio}
+              </p>
             </>
           )}
 
@@ -448,7 +602,12 @@ export function CardPage({ username, slug }: CardPageProps) {
             <>
               <div className="h-px bg-neutral-50 mx-4" />
               <div className="px-4 py-3">
-                <p className="text-[10px] uppercase tracking-widest font-semibold mb-2" style={{ color: accent }}>Links</p>
+                <p
+                  className="text-[10px] uppercase tracking-widest font-semibold mb-2"
+                  style={{ color: accent }}
+                >
+                  Links
+                </p>
                 <div className="space-y-1">
                   {otherLinks.map((link, i) => (
                     <a
@@ -465,8 +624,18 @@ export function CardPage({ username, slug }: CardPageProps) {
                       <span className="flex-1 text-sm text-neutral-700 font-medium truncate">
                         {link.label || link.type}
                       </span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0">
-                        <path d="M7 17L17 7M17 7H7M17 7v10" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0"
+                      >
+                        <path
+                          d="M7 17L17 7M17 7H7M17 7v10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </a>
                   ))}
@@ -480,7 +649,12 @@ export function CardPage({ username, slug }: CardPageProps) {
             <>
               <div className="h-px bg-neutral-50 mx-4" />
               <div className="px-4 py-3">
-                <p className="text-[10px] uppercase tracking-widest font-semibold mb-2" style={{ color: accent }}>Social</p>
+                <p
+                  className="text-[10px] uppercase tracking-widest font-semibold mb-2"
+                  style={{ color: accent }}
+                >
+                  Social
+                </p>
                 <div className="space-y-1">
                   {socialLinks.map((link, i) => (
                     <a
@@ -497,8 +671,18 @@ export function CardPage({ username, slug }: CardPageProps) {
                       <span className="flex-1 text-sm text-neutral-700 font-medium truncate">
                         {link.label || link.type}
                       </span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0">
-                        <path d="M7 17L17 7M17 7H7M17 7v10" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0"
+                      >
+                        <path
+                          d="M7 17L17 7M17 7H7M17 7v10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </a>
                   ))}
@@ -519,7 +703,13 @@ export function CardPage({ username, slug }: CardPageProps) {
                   className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
                   style={{ backgroundColor: '#0a0a0a', color: accent }}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-4 h-4"
+                  >
                     <rect x="3" y="4" width="18" height="18" rx="2" />
                     <path d="M16 2v4M8 2v4M3 10h18" />
                   </svg>
@@ -537,7 +727,13 @@ export function CardPage({ username, slug }: CardPageProps) {
               className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-90"
               style={{ backgroundColor: '#0a0a0a', color: accent }}
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-4 h-4"
+              >
                 <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                 <polyline points="17,21 17,13 7,13 7,21" />
                 <polyline points="7,3 7,8 15,8" />
@@ -548,7 +744,13 @@ export function CardPage({ username, slug }: CardPageProps) {
               onClick={() => setShowContactForm(true)}
               className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium border border-neutral-100 text-neutral-500 transition-colors hover:bg-neutral-50"
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-4 h-4"
+              >
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
                 <line x1="19" y1="8" x2="19" y2="14" />
@@ -582,7 +784,13 @@ export function CardPage({ username, slug }: CardPageProps) {
       {contactSaved && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4">
           <div className="flex items-center gap-2 px-4 py-3 rounded-full bg-neutral-900 text-white text-sm shadow-xl">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-green-400">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="w-4 h-4 text-green-400"
+            >
               <polyline points="20,6 9,17 4,12" />
             </svg>
             Your info has been shared with {data.card.displayName}
