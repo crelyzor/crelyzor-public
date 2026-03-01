@@ -16,6 +16,7 @@ _Nothing in progress right now._
 ## Phase 1 — Polish (Low Priority — Cards Work Fine)
 
 ### Resilience
+
 - [ ] Handle missing avatar — initials fallback (gold initial on dark bg)
 - [ ] Handle missing bio / links / contact fields — hide empty sections cleanly
 - [ ] Error state when card not found — nice 404, not broken page
@@ -23,16 +24,19 @@ _Nothing in progress right now._
 - [ ] Smooth avatar image load — fade in, no layout shift
 
 ### Contact Form
+
 - [ ] Form validation (name required + email or phone required)
 - [ ] Success state after submission
 - [ ] Error state if submission fails
 - [ ] Loading state during submit
 
 ### vCard Download
+
 - [ ] Verify vCard works on iOS and Android
 - [ ] Verify all fields populate correctly in phone contacts
 
 ### SEO & Meta
+
 - [ ] Dynamic `<title>` — `{name} — Crelyzor`
 - [ ] Open Graph tags (for link previews)
 - [ ] `description` meta from card bio
