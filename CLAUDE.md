@@ -86,6 +86,7 @@ style={{ backfaceVisibility: "hidden" }}
 **Card proportions:** Aspect ratio 1.586:1 (standard business card)
 
 **Card front:**
+
 - Diagonal texture: `repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px)`
 - Avatar: 56px, `rounded-xl`, gold accent border `border-[#d4af61]/50`
 - Name: `text-sm font-medium text-white`
@@ -95,6 +96,7 @@ style={{ backfaceVisibility: "hidden" }}
 - "Tap to flip" hint: `text-[8px] text-neutral-500 uppercase tracking-widest`
 
 **Card back:**
+
 - Texture: 45deg (different angle from front)
 - Gold bar at top instead of bottom
 - Bio: `text-[11px] text-neutral-300 line-clamp-3`
@@ -126,6 +128,7 @@ style={{ boxShadow: "0 2px 16px rgba(0,0,0,0.06)" }}
 ```
 
 **Quick action buttons:**
+
 ```tsx
 // Primary action (Save Contact)
 className="flex-1 h-10 rounded-xl bg-neutral-900 text-white text-xs font-medium"
@@ -138,8 +141,10 @@ className="h-10 rounded-xl border border-neutral-200 text-neutral-600 text-xs"
 ```
 
 **Links list items:**
+
 ```tsx
-className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-50 transition-colors"
+className =
+  'flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-50 transition-colors';
 ```
 
 ---
@@ -148,9 +153,11 @@ className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-50 tr
 
 ```tsx
 // When no avatar URL
-<div className="w-14 h-14 rounded-xl flex items-center justify-center"
-     style={{ background: "rgba(212,175,97,0.1)" }}>
-  <span style={{ color: "#d4af61" }} className="text-lg font-semibold">
+<div
+  className="w-14 h-14 rounded-xl flex items-center justify-center"
+  style={{ background: 'rgba(212,175,97,0.1)' }}
+>
+  <span style={{ color: '#d4af61' }} className="text-lg font-semibold">
     {name[0].toUpperCase()}
   </span>
 </div>
@@ -180,6 +187,7 @@ src/
 All calls go to `calendar-backend`. Use the API client in `src/lib/api.ts`.
 
 Key endpoints:
+
 ```
 GET  /api/v1/public/cards/:username          → Default card
 GET  /api/v1/public/cards/:username/:slug    → Specific card

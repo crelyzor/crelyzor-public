@@ -21,16 +21,19 @@ _Nothing in progress right now._
 - [ ] Smooth image loading (fade in avatar on load, no layout shift)
 
 ### Contact Form
+
 - [ ] Form validation (name required, email or phone required)
 - [ ] Success state after submission (confirmation message)
 - [ ] Error state if submission fails
 - [ ] Loading state during submit
 
 ### vCard Download
+
 - [ ] Verify vCard format works on iOS and Android
 - [ ] Test that all fields populate correctly in phone contacts
 
 ### SEO & Meta
+
 - [ ] Dynamic `<title>` per card (`{name} — Crelyzor`)
 - [ ] Open Graph tags (for link previews when shared)
 - [ ] `description` meta tag from card bio
