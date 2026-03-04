@@ -1,19 +1,27 @@
 # cards-frontend — UI Intelligence
 
-> Public-facing card pages only. Read this before touching anything here.
+> Public-facing frontend for Crelyzor. Read this before touching anything here.
 
 ---
 
 ## What This Repo Is
 
-The public side of Crelyzor's digital cards feature.
+The public frontend for Crelyzor — all SEO-critical, shareable, no-auth pages.
+
+**Framework: Next.js App Router.** SSR is required — public pages need proper OG previews and Google indexing.
 
 - No auth required. Fully public.
-- URL pattern: `/:username` (default card) and `/:username/:slug` (specific card)
-- Purpose: Show the card, let people save contact, download vCard
+- All public URLs for the entire Crelyzor product live here
+- `calendar-frontend` (authenticated dashboard) has zero public routes
 
-**This repo is intentionally minimal.** Do not add dashboard features here.
-Dashboard card management lives in `calendar-frontend`.
+**Current public routes:**
+- `/:username` — public card / profile page
+- `/:username/:slug` — specific card
+- `/m/:id` — published meeting page (transcript, summary, tasks — Phase 1 P2)
+- `/schedule/:username` — availability + booking (Phase 1.2)
+
+**This repo is the public frontend, not just cards.** Do not add dashboard/management UI here.
+Dashboard features live in `calendar-frontend`. Both repos are fully independent — no shared packages.
 
 ---
 
@@ -165,26 +173,45 @@ className =
 
 ---
 
-## File Structure
+## File Structure (Next.js App Router)
 
 ```
-src/
-├── pages/
-│   ├── CardPage.tsx       ← Main card view (3D flip + detail section)
-│   ├── ContactForm.tsx    ← Contact exchange modal/page
-│   ├── HomePage.tsx       ← Landing if no username (Crelyzor promo)
-│   └── NotFoundPage.tsx   ← 404
-├── lib/
-│   └── api.ts             ← API calls to calendar-backend
-└── types/
-    └── card.ts            ← Card type definitions
+app/
+├── page.tsx                        ← Home/landing (Crelyzor promo)
+├── not-found.tsx                   ← 404
+├── [username]/
+│   ├── page.tsx                    ← Default card page (SSR)
+│   └── [slug]/
+│       └── page.tsx                ← Specific card (SSR)
+├── m/
+│   └── [id]/
+│       └── page.tsx                ← Published meeting page (SSR, Phase 1 P2)
+└── schedule/
+    └── [username]/
+        └── page.tsx                ← Availability + booking (Phase 1.2)
+
+components/
+├── card/
+│   ├── CardFlip.tsx                ← 3D flip card (client component)
+│   ├── CardFront.tsx
+│   ├── CardBack.tsx
+│   └── CardDetail.tsx
+└── meeting/
+    └── PublishedMeeting.tsx        ← Published meeting view (Phase 1 P2)
+
+lib/
+└── api.ts                          ← API calls to calendar-backend
+
+types/
+├── card.ts
+└── meeting.ts
 ```
 
 ---
 
 ## API Calls
 
-All calls go to `calendar-backend`. Use the API client in `src/lib/api.ts`.
+All calls go to `calendar-backend`. Use the API client in `lib/api.ts`.
 
 Key endpoints:
 
@@ -193,11 +220,34 @@ GET  /api/v1/public/cards/:username          → Default card
 GET  /api/v1/public/cards/:username/:slug    → Specific card
 POST /api/v1/public/cards/:username/contact  → Submit contact form
 GET  /api/v1/public/cards/:username/vcard    → Download vCard
+
+GET  /api/v1/public/meetings/:shortId        → Published meeting data (Phase 1 P2)
+
+GET  /api/v1/meetings/availability/:username → User availability (Phase 1.2)
+POST /api/v1/meetings/book                   → Submit a booking (Phase 1.2)
 ```
 
 No auth token needed. All public.
 
 ---
+
+## Next.js Conventions
+
+```tsx
+// SSR pages — use async server components and generateMetadata
+export async function generateMetadata({ params }) {
+  const card = await fetchCard(params.username);
+  return { title: `${card.name} — Crelyzor`, openGraph: { ... } };
+}
+
+// Client components — mark with 'use client' (only for interactivity)
+// The 3D flip card must be a client component
+'use client';
+
+// Fetch data in server components — call backend directly (no React Query)
+// React Query is only for calendar-frontend (authenticated, client-side)
+const card = await api.getCard(username); // server component fetch
+```
 
 ## What NOT To Do
 
@@ -207,6 +257,8 @@ No auth token needed. All public.
 - Do NOT use colors other than neutrals + gold (`#d4af61`)
 - Do NOT make the card anything other than dark (`#0a0a0a`)
 - Do NOT change the 1.586:1 aspect ratio — it's a standard business card
-- Do NOT import from `calendar-frontend` — repos are independent
+- Do NOT import from `calendar-frontend` — repos are fully independent
 - Do NOT add heavy dependencies — keep this repo lean
 - Do NOT add animations heavier than the 700ms flip and subtle hovers
+- Do NOT use React Query here — this is Next.js SSR, fetch in server components
+- Do NOT add public routes to `calendar-frontend` — all public URLs live here
