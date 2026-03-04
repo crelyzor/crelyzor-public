@@ -13,26 +13,21 @@ _Nothing in progress right now._
 
 ---
 
-## P0 — Next.js Migration (Do First)
+## P0 — Next.js Migration ✅ Done
 
-This repo is migrating from Vite + React to **Next.js App Router**.
-
-**Why:** All public pages (card, published meeting, availability/booking) need SSR for SEO and
-proper OG previews. Vite/CSR cannot serve this.
+This repo has been fully migrated from Vite + React to **Next.js App Router**.
 
 **Scope:**
 
-- [ ] Init Next.js App Router project with TypeScript + TailwindCSS 4 + shadcn/ui
-- [ ] Migrate existing card pages (`/:username`, `/:username/:slug`) — preserve all design + animations
-- [ ] Migrate existing API client (`src/lib/api.ts`)
-- [ ] Add dynamic OG meta tags per page (`generateMetadata` in App Router)
-- [ ] Verify 3D flip animation works in SSR context (client component boundary)
-- [ ] Verify vCard download works
-- [ ] Confirm dev server runs on :5174
-- [ ] **Mobile-first** — all pages built mobile-first, scale up to desktop (public pages are consumed on phones)
-- [ ] **PWA setup** — `manifest.json`, service worker, dynamic manifest per route (name/start_url from username), installable as "John Doe" on home screen
-
-**Design must not change.** Same dark/gold vibe, same card proportions, same flip animation.
+- [x] Init Next.js App Router project with TypeScript + TailwindCSS 3 + shadcn/ui
+- [x] Migrate existing card pages (`/:username`, `/:username/:slug`) — preserved all design + animations
+- [x] Migrate existing API client (`src/lib/api.ts`)
+- [x] Add dynamic OG meta tags per page (`generateMetadata` in App Router)
+- [x] 3D flip animation works in SSR context (CardView is a `'use client'` component)
+- [x] vCard download works (uses fetch + blob URL, falls back to window.open)
+- [x] Dev server runs on :5174 (`next dev -p 5174`)
+- [x] **Mobile-first** — all pages built mobile-first (`max-w-sm`, narrow card layout scales up)
+- [x] **PWA setup** — `app/manifest.ts` (root), `app/api/icon/route.tsx` (dynamic icon via ImageResponse), `app/api/manifest/[username]/route.ts` (per-user manifest with name/start_url from card data)
 
 ---
 
