@@ -22,7 +22,10 @@ async function serverRequest<T>(path: string): Promise<T> {
   return json as T;
 }
 
-export function getCard(username: string, slug?: string): Promise<PublicCardResponse> {
+export function getCard(
+  username: string,
+  slug?: string
+): Promise<PublicCardResponse> {
   return serverRequest<PublicCardResponse>(
     `/public/card/${username}${slug ? `/${slug}` : ''}`
   );
@@ -54,7 +57,10 @@ export async function submitContact(
   return (json.data ?? json) as { id: string };
 }
 
-export async function trackClick(cardId: string, clickedLink: string): Promise<void> {
+export async function trackClick(
+  cardId: string,
+  clickedLink: string
+): Promise<void> {
   await fetch(`${API_BASE}/public/card/${cardId}/click`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -62,7 +68,10 @@ export async function trackClick(cardId: string, clickedLink: string): Promise<v
   });
 }
 
-export async function downloadVCard(username: string, slug?: string): Promise<void> {
+export async function downloadVCard(
+  username: string,
+  slug?: string
+): Promise<void> {
   const url = getVCardUrl(username, slug);
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
