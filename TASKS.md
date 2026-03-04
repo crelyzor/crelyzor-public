@@ -29,6 +29,8 @@ proper OG previews. Vite/CSR cannot serve this.
 - [ ] Verify 3D flip animation works in SSR context (client component boundary)
 - [ ] Verify vCard download works
 - [ ] Confirm dev server runs on :5174
+- [ ] **Mobile-first** — all pages built mobile-first, scale up to desktop (public pages are consumed on phones)
+- [ ] **PWA setup** — `manifest.json`, service worker, dynamic manifest per route (name/start_url from username), installable as "John Doe" on home screen
 
 **Design must not change.** Same dark/gold vibe, same card proportions, same flip animation.
 
