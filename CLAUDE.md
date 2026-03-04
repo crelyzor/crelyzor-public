@@ -15,6 +15,7 @@ The public frontend for Crelyzor — all SEO-critical, shareable, no-auth pages.
 - `calendar-frontend` (authenticated dashboard) has zero public routes
 
 **Current public routes:**
+
 - `/:username` — public card / profile page
 - `/:username/:slug` — specific card
 - `/m/:id` — published meeting page (transcript, summary, tasks — Phase 1 P2)

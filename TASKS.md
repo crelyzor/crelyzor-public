@@ -21,6 +21,7 @@ This repo is migrating from Vite + React to **Next.js App Router**.
 proper OG previews. Vite/CSR cannot serve this.
 
 **Scope:**
+
 - [ ] Init Next.js App Router project with TypeScript + TailwindCSS 4 + shadcn/ui
 - [ ] Migrate existing card pages (`/:username`, `/:username/:slug`) — preserve all design + animations
 - [ ] Migrate existing API client (`src/lib/api.ts`)
