@@ -32,7 +32,9 @@ export function getCard(
   );
 }
 
-export function getPublicMeeting(shortId: string): Promise<PublicMeetingResponse> {
+export function getPublicMeeting(
+  shortId: string
+): Promise<PublicMeetingResponse> {
   return serverRequest<PublicMeetingResponse>(`/public/meetings/${shortId}`);
 }
 

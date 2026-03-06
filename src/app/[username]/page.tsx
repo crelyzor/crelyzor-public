@@ -9,6 +9,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
+  if (username.includes('.')) return { title: 'Not Found' };
   try {
     const data = await getCard(username);
     const { card, user } = data;
@@ -41,6 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function UserCardPage({ params }: Props) {
   const { username } = await params;
+  // Block file-like requests (favicon.ico, robots.txt, etc.) from hitting the API
+  if (username.includes('.')) notFound();
   let data;
   try {
     data = await getCard(username);

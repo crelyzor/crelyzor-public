@@ -33,7 +33,9 @@ function formatDate(iso: string): string {
   });
 }
 
-function meetingTypeLabel(type: PublicMeetingResponse['meeting']['type']): string {
+function meetingTypeLabel(
+  type: PublicMeetingResponse['meeting']['type']
+): string {
   if (type === 'VOICE_NOTE') return 'Voice Note';
   if (type === 'RECORDED') return 'Recording';
   return 'Meeting';
@@ -230,7 +232,10 @@ export default async function PublishedMeetingPage({ params }: Props) {
               </h2>
             </div>
             <div className="px-5 py-3 space-y-4">
-              <TranscriptSegmentList segments={transcript} speakers={speakers} />
+              <TranscriptSegmentList
+                segments={transcript}
+                speakers={speakers}
+              />
             </div>
           </section>
         )}
@@ -259,8 +264,10 @@ function TranscriptSegmentList({
   speakers: PublicMeetingSpeaker[];
 }) {
   // Group consecutive segments by speaker for readability
-  const groups: { speaker: string; segments: PublicMeetingTranscriptSegment[] }[] =
-    [];
+  const groups: {
+    speaker: string;
+    segments: PublicMeetingTranscriptSegment[];
+  }[] = [];
 
   for (const seg of segments) {
     const last = groups[groups.length - 1];
