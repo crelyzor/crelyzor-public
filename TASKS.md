@@ -35,15 +35,15 @@ This repo has been fully migrated from Vite + React to **Next.js App Router**.
 
 New public route: `/m/:id` — shows a published meeting's selected content.
 
-- [ ] Page at `app/m/[id]/page.tsx` — SSR, fetches from `GET /public/meetings/:shortId`
-- [ ] Dynamic OG tags — meeting title, summary excerpt
-- [ ] Show published sections conditionally (transcript / summary / tasks — based on `publishedFields`)
-- [ ] Transcript section — speaker-labeled, timestamped segments
-- [ ] Summary section — AI summary + key points
-- [ ] Tasks section — checklist display (read-only)
-- [ ] "Powered by Crelyzor" footer CTA
-- [ ] Loading skeleton
-- [ ] 404 state — meeting not found or not published
+- [x] Page at `app/m/[id]/page.tsx` — SSR, fetches from `GET /public/meetings/:shortId`
+- [x] Dynamic OG tags — meeting title, summary excerpt
+- [x] Show published sections conditionally (transcript / summary / tasks — based on `publishedFields`)
+- [x] Transcript section — speaker-labeled, timestamped segments (grouped by speaker)
+- [x] Summary section — AI summary + key points
+- [x] Tasks section — checklist display (read-only)
+- [x] "Shared via Crelyzor" footer CTA
+- [x] 404 state — meeting not found or not published (notFound() → not-found.tsx)
+- [x] Empty state when all sections null
 
 ---
 
