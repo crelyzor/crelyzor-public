@@ -2,7 +2,7 @@ import type { PublicCardResponse } from '@/types/card';
 import type { PublicMeetingResponse } from '@/types/meeting';
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1';
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
 
 // ── Server-side helpers ────────────────────────────────────────────────
 
