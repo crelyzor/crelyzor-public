@@ -136,7 +136,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
       await downloadVCard(username, slug);
     } catch {
       window.open(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1'}/public/card/${username}${slug ? `/${slug}` : ''}/vcard`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1'}/public/card/${username}${slug ? `/${slug}` : ''}/vcard`,
         '_blank'
       );
     } finally {
