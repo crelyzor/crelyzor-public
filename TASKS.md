@@ -47,17 +47,17 @@ New public route: `/m/:id` — shows a published meeting's selected content.
 
 ---
 
-## P2 — Availability / Booking Page (Phase 1.2)
+## Phase 1.2 — Public Booking Pages ← current
 
-New public route: `/schedule/:username` — Cal.com-style booking page.
+Design doc: `docs/dev-notes/phase-1.2-scheduling.md`
 
-- [ ] Page at `app/schedule/[username]/page.tsx`
-- [ ] Fetch user availability from backend
-- [ ] Calendar/time slot picker UI
-- [ ] Booking form (name, email, note)
-- [ ] Confirmation screen
-- [ ] Dynamic OG tags — "Book time with {name}"
-- [ ] Time zone detection + display
+Depends on: backend P2 (slot engine + booking creation API) must exist before building these pages.
+
+- [ ] **`/schedule/:username` — event type listing page:** SSR. Fetch active event types via `GET /public/scheduling/profile/:username`. Show event type cards (title, duration, location icon, description). Each links to `/schedule/:username/:slug`. OG meta: "{name}'s booking page". Handle: user not found → 404. Scheduling disabled → "Not accepting bookings" page.
+- [ ] **`/schedule/:username/:slug` — date + slot picker:** SSR for initial render (event type details). Client-side for slot loading. Month calendar grid — highlight dates that have slots. Guest picks date → fetch slots `GET /public/scheduling/slots?userId=&eventTypeId=&date=` client-side. Slot grid below calendar. Timezone shown (auto-detected via `Intl.DateTimeFormat`). Loading + empty slot state.
+- [ ] **Booking form:** After guest selects slot — show overlay/step with: name (required), email (required), note (optional), timezone display (read-only, auto-detected). Submit → `POST /public/bookings`. Loading state during submit. Validate client-side before submit.
+- [ ] **`/schedule/:username/:slug/confirmed?bookingId=` — confirmation page:** Fetch booking data. Show: event type title, host name, date + time (in guest's timezone), location / meeting link. "Add to Google Calendar" button (generates Google Calendar URL). "Add to Apple Calendar" (.ics download). Clean, minimal layout.
+- [ ] **OG meta tags:** All 3 pages have proper OG titles, descriptions, and `og:image` (fallback to Crelyzor default). Booking page: "Book a {duration}-min call with {name}".
 
 ---
 
