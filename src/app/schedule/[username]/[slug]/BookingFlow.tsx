@@ -97,8 +97,18 @@ function GlobeIcon() {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 const DAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const MAX_WINDOW_DAYS = 60;
@@ -114,7 +124,11 @@ export function BookingFlow({ username, eventType, host }: Props) {
 
   // Calendar state
   const today = new Date();
-  const todayStr = toDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+  const todayStr = toDateStr(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -263,7 +277,9 @@ export function BookingFlow({ username, eventType, host }: Props) {
             </svg>
             {host.name}
           </Link>
-          <h1 className="text-xl font-semibold text-white">{eventType.title}</h1>
+          <h1 className="text-xl font-semibold text-white">
+            {eventType.title}
+          </h1>
           <div className="flex items-center gap-2 mt-2">
             <span className="text-[11px] text-neutral-400">
               {eventType.duration} min
@@ -361,11 +377,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
                   ]
                     .filter(Boolean)
                     .join(' ')}
-                  style={
-                    isSelected
-                      ? { background: '#d4af61' }
-                      : undefined
-                  }
+                  style={isSelected ? { background: '#d4af61' } : undefined}
                 >
                   {day}
                 </button>
@@ -415,8 +427,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
             {!slotsLoading && slots.length > 0 && (
               <div className="grid grid-cols-2 gap-2">
                 {slots.map((slot, i) => {
-                  const isSelected =
-                    selectedSlot?.startTime === slot.startTime;
+                  const isSelected = selectedSlot?.startTime === slot.startTime;
                   return (
                     <button
                       key={i}
@@ -497,8 +508,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
               {/* Note */}
               <div>
                 <label className="block text-[11px] text-neutral-500 mb-1.5">
-                  Note{' '}
-                  <span className="text-neutral-300">(optional)</span>
+                  Note <span className="text-neutral-300">(optional)</span>
                 </label>
                 <textarea
                   value={guestNote}
@@ -525,9 +535,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
 
               <button
                 type="submit"
-                disabled={
-                  submitting || !guestName.trim() || !guestEmail.trim()
-                }
+                disabled={submitting || !guestName.trim() || !guestEmail.trim()}
                 className="w-full h-11 rounded-xl text-sm font-medium text-[#0a0a0a] disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
                 style={{ background: '#d4af61' }}
               >

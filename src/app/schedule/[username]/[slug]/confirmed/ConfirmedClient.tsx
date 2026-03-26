@@ -114,7 +114,9 @@ export function ConfirmedClient() {
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <h1 className="text-xl font-semibold text-white">You&apos;re confirmed!</h1>
+          <h1 className="text-xl font-semibold text-white">
+            You&apos;re confirmed!
+          </h1>
           <p className="text-xs text-neutral-500 mt-1">
             A confirmation has been sent to your email.
           </p>
@@ -159,7 +161,10 @@ export function ConfirmedClient() {
                   When
                 </p>
                 <p className="text-sm text-neutral-900">
-                  {formatDateFull(confirmation.booking.startTime, guestTimezone)}
+                  {formatDateFull(
+                    confirmation.booking.startTime,
+                    guestTimezone
+                  )}
                 </p>
                 <p className="text-sm text-neutral-600 mt-0.5">
                   {formatTime(confirmation.booking.startTime, guestTimezone)}
@@ -234,7 +239,9 @@ export function ConfirmedClient() {
             className="bg-white rounded-2xl p-8 text-center"
             style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
           >
-            <p className="text-sm text-neutral-600">Your booking is confirmed.</p>
+            <p className="text-sm text-neutral-600">
+              Your booking is confirmed.
+            </p>
             {bookingId && (
               <p className="text-[11px] text-neutral-400 mt-2 font-mono">
                 {bookingId}

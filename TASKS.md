@@ -53,11 +53,11 @@ Design doc: `docs/dev-notes/phase-1.2-scheduling.md`
 
 Depends on: backend P2 (slot engine + booking creation API) must exist before building these pages.
 
-- [ ] **`/schedule/:username` — event type listing page:** SSR. Fetch active event types via `GET /public/scheduling/profile/:username`. Show event type cards (title, duration, location icon, description). Each links to `/schedule/:username/:slug`. OG meta: "{name}'s booking page". Handle: user not found → 404. Scheduling disabled → "Not accepting bookings" page.
-- [ ] **`/schedule/:username/:slug` — date + slot picker:** SSR for initial render (event type details). Client-side for slot loading. Month calendar grid — highlight dates that have slots. Guest picks date → fetch slots `GET /public/scheduling/slots?userId=&eventTypeId=&date=` client-side. Slot grid below calendar. Timezone shown (auto-detected via `Intl.DateTimeFormat`). Loading + empty slot state.
-- [ ] **Booking form:** After guest selects slot — show overlay/step with: name (required), email (required), note (optional), timezone display (read-only, auto-detected). Submit → `POST /public/bookings`. Loading state during submit. Validate client-side before submit.
-- [ ] **`/schedule/:username/:slug/confirmed?bookingId=` — confirmation page:** Fetch booking data. Show: event type title, host name, date + time (in guest's timezone), location / meeting link. "Add to Google Calendar" button (generates Google Calendar URL). "Add to Apple Calendar" (.ics download). Clean, minimal layout.
-- [ ] **OG meta tags:** All 3 pages have proper OG titles, descriptions, and `og:image` (fallback to Crelyzor default). Booking page: "Book a {duration}-min call with {name}".
+- [x] **`/schedule/:username` — event type listing page:** SSR. Fetch active event types via `GET /public/scheduling/profile/:username`. Show event type cards (title, duration, location icon, description). Each links to `/schedule/:username/:slug`. OG meta: "{name}'s booking page". Handle: user not found → 404. Scheduling disabled → "Not accepting bookings" page.
+- [x] **`/schedule/:username/:slug` — date + slot picker:** SSR for initial render (event type details). Client-side for slot loading. Month calendar grid. Guest picks date → fetch slots `GET /public/scheduling/slots/:username/:slug?date=` client-side. Slot grid below calendar. Timezone shown (auto-detected via `Intl.DateTimeFormat`). Loading + empty slot state.
+- [x] **Booking form:** After guest selects slot — inline form with: name (required), email (required), note (optional), timezone display (read-only, auto-detected). Submit → `POST /public/bookings`. Loading state during submit. 409 conflict auto-refetches slots.
+- [x] **`/schedule/:username/:slug/confirmed?bookingId=` — confirmation page:** Reads booking data from sessionStorage. Shows: event type title, host name, date + time (in guest's timezone), format. "Add to Google Calendar" button (generates gcal URL). "Add to Apple Calendar" (.ics download). Fallback for page refresh shows booking ID + email prompt.
+- [x] **OG meta tags:** All pages have proper OG titles, descriptions. Profile: "Book time with {name}". Booking: "Book {duration}-min {title} · {name}". Confirmed: static "Booking Confirmed".
 
 ---
 

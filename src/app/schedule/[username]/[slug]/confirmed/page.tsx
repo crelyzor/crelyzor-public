@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { ConfirmedClient } from './ConfirmedClient';
 
 export const metadata: Metadata = {
-  title: "Booking Confirmed · Crelyzor",
-  description: "Your meeting is confirmed.",
+  title: 'Booking Confirmed · Crelyzor',
+  description: 'Your meeting is confirmed.',
 };
 
 export default function ConfirmedPage() {
