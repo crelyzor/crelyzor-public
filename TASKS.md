@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-03-04
+Last updated: 2026-03-26 (Phase 1.2 public booking pages built)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
