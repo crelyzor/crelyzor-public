@@ -23,6 +23,14 @@ interface Props {
 
 // ── Time formatting helpers ────────────────────────────────────────────────────
 
+function formatTimezone(tz: string): string {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+    timeZone: tz,
+  }).formatToParts(new Date());
+  return parts.find((p) => p.type === 'timeZoneName')?.value ?? tz;
+}
+
 function formatTime(isoUtc: string, tz: string): string {
   return new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
@@ -387,7 +395,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
 
           {/* Timezone */}
           <p className="text-[10px] text-neutral-400 mt-4 text-center">
-            {guestTimezone}
+            {formatTimezone(guestTimezone)}
           </p>
         </div>
 
@@ -402,30 +410,33 @@ export function BookingFlow({ username, eventType, host }: Props) {
             </p>
 
             {slotsLoading && (
-              <div className="grid grid-cols-2 gap-2">
-                {Array.from({ length: 6 }, (_, i) => (
+              <div className="flex flex-col gap-2">
+                {Array.from({ length: 5 }, (_, i) => (
                   <div
                     key={i}
-                    className="h-10 bg-neutral-100 rounded-lg animate-pulse"
+                    className="h-11 bg-neutral-100 rounded-lg animate-pulse"
                   />
                 ))}
               </div>
             )}
 
             {slotsError && (
-              <p className="text-sm text-red-400 text-center py-4">
-                {slotsError}
-              </p>
+              <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200">
+                <svg className="w-3.5 h-3.5 text-neutral-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <p className="text-xs text-neutral-500">{slotsError}</p>
+              </div>
             )}
 
             {!slotsLoading && !slotsError && slots.length === 0 && (
-              <p className="text-sm text-neutral-400 text-center py-4">
+              <p className="text-xs text-neutral-400 text-center py-4">
                 No available times on this day.
               </p>
             )}
 
             {!slotsLoading && slots.length > 0 && (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex flex-col gap-2">
                 {slots.map((slot, i) => {
                   const isSelected = selectedSlot?.startTime === slot.startTime;
                   return (
@@ -436,7 +447,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
                         setSubmitError(null);
                       }}
                       className={[
-                        'h-10 rounded-lg text-xs font-medium transition-colors border',
+                        'h-11 rounded-lg text-sm font-medium transition-colors border whitespace-nowrap',
                         isSelected
                           ? 'text-white border-transparent'
                           : 'text-neutral-700 border-neutral-200 hover:border-neutral-400 bg-white',
@@ -523,23 +534,32 @@ export function BookingFlow({ username, eventType, host }: Props) {
               <div className="flex items-center gap-2 py-2 px-3 bg-neutral-50 rounded-lg">
                 <GlobeIcon />
                 <span className="text-[11px] text-neutral-500">
-                  {guestTimezone}
+                  {formatTimezone(guestTimezone)}
                 </span>
               </div>
 
               {submitError && (
-                <p className="text-xs text-red-500 text-center">
-                  {submitError}
-                </p>
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200">
+                  <svg className="w-3.5 h-3.5 text-neutral-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <p className="text-xs text-neutral-500">{submitError}</p>
+                </div>
               )}
 
               <button
                 type="submit"
                 disabled={submitting || !guestName.trim() || !guestEmail.trim()}
-                className="w-full h-11 rounded-xl text-sm font-medium text-[#0a0a0a] disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+                className="w-full h-11 rounded-xl text-sm font-medium text-[#0a0a0a] disabled:opacity-50 disabled:cursor-not-allowed transition-opacity flex items-center justify-center gap-2"
                 style={{ background: '#d4af61' }}
               >
-                {submitting ? 'Booking…' : 'Confirm Booking'}
+                {submitting && (
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={3} />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                )}
+                {submitting ? 'Confirming…' : 'Confirm booking'}
               </button>
             </form>
           </div>

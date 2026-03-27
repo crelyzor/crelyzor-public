@@ -7,6 +7,14 @@ import type { BookingConfirmationData } from '@/types/scheduling';
 
 // ── Time formatting ───────────────────────────────────────────────────────────
 
+function formatTimezone(tz: string): string {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+    timeZone: tz,
+  }).formatToParts(new Date());
+  return parts.find((p) => p.type === 'timeZoneName')?.value ?? tz;
+}
+
 function formatTime(isoUtc: string, tz: string): string {
   return new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
@@ -104,21 +112,38 @@ export function ConfirmedClient() {
             className="w-10 h-10 rounded-full flex items-center justify-center mb-4"
             style={{ background: 'rgba(212,175,97,0.12)' }}
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#d4af61"
-              strokeWidth={2.5}
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            {confirmation?.booking.status === 'CONFIRMED' ? (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="#d4af61"
+                strokeWidth={2.5}
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="#d4af61"
+                strokeWidth={2}
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            )}
           </div>
           <h1 className="text-xl font-semibold text-white">
-            You&apos;re confirmed!
+            {confirmation?.booking.status === 'CONFIRMED'
+              ? "You're confirmed!"
+              : 'Request sent'}
           </h1>
           <p className="text-xs text-neutral-500 mt-1">
-            A confirmation has been sent to your email.
+            {confirmation?.booking.status === 'CONFIRMED'
+              ? 'A confirmation has been sent to your email.'
+              : "We'll notify you once the host approves your request."}
           </p>
           <div
             className="mt-6 h-px w-16"
@@ -172,7 +197,7 @@ export function ConfirmedClient() {
                   {formatTime(confirmation.booking.endTime, guestTimezone)}
                 </p>
                 <p className="text-[11px] text-neutral-400 mt-0.5">
-                  {guestTimezone}
+                  {formatTimezone(guestTimezone)}
                 </p>
               </div>
 
@@ -188,7 +213,8 @@ export function ConfirmedClient() {
               </div>
             </div>
 
-            {/* Add to calendar */}
+            {/* Add to calendar — only once confirmed */}
+            {confirmation.booking.status === 'CONFIRMED' && (
             <div className="space-y-2">
               <a
                 href={makeGCalUrl(confirmation.booking)}
@@ -232,6 +258,7 @@ export function ConfirmedClient() {
                 Add to Apple Calendar (.ics)
               </button>
             </div>
+            )}
           </>
         ) : (
           /* Fallback — sessionStorage unavailable or refreshed */
@@ -240,7 +267,7 @@ export function ConfirmedClient() {
             style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
           >
             <p className="text-sm text-neutral-600">
-              Your booking is confirmed.
+              Your request has been sent.
             </p>
             {bookingId && (
               <p className="text-[11px] text-neutral-400 mt-2 font-mono">
@@ -248,7 +275,7 @@ export function ConfirmedClient() {
               </p>
             )}
             <p className="text-xs text-neutral-400 mt-3">
-              Check your email for full details.
+              You&apos;ll receive an email once the host approves.
             </p>
           </div>
         )}
