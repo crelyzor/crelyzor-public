@@ -112,11 +112,12 @@ export function getSchedulingProfile(
 export async function getSlots(
   username: string,
   slug: string,
-  date: string
+  date: string,
+  signal?: AbortSignal
 ): Promise<SlotsResponse> {
   const res = await fetch(
     `${API_BASE}/public/scheduling/slots/${username}/${slug}?date=${date}`,
-    { cache: 'no-store' }
+    { cache: 'no-store', signal }
   );
   if (!res.ok) throw new ApiError(res.status, `Slots error: ${res.status}`);
   const json = await res.json();

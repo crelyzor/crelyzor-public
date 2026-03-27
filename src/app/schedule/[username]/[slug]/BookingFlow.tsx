@@ -157,18 +157,23 @@ export function BookingFlow({ username, eventType, host }: Props) {
   // Fetch slots on date change — also clears slot/form state
   useEffect(() => {
     if (!selectedDate) return;
+    const controller = new AbortController();
+
     setSlotsLoading(true);
     setSlotsError(null);
     setSlots([]);
     setSelectedSlot(null);
     setSubmitError(null);
 
-    getSlots(username, eventType.slug, selectedDate)
+    getSlots(username, eventType.slug, selectedDate, controller.signal)
       .then((data) => setSlots(data.slots))
-      .catch(() =>
-        setSlotsError('Could not load available times. Please try again.')
-      )
+      .catch((err) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
+        setSlotsError('Could not load available times. Please try again.');
+      })
       .finally(() => setSlotsLoading(false));
+
+    return () => controller.abort();
   }, [selectedDate, username, eventType.slug]);
 
   // ── Calendar helpers ──────────────────────────────────────────────────────────
