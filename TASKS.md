@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-03-26 (Phase 1.2 public booking pages built)
+Last updated: 2026-04-04 (Phase 3.3 product gaps written down)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -61,18 +61,30 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ---
 
-## P3 — Cards Polish
+## P0 — Fix the Front Door (from product review 2026-04-04)
 
-- [ ] Handle missing avatar — initials fallback (gold initial on dark bg)
-- [ ] Handle missing bio / links / contact fields — hide empty sections cleanly
-- [ ] Error state when card not found — nice 404, not broken page
-- [ ] Loading skeleton — match card shape and dark bg while fetching
-- [ ] Smooth avatar image load — fade in, no layout shift
-- [ ] Form validation (name required + email or phone required)
-- [ ] Success state after submission
-- [ ] Error state if submission fails
-- [ ] Loading state during submit
-- [ ] Verify vCard works on iOS and Android
+> These are the first things a stranger sees. Fix before anything else.
+
+- [ ] **Avatar fallback** — when no avatar URL: show initials on gold background (`rgba(212,175,97,0.1)` bg, `#d4af61` text). Already spec'd in CLAUDE.md — just not implemented.
+- [ ] **Loading skeleton** — match card shape and dark bg while fetching. Two rects: card (aspect-ratio 1.586, near-black), detail section below (white). Animate with CSS `animate-pulse`.
+- [ ] **Proper 404** — when card not found: call Next.js `notFound()` → `not-found.tsx` with on-brand dark layout, "This card doesn't exist" message, link to crelyzor.com home.
+- [ ] **Smooth avatar image load** — wrap `<img>` in a container with the gold initials fallback behind it. On `onLoad`, fade the image in. Prevents layout shift.
+- [ ] **Hide empty sections** — bio, links, contact fields: don't render the section if the data is null/empty. Currently shows empty containers.
+
+## P1 — Contact Form States
+
+> The contact exchange is a core feature. It currently has no feedback states.
+
+- [ ] **Form validation** — name required + (email OR phone) required. Show inline error messages per field. Disable submit button when invalid.
+- [ ] **Loading state during submit** — spinner on the submit button, disable inputs while in-flight.
+- [ ] **Success state** — after successful submission: replace form with a confirmation message ("Thanks, [name] has your details"). No redirect needed.
+- [ ] **Error state** — on API failure: show inline error ("Something went wrong — try again"). Keep form data so user doesn't have to re-type.
+
+## P2 — Mobile Verification
+
+- [ ] **Verify vCard on iOS** — test the "Save Contact" flow on Safari iOS. The vCard download uses `fetch + blob URL` with a `window.open` fallback. Verify contact saves with all fields.
+- [ ] **Verify vCard on Android** — test on Chrome Android. Same flow.
+- [ ] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
 
 ---
 
