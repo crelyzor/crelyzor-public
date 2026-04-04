@@ -23,11 +23,16 @@ export function ContactForm({
   const [note, setNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError('Name is required');
+      return;
+    }
+    if (!email.trim() && !phone.trim()) {
+      setError('Please add your email or phone number');
       return;
     }
     setSubmitting(true);
@@ -40,7 +45,7 @@ export function ContactForm({
         company: company.trim() || undefined,
         note: note.trim() || undefined,
       });
-      onSuccess();
+      setSubmitted(true);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -53,115 +58,159 @@ export function ContactForm({
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={submitted ? onSuccess : onClose}
       />
-      {/* Form */}
+      {/* Panel */}
       <div className="relative w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-2">
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-950 tracking-tight">
-              Share your info
-            </h2>
-            <p className="text-sm text-neutral-500 mt-0.5">with {cardOwner}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 hover:bg-neutral-200 transition-colors"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="w-4 h-4"
+        {submitted ? (
+          /* ── SUCCESS STATE ─────────────────────────────────── */
+          <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
+            {/* Gold checkmark */}
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
+              style={{ backgroundColor: 'rgba(212,175,97,0.12)' }}
             >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="px-6 pb-8 pt-4">
-          <div className="space-y-3">
-            <input
-              type="text"
-              placeholder="Your name *"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoFocus
-              className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
-                         text-sm text-neutral-900 placeholder:text-neutral-400
-                         focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
-                         transition-all"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
-                         text-sm text-neutral-900 placeholder:text-neutral-400
-                         focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
-                         transition-all"
-            />
-            <input
-              type="tel"
-              placeholder="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
-                         text-sm text-neutral-900 placeholder:text-neutral-400
-                         focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
-                         transition-all"
-            />
-            <input
-              type="text"
-              placeholder="Company"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
-                         text-sm text-neutral-900 placeholder:text-neutral-400
-                         focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
-                         transition-all"
-            />
-            <textarea
-              placeholder="Add a note (optional)"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              rows={2}
-              className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50
-                         text-sm text-neutral-900 placeholder:text-neutral-400
-                         focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
-                         resize-none transition-all"
-            />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#d4af61"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-7 h-7"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-semibold text-neutral-900 tracking-tight">
+              Info shared!
+            </h2>
+            <p className="text-sm text-neutral-500 mt-2 leading-relaxed">
+              {cardOwner} will have your details.
+            </p>
+            <button
+              onClick={onSuccess}
+              className="w-full h-12 mt-8 rounded-xl text-sm font-medium transition-colors"
+              style={{ backgroundColor: '#0a0a0a', color: '#d4af61' }}
+            >
+              Close
+            </button>
           </div>
+        ) : (
+          /* ── FORM STATE ────────────────────────────────────── */
+          <>
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 pt-6 pb-2">
+              <div>
+                <h2 className="text-lg font-semibold text-neutral-950 tracking-tight">
+                  Share your info
+                </h2>
+                <p className="text-sm text-neutral-500 mt-0.5">
+                  with {cardOwner}
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 hover:bg-neutral-200 transition-colors"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="w-4 h-4"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
 
-          {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
+            <form onSubmit={handleSubmit} className="px-6 pb-8 pt-4">
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Your name *"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoFocus
+                  className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
+                             text-sm text-neutral-900 placeholder:text-neutral-400
+                             focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
+                             transition-all"
+                />
+                <input
+                  type="email"
+                  placeholder="Email *"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
+                             text-sm text-neutral-900 placeholder:text-neutral-400
+                             focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
+                             transition-all"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone *"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
+                             text-sm text-neutral-900 placeholder:text-neutral-400
+                             focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
+                             transition-all"
+                />
+                <p className="text-[11px] text-neutral-400 -mt-1 px-1">
+                  * Email or phone required
+                </p>
+                <input
+                  type="text"
+                  placeholder="Company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-neutral-50
+                             text-sm text-neutral-900 placeholder:text-neutral-400
+                             focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
+                             transition-all"
+                />
+                <textarea
+                  placeholder="Add a note (optional)"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50
+                             text-sm text-neutral-900 placeholder:text-neutral-400
+                             focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-300
+                             resize-none transition-all"
+                />
+              </div>
 
-          <button
-            type="submit"
-            disabled={submitting || !name.trim()}
-            className="w-full h-12 mt-5 rounded-xl bg-neutral-900 text-white text-sm font-medium
-                       hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-colors"
-          >
-            {submitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Sending...
-              </span>
-            ) : (
-              'Share Info'
-            )}
-          </button>
+              {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
 
-          <p className="text-[11px] text-neutral-400 text-center mt-4 leading-relaxed">
-            Your info will be shared with {cardOwner} only.
-            <br />
-            We don&apos;t store or sell your data.
-          </p>
-        </form>
+              <button
+                type="submit"
+                disabled={submitting || !name.trim()}
+                className="w-full h-12 mt-5 rounded-xl bg-neutral-900 text-white text-sm font-medium
+                           hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed
+                           transition-colors"
+              >
+                {submitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </span>
+                ) : (
+                  'Share Info'
+                )}
+              </button>
+
+              <p className="text-[11px] text-neutral-400 text-center mt-4 leading-relaxed">
+                Your info will be shared with {cardOwner} only.
+                <br />
+                We don&apos;t store or sell your data.
+              </p>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
