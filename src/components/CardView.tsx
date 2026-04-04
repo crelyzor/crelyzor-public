@@ -118,6 +118,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
   const [flipped, setFlipped] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [savingContact, setSavingContact] = useState(false);
+  const [avatarLoaded, setAvatarLoaded] = useState(false);
 
   const { user, card } = data;
   const contactFields = card.contactFields ?? {};
@@ -223,28 +224,34 @@ export function CardView({ data, username, slug }: CardViewProps) {
                     {/* Top: avatar + identity */}
                     <div className="flex items-start gap-4">
                       <div
-                        className="shrink-0 w-14 h-14 rounded-xl overflow-hidden"
+                        className="relative shrink-0 w-14 h-14 rounded-xl overflow-hidden"
                         style={{
                           boxShadow: `0 0 0 1.5px ${accent}`,
                           backgroundColor: '#1a1a1a',
                         }}
                       >
-                        {card.avatarUrl || user.avatarUrl ? (
+                        {/* Initials fallback — always rendered, sits beneath the image */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span
+                            className="text-xl font-semibold"
+                            style={{ color: accent }}
+                          >
+                            {avatarInitial}
+                          </span>
+                        </div>
+                        {/* Avatar image — fades in over initials once loaded */}
+                        {(card.avatarUrl || user.avatarUrl) && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={card.avatarUrl || user.avatarUrl || ''}
                             alt={card.displayName}
-                            className="w-full h-full object-cover"
+                            onLoad={() => setAvatarLoaded(true)}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            style={{
+                              opacity: avatarLoaded ? 1 : 0,
+                              transition: 'opacity 0.3s ease',
+                            }}
                           />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span
-                              className="text-xl font-semibold"
-                              style={{ color: accent }}
-                            >
-                              {avatarInitial}
-                            </span>
-                          </div>
                         )}
                       </div>
                       <div className="min-w-0 pt-0.5">
