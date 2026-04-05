@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-04-04 (Phase 3.3 P0 complete — card page fixed)
+Last updated: 2026-04-06 (Phase 3.3 P0+P1 verified complete via audit)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
