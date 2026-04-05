@@ -146,14 +146,18 @@ export function CardView({ data, username, slug }: CardViewProps) {
   };
 
   const avatarInitial = card.displayName.charAt(0).toUpperCase();
-  const hasQuickActions =
-    contactFields.email || contactFields.phone || contactFields.website;
+  const hasQuickActions = !!(
+    contactFields.email || contactFields.phone || contactFields.website
+  );
+  const hasBio = !!card.bio;
   const socialLinks = links.filter((l) =>
     ['linkedin', 'twitter', 'github', 'instagram'].includes(l.type)
   );
   const otherLinks = links.filter(
     (l) => !['linkedin', 'twitter', 'github', 'instagram'].includes(l.type)
   );
+  const hasOtherLinks = otherLinks.length > 0;
+  const hasSocialLinks = socialLinks.length > 0;
 
   return (
     <div
@@ -531,9 +535,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           )}
 
           {/* Bio */}
-          {card.bio && (
+          {hasBio && (
             <>
-              <div className="h-px bg-neutral-50 mx-4" />
+              {hasQuickActions && <div className="h-px bg-neutral-50 mx-4" />}
               <p className="px-4 py-4 text-sm text-neutral-500 leading-relaxed">
                 {card.bio}
               </p>
@@ -541,9 +545,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           )}
 
           {/* Other links */}
-          {otherLinks.length > 0 && (
+          {hasOtherLinks && (
             <>
-              <div className="h-px bg-neutral-50 mx-4" />
+              {(hasQuickActions || hasBio) && <div className="h-px bg-neutral-50 mx-4" />}
               <div className="px-4 py-3">
                 <p
                   className="text-[10px] uppercase tracking-widest font-semibold mb-2"
@@ -588,9 +592,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           )}
 
           {/* Social links */}
-          {socialLinks.length > 0 && (
+          {hasSocialLinks && (
             <>
-              <div className="h-px bg-neutral-50 mx-4" />
+              {(hasQuickActions || hasBio || hasOtherLinks) && <div className="h-px bg-neutral-50 mx-4" />}
               <div className="px-4 py-3">
                 <p
                   className="text-[10px] uppercase tracking-widest font-semibold mb-2"
@@ -634,33 +638,29 @@ export function CardView({ data, username, slug }: CardViewProps) {
             </>
           )}
 
-          {/* Book a Meeting */}
-          {contactFields.bookingUrl && (
-            <>
-              <div className="h-px bg-neutral-50 mx-4" />
-              <div className="px-4 py-3">
-                <a
-                  href={contactFields.bookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: '#0a0a0a', color: accent }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="w-4 h-4"
-                  >
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <path d="M16 2v4M8 2v4M3 10h18" />
-                  </svg>
-                  Book a Meeting
-                </a>
-              </div>
-            </>
+          {/* Schedule a Meeting */}
+          {(hasQuickActions || hasBio || hasOtherLinks || hasSocialLinks) && (
+            <div className="h-px bg-neutral-50 mx-4" />
           )}
+          <div className="px-4 py-3">
+            <a
+              href={`/schedule/${username}`}
+              className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
+              style={{ backgroundColor: '#0a0a0a', color: accent }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-4 h-4"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+              Book a Meeting
+            </a>
+          </div>
 
           {/* Save Contact + Share Info */}
           <div className="h-px bg-neutral-50 mx-4" />
