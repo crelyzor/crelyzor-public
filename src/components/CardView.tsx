@@ -147,7 +147,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
 
   const avatarInitial = card.displayName.charAt(0).toUpperCase();
   const hasQuickActions = !!(
-    contactFields.email || contactFields.phone || contactFields.website
+    contactFields.email ||
+    contactFields.phone ||
+    contactFields.website
   );
   const hasBio = !!card.bio;
   const socialLinks = links.filter((l) =>
@@ -547,7 +549,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {/* Other links */}
           {hasOtherLinks && (
             <>
-              {(hasQuickActions || hasBio) && <div className="h-px bg-neutral-50 mx-4" />}
+              {(hasQuickActions || hasBio) && (
+                <div className="h-px bg-neutral-50 mx-4" />
+              )}
               <div className="px-4 py-3">
                 <p
                   className="text-[10px] uppercase tracking-widest font-semibold mb-2"
@@ -594,7 +598,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {/* Social links */}
           {hasSocialLinks && (
             <>
-              {(hasQuickActions || hasBio || hasOtherLinks) && <div className="h-px bg-neutral-50 mx-4" />}
+              {(hasQuickActions || hasBio || hasOtherLinks) && (
+                <div className="h-px bg-neutral-50 mx-4" />
+              )}
               <div className="px-4 py-3">
                 <p
                   className="text-[10px] uppercase tracking-widest font-semibold mb-2"

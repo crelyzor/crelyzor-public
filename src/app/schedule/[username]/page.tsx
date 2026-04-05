@@ -104,7 +104,10 @@ function EventTypeRow({
             </span>
           </div>
         </div>
-        <span className="text-[11px] font-medium shrink-0" style={{ color: '#d4af61' }}>
+        <span
+          className="text-[11px] font-medium shrink-0"
+          style={{ color: '#d4af61' }}
+        >
           Book →
         </span>
       </div>
@@ -145,7 +148,10 @@ export default async function SchedulingProfilePage({ params }: Props) {
                 className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: 'rgba(212,175,97,0.1)' }}
               >
-                <span style={{ color: '#d4af61' }} className="text-base font-semibold">
+                <span
+                  style={{ color: '#d4af61' }}
+                  className="text-base font-semibold"
+                >
                   {profile.user.name[0].toUpperCase()}
                 </span>
               </div>
