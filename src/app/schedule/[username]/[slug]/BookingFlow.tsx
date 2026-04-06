@@ -311,7 +311,11 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
           {oldBooking && (
             <div className="mt-4 px-3 py-2 bg-neutral-800 rounded-lg border border-neutral-700">
               <p className="text-xs text-neutral-300">
-                You are rescheduling an existing booking for <span className="font-medium text-white">{oldBooking.guestEmail}</span>.
+                You are rescheduling an existing booking for{' '}
+                <span className="font-medium text-white">
+                  {oldBooking.guestEmail}
+                </span>
+                .
               </p>
             </div>
           )}
@@ -610,7 +614,11 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
                     />
                   </svg>
                 )}
-                {submitting ? 'Confirming…' : oldBooking ? 'Confirm reschedule' : 'Confirm booking'}
+                {submitting
+                  ? 'Confirming…'
+                  : oldBooking
+                    ? 'Confirm reschedule'
+                    : 'Confirm booking'}
               </button>
             </form>
           </div>

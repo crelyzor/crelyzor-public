@@ -43,7 +43,8 @@ export default async function BookingPage({ params, searchParams }: Props) {
   let oldBooking = null;
   if (rescheduleId) {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
       const res = await fetch(`${apiUrl}/public/bookings/${rescheduleId}`, {
         cache: 'no-store',
       });
@@ -51,7 +52,11 @@ export default async function BookingPage({ params, searchParams }: Props) {
         const json = await res.json();
         const bookingData = json.data?.booking;
         // Verify this booking belongs to the exact same host/eventType logic to prevent spoofing UI
-        if (bookingData && bookingData.status !== 'CANCELLED' && bookingData.status !== 'RESCHEDULED') {
+        if (
+          bookingData &&
+          bookingData.status !== 'CANCELLED' &&
+          bookingData.status !== 'RESCHEDULED'
+        ) {
           oldBooking = {
             id: bookingData.id,
             guestName: bookingData.guestName,
