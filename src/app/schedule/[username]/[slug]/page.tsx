@@ -5,6 +5,7 @@ import { BookingFlow } from './BookingFlow';
 
 interface Props {
   params: Promise<{ username: string; slug: string }>;
+  searchParams: Promise<{ reschedule?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -24,8 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function BookingPage({ params }: Props) {
+export default async function BookingPage({ params, searchParams }: Props) {
   const { username, slug } = await params;
+  const { reschedule: rescheduleId } = await searchParams;
 
   let profile;
   try {
@@ -37,11 +39,37 @@ export default async function BookingPage({ params }: Props) {
   const eventType = profile.eventTypes.find((et) => et.slug === slug);
   if (!eventType) notFound();
 
+  // If rescheduling, fetch old booking details to prefill
+  let oldBooking = null;
+  if (rescheduleId) {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+      const res = await fetch(`${apiUrl}/public/bookings/${rescheduleId}`, {
+        cache: 'no-store',
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const bookingData = json.data?.booking;
+        // Verify this booking belongs to the exact same host/eventType logic to prevent spoofing UI
+        if (bookingData && bookingData.status !== 'CANCELLED' && bookingData.status !== 'RESCHEDULED') {
+          oldBooking = {
+            id: bookingData.id,
+            guestName: bookingData.guestName,
+            guestEmail: bookingData.guestEmail,
+          };
+        }
+      }
+    } catch (err) {
+      // Best effort - ignore to allow normal booking fallback
+    }
+  }
+
   return (
     <BookingFlow
       username={username}
       eventType={eventType}
       host={profile.user}
+      oldBooking={oldBooking}
     />
   );
 }

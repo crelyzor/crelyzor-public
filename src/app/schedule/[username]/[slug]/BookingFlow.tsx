@@ -19,6 +19,11 @@ interface Props {
     avatarUrl: string | null;
     timezone: string | null;
   };
+  oldBooking?: {
+    id: string;
+    guestName: string;
+    guestEmail: string;
+  } | null;
 }
 
 // ── Time formatting helpers ────────────────────────────────────────────────────
@@ -123,7 +128,7 @@ const MAX_WINDOW_DAYS = 60;
 
 // ── BookingFlow ────────────────────────────────────────────────────────────────
 
-export function BookingFlow({ username, eventType, host }: Props) {
+export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
   const router = useRouter();
 
   const [guestTimezone] = useState(
@@ -148,8 +153,8 @@ export function BookingFlow({ username, eventType, host }: Props) {
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
   // Form state
-  const [guestName, setGuestName] = useState('');
-  const [guestEmail, setGuestEmail] = useState('');
+  const [guestName, setGuestName] = useState(oldBooking?.guestName ?? '');
+  const [guestEmail, setGuestEmail] = useState(oldBooking?.guestEmail ?? '');
   const [guestNote, setGuestNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -231,6 +236,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
         guestEmail: guestEmail.trim().toLowerCase(),
         guestNote: guestNote.trim() || undefined,
         guestTimezone,
+        rescheduleBookingId: oldBooking ? oldBooking.id : undefined,
       });
 
       // Store for confirmed page (sessionStorage — safe for single-tab flow)
@@ -302,6 +308,13 @@ export function BookingFlow({ username, eventType, host }: Props) {
               {eventType.locationType === 'ONLINE' ? 'Video call' : 'In person'}
             </span>
           </div>
+          {oldBooking && (
+            <div className="mt-4 px-3 py-2 bg-neutral-800 rounded-lg border border-neutral-700">
+              <p className="text-xs text-neutral-300">
+                You are rescheduling an existing booking for <span className="font-medium text-white">{oldBooking.guestEmail}</span>.
+              </p>
+            </div>
+          )}
           <div
             className="mt-5 h-px w-16"
             style={{
@@ -509,8 +522,9 @@ export function BookingFlow({ username, eventType, host }: Props) {
                   type="text"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
+                  disabled={!!oldBooking}
                   placeholder="Jane Doe"
-                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 transition-colors placeholder:text-neutral-300 text-neutral-900"
+                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 disabled:bg-neutral-100 disabled:text-neutral-500 transition-colors placeholder:text-neutral-300 text-neutral-900"
                 />
               </div>
 
@@ -524,8 +538,9 @@ export function BookingFlow({ username, eventType, host }: Props) {
                   type="email"
                   value={guestEmail}
                   onChange={(e) => setGuestEmail(e.target.value)}
+                  disabled={!!oldBooking}
                   placeholder="jane@example.com"
-                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 transition-colors placeholder:text-neutral-300 text-neutral-900"
+                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 disabled:bg-neutral-100 disabled:text-neutral-500 transition-colors placeholder:text-neutral-300 text-neutral-900"
                 />
               </div>
 
@@ -595,7 +610,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
                     />
                   </svg>
                 )}
-                {submitting ? 'Confirming…' : 'Confirm booking'}
+                {submitting ? 'Confirming…' : oldBooking ? 'Confirm reschedule' : 'Confirm booking'}
               </button>
             </form>
           </div>
