@@ -19,7 +19,8 @@ export const revalidate = 0;
 
 async function getBookingDetails(id: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
     const res = await fetch(`${apiUrl}/public/bookings/${id}`, {
       cache: 'no-store',
     });
@@ -37,7 +38,11 @@ async function getBookingDetails(id: string) {
   }
 }
 
-function formatBookingTime(startTime: string, endTime: string, timezone: string) {
+function formatBookingTime(
+  startTime: string,
+  endTime: string,
+  timezone: string
+) {
   const start = new Date(startTime);
   const end = new Date(endTime);
 
@@ -78,7 +83,7 @@ export default async function CancelBookingPage({ params }: PageProps) {
               {isCancelled ? 'Booking Cancelled' : 'Cancel Booking'}
             </h1>
             <p className="text-neutral-500 mt-2 text-sm leading-relaxed">
-              {isCancelled 
+              {isCancelled
                 ? 'This booking has already been cancelled. No further action is required.'
                 : 'Are you sure you want to cancel this booking? This action cannot be undone.'}
             </p>
@@ -86,24 +91,36 @@ export default async function CancelBookingPage({ params }: PageProps) {
 
           <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-100 mb-8 space-y-3">
             <div>
-              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Event</p>
-              <p className="text-sm font-medium text-neutral-900">{booking.eventType.title}</p>
-            </div>
-            <div>
-              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">With</p>
-              <p className="text-sm font-medium text-neutral-900">{booking.host.name}</p>
-            </div>
-            <div>
-              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">When</p>
+              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">
+                Event
+              </p>
               <p className="text-sm font-medium text-neutral-900">
-                {formatBookingTime(booking.startTime, booking.endTime, booking.timezone)}
+                {booking.eventType.title}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">
+                With
+              </p>
+              <p className="text-sm font-medium text-neutral-900">
+                {booking.host.name}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">
+                When
+              </p>
+              <p className="text-sm font-medium text-neutral-900">
+                {formatBookingTime(
+                  booking.startTime,
+                  booking.endTime,
+                  booking.timezone
+                )}
               </p>
             </div>
           </div>
 
-          {!isCancelled && (
-            <CancelForm bookingId={booking.id} />
-          )}
+          {!isCancelled && <CancelForm bookingId={booking.id} />}
 
           {isCancelled && (
             <button
