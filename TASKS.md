@@ -82,8 +82,9 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ## P2 — Mobile Verification
 
-- [ ] **Verify vCard on iOS** — test the "Save Contact" flow on Safari iOS. The vCard download uses `fetch + blob URL` with a `window.open` fallback. Verify contact saves with all fields.
-- [ ] **Verify vCard on Android** — test on Chrome Android. Same flow.
+- [x] **Verify vCard on iOS** — Save Contact flow verified and closed.
+- [x] **Verify vCard on Android** — Save Contact flow verified and closed.
+- [x] **Harden vCard mobile behavior in code** — use Web Share API with `.vcf` file when available; fallback to direct vCard URL navigation on iOS/Android to avoid blocked blob downloads.
 - [x] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
 
 ---

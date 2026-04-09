@@ -152,11 +152,45 @@ export async function downloadVCard(
   slug?: string
 ): Promise<void> {
   const url = getVCardUrl(username, slug);
+
+  const userAgent = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+  const isAndroid = /Android/.test(userAgent);
+
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
 
     const blob = await res.blob();
+
+    // Mobile share sheet provides the most reliable save/open flow on modern devices.
+    const file = new File([blob], `${username}${slug ? `-${slug}` : ''}.vcf`, {
+      type: 'text/vcard',
+    });
+    if (
+      typeof navigator !== 'undefined' &&
+      'canShare' in navigator &&
+      navigator.canShare({ files: [file] }) &&
+      'share' in navigator
+    ) {
+      try {
+        await navigator.share({ files: [file], title: 'Save Contact' });
+      } catch (err) {
+        // User-cancelled share should be a no-op, not a forced fallback open.
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        throw err;
+      }
+      return;
+    }
+
+    // Mobile Safari/Chrome can block blob-based downloads in some contexts.
+    if (isIOS || isAndroid) {
+      window.location.assign(url);
+      return;
+    }
+
     const blobUrl = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
@@ -167,7 +201,6 @@ export async function downloadVCard(
     document.body.removeChild(a);
     URL.revokeObjectURL(blobUrl);
   } catch {
-    // Mobile Safari/Chrome can block blob-based downloads; fallback to direct URL.
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 }
