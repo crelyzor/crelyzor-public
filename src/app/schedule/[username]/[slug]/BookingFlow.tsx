@@ -64,7 +64,8 @@ function getAmPm(isoUtc: string, tz: string): 'AM' | 'PM' {
     hour12: true,
     timeZone: tz,
   }).formatToParts(new Date(isoUtc));
-  const dp = parts.find((p) => p.type === 'dayPeriod')?.value?.toUpperCase() ?? 'AM';
+  const dp =
+    parts.find((p) => p.type === 'dayPeriod')?.value?.toUpperCase() ?? 'AM';
   return dp as 'AM' | 'PM';
 }
 
@@ -287,7 +288,10 @@ function ClockSlotPicker({
 
           {/* Available slot dots */}
           {visibleSlots.map((slot, i) => {
-            const { hour12, minute } = get12HourInfo(slot.startTime, guestTimezone);
+            const { hour12, minute } = get12HourInfo(
+              slot.startTime,
+              guestTimezone
+            );
             const a = toRad(clockAngleDeg(hour12, minute) - 90);
             const x = C + Math.cos(a) * SLOT_R;
             const y = C + Math.sin(a) * SLOT_R;
@@ -299,7 +303,13 @@ function ClockSlotPicker({
                 onClick={() => onSelect(slot)}
               >
                 {isSel && (
-                  <circle cx={x} cy={y} r={15} fill="#d4af61" fillOpacity="0.15" />
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={15}
+                    fill="#d4af61"
+                    fillOpacity="0.15"
+                  />
                 )}
                 <circle
                   cx={x}
