@@ -84,7 +84,7 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 - [ ] **Verify vCard on iOS** — test the "Save Contact" flow on Safari iOS. The vCard download uses `fetch + blob URL` with a `window.open` fallback. Verify contact saves with all fields.
 - [ ] **Verify vCard on Android** — test on Chrome Android. Same flow.
-- [ ] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
+- [x] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
 
 ---
 

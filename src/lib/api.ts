@@ -152,15 +152,22 @@ export async function downloadVCard(
   slug?: string
 ): Promise<void> {
   const url = getVCardUrl(username, slug);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
-  const blob = await res.blob();
-  const blobUrl = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = blobUrl;
-  a.download = `${username}${slug ? `-${slug}` : ''}.vcf`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(blobUrl);
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
+
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = `${username}${slug ? `-${slug}` : ''}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    // Mobile Safari/Chrome can block blob-based downloads; fallback to direct URL.
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 }

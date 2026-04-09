@@ -477,7 +477,7 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
                         setSubmitError(null);
                       }}
                       className={[
-                        'h-11 rounded-lg text-sm font-medium transition-colors border whitespace-nowrap',
+                        'h-11 rounded-lg text-sm font-medium transition-colors border',
                         isSelected
                           ? 'text-white border-transparent'
                           : 'text-neutral-700 border-neutral-200 hover:border-neutral-400 bg-white',
