@@ -207,7 +207,9 @@ export function ConfirmedClient() {
                 </p>
                 <p className="text-sm text-neutral-900">
                   {confirmation.booking.eventType.locationType === 'ONLINE'
-                    ? 'Video call — link sent to your email'
+                    ? confirmation.booking.status === 'CONFIRMED'
+                      ? 'Video call — link sent to your email'
+                      : 'Video call — link will be shared after host approval'
                     : 'In person'}
                 </p>
               </div>
