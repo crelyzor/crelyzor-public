@@ -536,7 +536,9 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
             .finally(() => setSlotsLoading(false));
         }
       } else if (err instanceof ApiError && err.status === 400) {
-        setSubmitError('This time is no longer valid. Please choose another slot.');
+        setSubmitError(
+          'This time is no longer valid. Please choose another slot.'
+        );
         setSelectedSlot(null);
 
         if (selectedDate) {
@@ -547,7 +549,9 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
             .finally(() => setSlotsLoading(false));
         }
       } else if (err instanceof ApiError) {
-        setSubmitError(err.message || 'Something went wrong. Please try again.');
+        setSubmitError(
+          err.message || 'Something went wrong. Please try again.'
+        );
       } else {
         setSubmitError('Something went wrong. Please try again.');
       }

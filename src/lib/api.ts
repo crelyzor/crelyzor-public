@@ -72,7 +72,10 @@ function parseApiErrorBody(json: unknown): {
   };
 }
 
-async function throwApiError(res: Response, fallbackMessage: string): Promise<never> {
+async function throwApiError(
+  res: Response,
+  fallbackMessage: string
+): Promise<never> {
   const errJson = await res.json().catch(() => null);
   const parsed = parseApiErrorBody(errJson);
 
