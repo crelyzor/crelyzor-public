@@ -95,6 +95,11 @@ function toDateStr(y: number, m: number, d: number): string {
   return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 }
 
+function filterFutureSlots(slots: TimeSlot[]): TimeSlot[] {
+  const now = Date.now();
+  return slots.filter((slot) => new Date(slot.startTime).getTime() > now);
+}
+
 // ── Icon components ─────────────────────────────────────────────────────────────
 
 function ChevronLeft() {
@@ -426,7 +431,7 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
     setSubmitError(null);
 
     getSlots(username, eventType.slug, selectedDate, controller.signal)
-      .then((data) => setSlots(data.slots))
+      .then((data) => setSlots(filterFutureSlots(data.slots)))
       .catch((err) => {
         if (err instanceof Error && err.name === 'AbortError') return;
         setSlotsError('Could not load available times. Please try again.');
@@ -479,6 +484,15 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
     e.preventDefault();
     if (!selectedSlot || !guestName.trim() || !guestEmail.trim()) return;
 
+    // Guard against stale slot selection when the user keeps the page open.
+    if (new Date(selectedSlot.startTime) <= new Date()) {
+      setSubmitError(
+        'This time has already passed. Please choose a later slot.'
+      );
+      setSelectedSlot(null);
+      return;
+    }
+
     setSubmitting(true);
     setSubmitError(null);
 
@@ -517,10 +531,23 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
         if (selectedDate) {
           setSlotsLoading(true);
           getSlots(username, eventType.slug, selectedDate)
-            .then((data) => setSlots(data.slots))
+            .then((data) => setSlots(filterFutureSlots(data.slots)))
             .catch(() => {})
             .finally(() => setSlotsLoading(false));
         }
+      } else if (err instanceof ApiError && err.status === 400) {
+        setSubmitError('This time is no longer valid. Please choose another slot.');
+        setSelectedSlot(null);
+
+        if (selectedDate) {
+          setSlotsLoading(true);
+          getSlots(username, eventType.slug, selectedDate)
+            .then((data) => setSlots(filterFutureSlots(data.slots)))
+            .catch(() => {})
+            .finally(() => setSlotsLoading(false));
+        }
+      } else if (err instanceof ApiError) {
+        setSubmitError(err.message || 'Something went wrong. Please try again.');
       } else {
         setSubmitError('Something went wrong. Please try again.');
       }
