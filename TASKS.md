@@ -103,7 +103,7 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ---
 
-## Phase 4 — Billing & Monetization
+## Phase 4.1 — Billing & Monetization ✅ Complete
 
 ### P0 — Public Pricing Page
 

@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   Check,
   Zap,
-  Building2,
   Sparkles,
   Mic,
   Bot,
@@ -162,15 +161,15 @@ const faqs = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans">
       {/* Nav */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-neutral-100">
+      <nav className="fixed top-0 inset-x-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-sm font-semibold text-neutral-900"
+            className="flex items-center gap-2.5 text-sm font-semibold text-neutral-100"
           >
-            <span className="w-7 h-7 rounded-lg bg-neutral-900 flex items-center justify-center">
+            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -187,13 +186,13 @@ export default function PricingPage() {
           <div className="flex items-center gap-4">
             <a
               href={APP_URL}
-              className="text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors hidden sm:block"
+              className="text-xs font-medium text-neutral-400 hover:text-neutral-100 transition-colors hidden sm:block"
             >
               Sign in
             </a>
             <a
               href={`${APP_URL}/signup`}
-              className="inline-flex items-center gap-1.5 h-8 px-4 rounded-full bg-neutral-900 text-white text-xs font-medium hover:bg-neutral-700 transition-colors"
+              className="inline-flex items-center gap-1.5 h-8 px-4 rounded-full bg-white text-neutral-900 text-xs font-medium hover:bg-neutral-100 transition-colors"
             >
               Get started free
             </a>
@@ -204,17 +203,15 @@ export default function PricingPage() {
       {/* Hero */}
       <section className="pt-28 pb-16 px-4 sm:px-6 text-center">
         <div className="max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 border border-violet-100 text-xs font-medium text-violet-700 mb-6">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/8 border border-white/10 text-xs font-medium text-neutral-300 mb-6">
             <Zap className="w-3 h-3" />
             Simple, transparent pricing
           </div>
-          <h1 className="text-4xl sm:text-5xl font-semibold text-neutral-950 tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-neutral-50 tracking-tight leading-tight">
             Start free.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">
-              Upgrade when ready.
-            </span>
+            <span className="text-neutral-400">Upgrade when ready.</span>
           </h1>
-          <p className="mt-4 text-neutral-500 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
+          <p className="mt-4 text-neutral-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
             No credit card required. No hidden fees. Every plan includes
             meetings, tasks, cards, scheduling, and AI — right out of the box.
           </p>
@@ -229,77 +226,96 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.id}
-                className={`relative rounded-2xl border p-6 flex flex-col ${
+                className={`relative rounded-2xl border flex flex-col ${
                   isPro
-                    ? 'border-violet-300 bg-gradient-to-b from-violet-50 to-white shadow-lg shadow-violet-100'
-                    : 'border-neutral-200 bg-white'
+                    ? 'border-neutral-500 ring-1 ring-neutral-500 bg-neutral-900'
+                    : 'border-neutral-800 bg-neutral-900'
                 }`}
               >
-                {plan.tag && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[11px] font-semibold bg-violet-600 text-white shadow-sm">
-                    {plan.tag}
-                  </span>
-                )}
-
-                <div className="mb-5">
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">
-                    {plan.name}
-                  </p>
-                  <div className="flex items-end gap-1">
-                    <span className="text-3xl font-bold text-neutral-950 tracking-tight">
-                      {plan.price}
-                    </span>
-                    {plan.price !== 'Custom' && (
-                      <span className="text-sm text-neutral-400 mb-1">
-                        /{plan.period}
+                {/* Pro header block */}
+                {isPro ? (
+                  <div className="bg-white rounded-t-2xl px-6 pt-5 pb-4 text-neutral-950">
+                    {plan.tag && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-neutral-900 text-white mb-3">
+                        {plan.tag}
                       </span>
                     )}
-                  </div>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    {plan.description}
-                  </p>
-                </div>
-
-                <ul className="space-y-2.5 flex-1 mb-6">
-                  {plan.features.map((f, i) => {
-                    const Icon = f.icon;
-                    const isNeg = 'negative' in f && f.negative;
-                    return (
-                      <li key={i} className="flex items-start gap-2">
-                        <Icon
-                          className={`w-4 h-4 mt-0.5 shrink-0 ${
-                            isNeg
-                              ? 'text-neutral-300'
-                              : isPro
-                                ? 'text-violet-600'
-                                : 'text-neutral-500'
-                          }`}
-                        />
-                        <span
-                          className={`text-sm ${
-                            isNeg
-                              ? 'text-neutral-300 line-through'
-                              : 'text-neutral-700'
-                          }`}
-                        >
-                          {f.text}
+                    <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">
+                      {plan.name}
+                    </p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-3xl font-bold tracking-tight text-neutral-950">
+                        {plan.price}
+                      </span>
+                      {(plan.price as string) !== 'Custom' && (
+                        <span className="text-sm text-neutral-500 mb-1">
+                          /{plan.period}
                         </span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                      )}
+                    </div>
+                    <p className="text-xs text-neutral-500 mt-1">
+                      {plan.description}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="px-6 pt-5 pb-4">
+                    <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">
+                      {plan.name}
+                    </p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-3xl font-bold text-neutral-50 tracking-tight">
+                        {plan.price}
+                      </span>
+                      {(plan.price as string) !== 'Custom' && (
+                        <span className="text-sm text-neutral-500 mb-1">
+                          /{plan.period}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-neutral-500 mt-1">
+                      {plan.description}
+                    </p>
+                  </div>
+                )}
 
-                <a
-                  href={plan.ctaHref}
-                  className={`flex items-center justify-center gap-1.5 h-10 rounded-xl text-sm font-medium transition-colors ${
-                    plan.ctaVariant === 'primary'
-                      ? 'bg-violet-600 hover:bg-violet-700 text-white shadow-sm'
-                      : 'border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                  }`}
-                >
-                  {plan.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="px-6 pb-6 flex flex-col gap-5 flex-1">
+                  <ul className="space-y-2.5 flex-1">
+                    {plan.features.map((f, i) => {
+                      const Icon = f.icon;
+                      const isNeg = 'negative' in f && f.negative;
+                      return (
+                        <li key={i} className="flex items-start gap-2">
+                          <Icon
+                            className={`w-4 h-4 mt-0.5 shrink-0 ${
+                              isNeg ? 'text-neutral-600' : 'text-neutral-400'
+                            }`}
+                          />
+                          <span
+                            className={`text-sm ${
+                              isNeg
+                                ? 'text-neutral-600 line-through'
+                                : 'text-neutral-300'
+                            }`}
+                          >
+                            {f.text}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  <a
+                    href={plan.ctaHref}
+                    className={`flex items-center justify-center gap-1.5 h-10 rounded-xl text-sm font-medium transition-colors ${
+                      plan.ctaVariant === 'primary'
+                        ? 'bg-white text-neutral-950 hover:bg-neutral-100'
+                        : 'border border-neutral-700 text-neutral-300 hover:bg-white/5'
+                    }`}
+                  >
+                    {plan.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
             );
           })}
@@ -307,19 +323,19 @@ export default function PricingPage() {
       </section>
 
       {/* Comparison table */}
-      <section className="px-4 sm:px-6 pb-20 bg-neutral-50">
+      <section className="px-4 sm:px-6 pb-20 bg-neutral-900/50">
         <div className="max-w-5xl mx-auto pt-16">
-          <h2 className="text-2xl font-semibold text-neutral-950 text-center mb-2">
+          <h2 className="text-2xl font-semibold text-neutral-50 text-center mb-2">
             Full comparison
           </h2>
           <p className="text-sm text-neutral-500 text-center mb-10">
             Everything side by side so there are no surprises.
           </p>
 
-          <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white shadow-sm">
+          <div className="overflow-x-auto rounded-2xl border border-neutral-800 bg-neutral-900">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-neutral-100">
+                <tr className="border-b border-neutral-800">
                   <th className="text-left py-4 px-5 font-medium text-neutral-500 w-1/2">
                     Feature
                   </th>
@@ -327,7 +343,7 @@ export default function PricingPage() {
                     <th
                       key={p.id}
                       className={`text-center py-4 px-3 font-semibold ${
-                        p.id === 'pro' ? 'text-violet-700' : 'text-neutral-700'
+                        p.id === 'pro' ? 'text-neutral-100' : 'text-neutral-400'
                       }`}
                     >
                       {p.name}
@@ -339,23 +355,25 @@ export default function PricingPage() {
                 {comparisonRows.map((row, i) => (
                   <tr
                     key={row.label}
-                    className={`border-b border-neutral-50 ${
-                      i % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'
+                    className={`border-b border-neutral-800/60 ${
+                      i % 2 === 0 ? 'bg-neutral-900' : 'bg-neutral-800/30'
                     }`}
                   >
-                    <td className="py-3.5 px-5 text-neutral-700 font-medium">
+                    <td className="py-3.5 px-5 text-neutral-300 font-medium">
                       {row.label}
                     </td>
                     {[row.free, row.pro, row.business].map((val, j) => (
                       <td key={j} className="py-3.5 px-3 text-center">
                         {val === '✓' ? (
-                          <Check className="w-4 h-4 text-green-500 mx-auto" />
+                          <Check className="w-4 h-4 text-neutral-400 mx-auto" />
                         ) : val === '—' ? (
-                          <X className="w-4 h-4 text-neutral-200 mx-auto" />
+                          <X className="w-4 h-4 text-neutral-700 mx-auto" />
                         ) : (
                           <span
                             className={`text-xs font-medium ${
-                              j === 1 ? 'text-violet-700' : 'text-neutral-600'
+                              j === 1
+                                ? 'text-neutral-100'
+                                : 'text-neutral-400'
                             }`}
                           >
                             {val}
@@ -374,13 +392,13 @@ export default function PricingPage() {
       {/* FAQ */}
       <section className="px-4 sm:px-6 py-20">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-semibold text-neutral-950 text-center mb-10">
+          <h2 className="text-2xl font-semibold text-neutral-50 text-center mb-10">
             Frequently asked questions
           </h2>
-          <div className="divide-y divide-neutral-100">
+          <div className="divide-y divide-neutral-800">
             {faqs.map((faq) => (
               <div key={faq.q} className="py-5">
-                <p className="font-medium text-neutral-900 mb-2">{faq.q}</p>
+                <p className="font-medium text-neutral-100 mb-2">{faq.q}</p>
                 <p className="text-sm text-neutral-500 leading-relaxed">
                   {faq.a}
                 </p>
@@ -390,30 +408,30 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* CTA Banner — inverted (white on dark page) */}
       <section className="px-4 sm:px-6 pb-20">
-        <div className="max-w-3xl mx-auto rounded-3xl bg-gradient-to-br from-neutral-900 to-neutral-800 px-8 py-12 text-center text-white">
-          <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
-            <Zap className="w-5 h-5 text-white" />
+        <div className="max-w-3xl mx-auto rounded-2xl bg-white px-8 py-12 text-center text-neutral-950">
+          <div className="w-10 h-10 rounded-2xl bg-neutral-100 flex items-center justify-center mx-auto mb-4">
+            <Zap className="w-5 h-5 text-neutral-700" />
           </div>
-          <h2 className="text-2xl font-semibold tracking-tight mb-2">
+          <h2 className="text-2xl font-semibold tracking-tight mb-2 text-neutral-950">
             Ready to upgrade?
           </h2>
-          <p className="text-neutral-400 text-sm mb-6 max-w-sm mx-auto">
+          <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
             Email us and we&apos;ll upgrade your account within 24 hours.
             Self-serve payments coming soon.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={`mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro`}
-              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 transition-colors"
+              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl bg-neutral-950 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
             >
               <Mail className="w-4 h-4" />
               {SUPPORT_EMAIL}
             </a>
             <a
               href={`${APP_URL}/signup`}
-              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl border border-white/20 text-white text-sm font-medium hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl border border-neutral-200 text-neutral-700 text-sm font-medium hover:bg-neutral-50 transition-colors"
             >
               Start free first
               <ArrowRight className="w-4 h-4" />
@@ -423,27 +441,27 @@ export default function PricingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-100 py-8 px-4 sm:px-6">
+      <footer className="border-t border-neutral-800 py-8 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-neutral-400">
+          <p className="text-xs text-neutral-600">
             © {new Date().getFullYear()} Crelyzor. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             <Link
               href="/"
-              className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors"
+              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
             >
               Cards
             </Link>
             <a
               href={APP_URL}
-              className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors"
+              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
             >
               App
             </a>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}
-              className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors"
+              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
             >
               Support
             </a>
