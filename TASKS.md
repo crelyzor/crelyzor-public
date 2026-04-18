@@ -107,10 +107,10 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ### P0 — Public Pricing Page
 
-- [ ] `/pricing` page — `app/pricing/page.tsx`
-  - SSR, SEO meta tags, OG preview (`"Crelyzor Pricing — Free, Pro, Business"`)
-  - Plan comparison table: Free / Pro ($19/mo) / Business (Custom)
-  - Feature checklist per plan (transcription, Recall, AI Credits, cards, scheduling, tasks)
+- [x] `/pricing` page — `app/pricing/page.tsx`
+  - SSR, SEO meta tags, OG preview
+  - Plan comparison table: Free / Pro / Business (Custom)
+  - Feature checklist per plan
   - `"Get started free"` CTA → sign in page
   - `"Upgrade to Pro"` CTA → dashboard billing (for logged-in) or sign up (for new)
   - FAQ section — "What are AI Credits?", "What is Recall.ai?", "Can I cancel anytime?"
