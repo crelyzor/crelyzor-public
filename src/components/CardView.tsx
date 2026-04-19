@@ -163,7 +163,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
 
   return (
     <div
-      className="min-h-screen bg-neutral-100 flex flex-col items-center py-12 px-4"
+      className="min-h-screen bg-neutral-100 dark:bg-neutral-950 flex flex-col items-center py-12 px-4"
       style={{ fontFamily }}
     >
       <div className="w-full max-w-sm">
@@ -461,7 +461,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
 
         {/* ── DETAIL SECTION ──────────────────────────────────────── */}
         <div
-          className="mt-5 rounded-2xl bg-white overflow-hidden"
+          className="mt-5 rounded-2xl bg-white dark:bg-neutral-900 overflow-hidden"
           style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
         >
           {/* Quick actions */}
@@ -492,7 +492,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
               {contactFields.phone && (
                 <a
                   href={`tel:${contactFields.phone}`}
-                  className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 transition-colors hover:bg-neutral-50"
+                  className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -504,7 +504,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
-                  <span className="text-neutral-600 text-[11px] font-medium">
+                  <span className="text-neutral-600 dark:text-neutral-400 text-[11px] font-medium">
                     Call
                   </span>
                 </a>
@@ -514,7 +514,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                   href={contactFields.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 transition-colors hover:bg-neutral-50"
+                  className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -528,7 +528,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                     <line x1="2" y1="12" x2="22" y2="12" />
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                   </svg>
-                  <span className="text-neutral-600 text-[11px] font-medium">
+                  <span className="text-neutral-600 dark:text-neutral-400 text-[11px] font-medium">
                     Website
                   </span>
                 </a>
@@ -539,8 +539,8 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {/* Bio */}
           {hasBio && (
             <>
-              {hasQuickActions && <div className="h-px bg-neutral-50 mx-4" />}
-              <p className="px-4 py-4 text-sm text-neutral-500 leading-relaxed">
+              {hasQuickActions && <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />}
+              <p className="px-4 py-4 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
                 {card.bio}
               </p>
             </>
@@ -550,7 +550,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {hasOtherLinks && (
             <>
               {(hasQuickActions || hasBio) && (
-                <div className="h-px bg-neutral-50 mx-4" />
+                <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />
               )}
               <div className="px-4 py-3">
                 <p
@@ -567,12 +567,12 @@ export function CardView({ data, username, slug }: CardViewProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handleLinkClick(link)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-neutral-50 group"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800 group"
                     >
-                      <span className="text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                      <span className="text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
                         {linkIcons[link.type] ?? <DefaultLinkIcon />}
                       </span>
-                      <span className="flex-1 text-sm text-neutral-700 font-medium truncate">
+                      <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-200 font-medium truncate">
                         {link.label || link.type}
                       </span>
                       <svg
@@ -580,7 +580,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.5"
-                        className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0"
+                        className="w-3.5 h-3.5 text-neutral-300 dark:text-neutral-600 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 transition-colors shrink-0"
                       >
                         <path
                           d="M7 17L17 7M17 7H7M17 7v10"
@@ -599,7 +599,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {hasSocialLinks && (
             <>
               {(hasQuickActions || hasBio || hasOtherLinks) && (
-                <div className="h-px bg-neutral-50 mx-4" />
+                <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />
               )}
               <div className="px-4 py-3">
                 <p
@@ -616,12 +616,12 @@ export function CardView({ data, username, slug }: CardViewProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handleLinkClick(link)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-neutral-50 group"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800 group"
                     >
-                      <span className="text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                      <span className="text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
                         {linkIcons[link.type] ?? <DefaultLinkIcon />}
                       </span>
-                      <span className="flex-1 text-sm text-neutral-700 font-medium truncate">
+                      <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-200 font-medium truncate">
                         {link.label || link.type}
                       </span>
                       <svg
@@ -629,7 +629,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.5"
-                        className="w-3.5 h-3.5 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0"
+                        className="w-3.5 h-3.5 text-neutral-300 dark:text-neutral-600 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 transition-colors shrink-0"
                       >
                         <path
                           d="M7 17L17 7M17 7H7M17 7v10"
@@ -646,7 +646,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
 
           {/* Schedule a Meeting */}
           {(hasQuickActions || hasBio || hasOtherLinks || hasSocialLinks) && (
-            <div className="h-px bg-neutral-50 mx-4" />
+            <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />
           )}
           <div className="px-4 py-3">
             <a
@@ -669,7 +669,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
           </div>
 
           {/* Save Contact + Share Info */}
-          <div className="h-px bg-neutral-50 mx-4" />
+          <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />
           <div className="p-4 flex gap-2">
             <button
               type="button"
@@ -702,7 +702,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
             </button>
             <button
               onClick={() => setShowContactForm(true)}
-              className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium border border-neutral-100 text-neutral-500 transition-colors hover:bg-neutral-50"
+              className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-medium border border-neutral-100 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800"
             >
               <svg
                 viewBox="0 0 24 24"

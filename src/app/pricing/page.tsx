@@ -1,20 +1,15 @@
+// Aesthetic: Premium editorial dark — confident type scale, gold accent on Pro tier only,
+// generous vertical rhythm, no decorative clutter. Stripe pricing meets a premium card product.
+
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  Check,
-  Zap,
-  Sparkles,
-  Mic,
-  Bot,
-  HardDrive,
-  Mail,
-  ArrowRight,
-  X,
-} from 'lucide-react';
+import { Check, X, ArrowRight, Mail } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const APP_URL =
   process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'https://app.crelyzor.com';
 const SUPPORT_EMAIL = 'support@crelyzor.com';
+const GOLD = '#d4af61';
 
 export const metadata: Metadata = {
   title: 'Pricing — Crelyzor',
@@ -28,7 +23,7 @@ export const metadata: Metadata = {
   },
 };
 
-// ── Plan data ────────────────────────────────────────────────────────────────
+// ── Plan data ─────────────────────────────────────────────────────────────────
 
 const plans = [
   {
@@ -42,14 +37,14 @@ const plans = [
     ctaHref: `${APP_URL}/signup`,
     ctaVariant: 'outline' as const,
     features: [
-      { icon: Mic, text: '120 transcription minutes / month' },
-      { icon: Sparkles, text: '50 AI credits / month' },
-      { icon: Bot, text: 'No Google Meet auto-record', negative: true },
-      { icon: HardDrive, text: '2 GB storage' },
-      { icon: Check, text: 'Digital Cards + QR codes' },
-      { icon: Check, text: 'Meeting notes & tasks' },
-      { icon: Check, text: 'Scheduling (unlimited bookings)' },
-      { icon: Check, text: 'Global search' },
+      { text: '120 transcription minutes / month' },
+      { text: '50 AI credits / month' },
+      { text: 'Google Meet auto-record', negative: true },
+      { text: '2 GB storage' },
+      { text: 'Digital Cards + QR codes' },
+      { text: 'Meeting notes & tasks' },
+      { text: 'Scheduling (unlimited bookings)' },
+      { text: 'Global search' },
     ],
   },
   {
@@ -63,17 +58,14 @@ const plans = [
     ctaHref: `mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro&body=Hi, I'd like to upgrade to the Crelyzor Pro plan.`,
     ctaVariant: 'primary' as const,
     features: [
-      { icon: Mic, text: '600 transcription minutes / month' },
-      { icon: Sparkles, text: '1,000 AI credits / month' },
-      { icon: Bot, text: '5 hrs auto-record & transcribe Google Meet calls' },
-      { icon: HardDrive, text: '20 GB storage' },
-      { icon: Check, text: 'Everything in Free' },
-      { icon: Check, text: 'Ask AI — unlimited questions per meeting' },
-      {
-        icon: Check,
-        text: 'AI content generation (reports, emails, social posts)',
-      },
-      { icon: Check, text: 'Priority support' },
+      { text: '600 transcription minutes / month' },
+      { text: '1,000 AI credits / month' },
+      { text: 'Auto-record & transcribe Google Meet calls' },
+      { text: '20 GB storage' },
+      { text: 'Everything in Free' },
+      { text: 'Ask AI — unlimited questions per meeting' },
+      { text: 'AI content generation (reports, emails, social posts)' },
+      { text: 'Priority support' },
     ],
   },
   {
@@ -87,54 +79,36 @@ const plans = [
     ctaHref: `mailto:${SUPPORT_EMAIL}?subject=Business Plan Inquiry`,
     ctaVariant: 'outline' as const,
     features: [
-      { icon: Mic, text: 'Unlimited transcription' },
-      { icon: Sparkles, text: 'Unlimited AI credits' },
-      {
-        icon: Bot,
-        text: 'Unlimited auto-record & transcribe Google Meet calls',
-      },
-      { icon: HardDrive, text: 'Unlimited storage' },
-      { icon: Check, text: 'Everything in Pro' },
-      { icon: Check, text: 'Custom onboarding' },
-      { icon: Check, text: 'SLA & dedicated support' },
-      { icon: Check, text: 'Invoiced billing' },
+      { text: 'Unlimited transcription' },
+      { text: 'Unlimited AI credits' },
+      { text: 'Unlimited auto-record & transcribe (Google Meet)' },
+      { text: 'Unlimited storage' },
+      { text: 'Everything in Pro' },
+      { text: 'Custom onboarding' },
+      { text: 'SLA & dedicated support' },
+      { text: 'Invoiced billing' },
     ],
   },
 ] as const;
 
-// ── Comparison table ─────────────────────────────────────────────────────────
+// ── Comparison table ──────────────────────────────────────────────────────────
 
 const comparisonRows = [
-  {
-    label: 'Transcription',
-    free: '120 min / mo',
-    pro: '600 min / mo',
-    business: 'Unlimited',
-  },
-  {
-    label: 'AI Credits',
-    free: '50 / mo',
-    pro: '1,000 / mo',
-    business: 'Unlimited',
-  },
-  {
-    label: 'Auto-record & Transcribe (Google Meet)',
-    free: '—',
-    pro: '5 hrs / mo',
-    business: 'Unlimited',
-  },
+  { label: 'Transcription', free: '120 min / mo', pro: '600 min / mo', business: 'Unlimited' },
+  { label: 'AI Credits', free: '50 / mo', pro: '1,000 / mo', business: 'Unlimited' },
+  { label: 'Auto-record & Transcribe (Google Meet)', free: false, pro: '5 hrs / mo', business: 'Unlimited' },
   { label: 'Storage', free: '2 GB', pro: '20 GB', business: 'Unlimited' },
-  { label: 'Digital Cards', free: '✓', pro: '✓', business: '✓' },
-  { label: 'Scheduling', free: '✓', pro: '✓', business: '✓' },
-  { label: 'Ask AI', free: '✓', pro: '✓', business: '✓' },
-  { label: 'AI Content Generation', free: '✓', pro: '✓', business: '✓' },
-  { label: 'Global Search', free: '✓', pro: '✓', business: '✓' },
-  { label: 'Priority Support', free: '—', pro: '✓', business: '✓' },
-  { label: 'SLA & Dedicated Support', free: '—', pro: '—', business: '✓' },
-  { label: 'Custom Onboarding', free: '—', pro: '—', business: '✓' },
+  { label: 'Digital Cards', free: true, pro: true, business: true },
+  { label: 'Scheduling', free: true, pro: true, business: true },
+  { label: 'Ask AI', free: true, pro: true, business: true },
+  { label: 'AI Content Generation', free: true, pro: true, business: true },
+  { label: 'Global Search', free: true, pro: true, business: true },
+  { label: 'Priority Support', free: false, pro: true, business: true },
+  { label: 'SLA & Dedicated Support', free: false, pro: false, business: true },
+  { label: 'Custom Onboarding', free: false, pro: false, business: true },
 ];
 
-// ── FAQ ──────────────────────────────────────────────────────────────────────
+// ── FAQ ───────────────────────────────────────────────────────────────────────
 
 const faqs = [
   {
@@ -147,7 +121,7 @@ const faqs = [
   },
   {
     q: 'Do credits roll over month to month?',
-    a: 'No — transcription minutes, AI credits, and Recall hours reset on the 1st of each month. Unused credits do not carry over.',
+    a: 'No — transcription minutes, AI credits, and recording hours reset on the 1st of each month. Unused credits do not carry over.',
   },
   {
     q: 'How do I upgrade right now?',
@@ -163,42 +137,62 @@ const faqs = [
   },
 ];
 
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Cell renderer ─────────────────────────────────────────────────────────────
+
+function TableCell({ value, isPro }: { value: string | boolean; isPro: boolean }) {
+  if (value === true) {
+    return (
+      <Check
+        className="mx-auto"
+        style={{ width: 15, height: 15, color: isPro ? GOLD : 'var(--muted-foreground)' }}
+      />
+    );
+  }
+  if (value === false) {
+    return <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />;
+  }
+  return (
+    <span
+      className="text-xs font-medium tabular-nums"
+      style={{ color: isPro ? GOLD : 'var(--muted-foreground)' }}
+    >
+      {value}
+    </span>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans">
-      {/* Nav */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+    <div className="min-h-screen bg-background text-foreground font-sans">
+
+      {/* ── Nav ── */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-[var(--nav-bg)] backdrop-blur-xl border-b border-border">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-sm font-semibold text-neutral-100"
+            className="flex items-center gap-2.5 text-sm font-semibold text-foreground hover:opacity-80 transition-opacity"
           >
-            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="1.5"
-                className="w-4 h-4"
-              >
+            <span className="w-6 h-6 rounded-md bg-foreground/10 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5">
                 <rect x="3" y="4" width="18" height="18" rx="2" />
                 <path d="M16 2v4M8 2v4M3 10h18" />
               </svg>
             </span>
             Crelyzor
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a
               href={APP_URL}
-              className="text-xs font-medium text-neutral-400 hover:text-neutral-100 transition-colors hidden sm:block"
+              className="hidden sm:block text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5"
             >
               Sign in
             </a>
             <a
               href={`${APP_URL}/signup`}
-              className="inline-flex items-center gap-1.5 h-8 px-4 rounded-full bg-white text-neutral-900 text-xs font-medium hover:bg-neutral-100 transition-colors"
+              className="inline-flex items-center h-8 px-4 rounded-lg bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
             >
               Get started free
             </a>
@@ -206,101 +200,124 @@ export default function PricingPage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-28 pb-16 px-4 sm:px-6 text-center">
-        <div className="max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/8 border border-white/10 text-xs font-medium text-neutral-300 mb-6">
-            <Zap className="w-3 h-3" />
-            Simple, transparent pricing
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-semibold text-neutral-50 tracking-tight leading-tight">
-            Start free.{' '}
-            <span className="text-neutral-400">Upgrade when ready.</span>
+      {/* ── Hero ── */}
+      <section className="relative pt-32 pb-20 px-5 sm:px-8 overflow-hidden">
+        {/* Ambient glow — dark mode only */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-80 opacity-20 dark:opacity-100"
+          style={{
+            background: `radial-gradient(ellipse 60% 40% at 50% 0%, rgba(212,175,97,0.07) 0%, transparent 100%)`,
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto text-center">
+          <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-5">
+            Pricing
+          </p>
+          <h1 className="text-5xl sm:text-6xl font-semibold tracking-tight leading-[1.1] text-foreground">
+            One tool.
+            <br />
+            <span className="text-muted-foreground font-normal">Everything connected.</span>
           </h1>
-          <p className="mt-4 text-neutral-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-            No credit card required. No hidden fees. Every plan includes
-            meetings, tasks, cards, scheduling, and AI — right out of the box.
+          <p className="mt-6 text-base text-muted-foreground leading-relaxed max-w-md mx-auto">
+            No credit card required. Every plan includes meetings, cards, scheduling, and AI — right out of the box.
           </p>
         </div>
       </section>
 
-      {/* Plan cards */}
-      <section className="px-4 sm:px-6 pb-20">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {/* ── Plan cards ── */}
+      <section className="px-5 sm:px-8 pb-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           {plans.map((plan) => {
             const isPro = plan.id === 'pro';
+            const isBusiness = plan.id === 'business';
+
             return (
               <div
                 key={plan.id}
-                className={`relative rounded-2xl border flex flex-col ${
+                className="relative rounded-2xl flex flex-col overflow-hidden"
+                style={
                   isPro
-                    ? 'border-neutral-500 ring-1 ring-neutral-500 bg-neutral-900'
-                    : 'border-neutral-800 bg-neutral-900'
-                }`}
+                    ? {
+                        border: `1px solid rgba(212,175,97,0.25)`,
+                        boxShadow: `0 0 0 1px rgba(212,175,97,0.08), 0 24px 48px rgba(0,0,0,0.3)`,
+                        background: 'var(--surface)',
+                      }
+                    : {
+                        border: '1px solid var(--border)',
+                        background: 'var(--surface)',
+                      }
+                }
               >
-                {/* Pro header block */}
-                {isPro ? (
-                  <div className="bg-white rounded-t-2xl px-6 pt-5 pb-4 text-neutral-950">
-                    {plan.tag && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-neutral-900 text-white mb-3">
-                        {plan.tag}
+                {/* Pro — white header block (intentional contrast, always white) */}
+                {isPro && (
+                  <div className="bg-white px-7 pt-6 pb-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-neutral-500">
+                        {plan.name}
                       </span>
-                    )}
-                    <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">
-                      {plan.name}
-                    </p>
-                    <div className="flex items-end gap-1">
-                      <span className="text-3xl font-bold tracking-tight text-neutral-950">
-                        {plan.price}
-                      </span>
-                      {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-neutral-500 mb-1">
-                          /{plan.period}
+                      {plan.tag && (
+                        <span
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+                          style={{ background: GOLD, color: '#0a0a0a' }}
+                        >
+                          {plan.tag}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      {plan.description}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="px-6 pt-5 pb-4">
-                    <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">
-                      {plan.name}
-                    </p>
-                    <div className="flex items-end gap-1">
-                      <span className="text-3xl font-bold text-neutral-50 tracking-tight">
+                    <div className="flex items-end gap-1.5">
+                      <span className="text-4xl font-bold tracking-tight text-neutral-950 leading-none">
                         {plan.price}
                       </span>
                       {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-neutral-500 mb-1">
-                          /{plan.period}
-                        </span>
+                        <span className="text-sm text-neutral-400 mb-0.5">/ {plan.period}</span>
                       )}
                     </div>
-                    <p className="text-xs text-neutral-500 mt-1">
+                    <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
                       {plan.description}
                     </p>
                   </div>
                 )}
 
-                <div className="px-6 pb-6 flex flex-col gap-5 flex-1">
-                  <ul className="space-y-2.5 flex-1">
+                {/* Free & Business — dark header */}
+                {!isPro && (
+                  <div className="px-7 pt-6 pb-5 border-b border-border">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-muted">
+                        {plan.name}
+                      </span>
+                    </div>
+                    <div className="flex items-end gap-1.5">
+                      <span className="text-4xl font-bold tracking-tight text-foreground leading-none">
+                        {plan.price}
+                      </span>
+                      {(plan.price as string) !== 'Custom' && (
+                        <span className="text-sm text-muted mb-0.5">/ {plan.period}</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted mt-2 leading-relaxed">
+                      {plan.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* Features */}
+                <div className="px-7 py-6 flex flex-col flex-1 gap-6">
+                  <ul className="space-y-3 flex-1">
                     {plan.features.map((f, i) => {
-                      const Icon = f.icon;
                       const isNeg = 'negative' in f && f.negative;
                       return (
-                        <li key={i} className="flex items-start gap-2">
-                          <Icon
-                            className={`w-4 h-4 mt-0.5 shrink-0 ${
-                              isNeg ? 'text-neutral-600' : 'text-neutral-400'
-                            }`}
-                          />
+                        <li key={i} className="flex items-start gap-3">
+                          {isNeg ? (
+                            <X className="w-3.5 h-3.5 mt-0.5 shrink-0 text-muted/50" />
+                          ) : (
+                            <Check
+                              className="w-3.5 h-3.5 mt-0.5 shrink-0"
+                              style={{ color: isPro ? GOLD : 'var(--muted-foreground)' }}
+                            />
+                          )}
                           <span
-                            className={`text-sm ${
-                              isNeg
-                                ? 'text-neutral-600 line-through'
-                                : 'text-neutral-300'
+                            className={`text-sm leading-snug ${
+                              isNeg ? 'text-muted/50 line-through' : 'text-foreground/80'
                             }`}
                           >
                             {f.text}
@@ -312,14 +329,14 @@ export default function PricingPage() {
 
                   <a
                     href={plan.ctaHref}
-                    className={`flex items-center justify-center gap-1.5 h-10 rounded-xl text-sm font-medium transition-colors ${
-                      plan.ctaVariant === 'primary'
-                        ? 'bg-white text-neutral-950 hover:bg-neutral-100'
-                        : 'border border-neutral-700 text-neutral-300 hover:bg-white/5'
-                    }`}
+                    className={
+                      isPro
+                        ? 'flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-medium transition-opacity hover:opacity-85 cta-gold'
+                        : 'flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-medium transition-all border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30'
+                    }
                   >
                     {plan.cta}
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
               </div>
@@ -328,29 +345,32 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Comparison table */}
-      <section className="px-4 sm:px-6 pb-20 bg-neutral-900/50">
-        <div className="max-w-5xl mx-auto pt-16">
-          <h2 className="text-2xl font-semibold text-neutral-50 text-center mb-2">
-            Full comparison
-          </h2>
-          <p className="text-sm text-neutral-500 text-center mb-10">
-            Everything side by side so there are no surprises.
-          </p>
+      {/* ── Comparison table ── */}
+      <section className="px-5 sm:px-8 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="text-2xl font-semibold text-foreground tracking-tight">
+              Full comparison
+            </h2>
+            <p className="mt-2 text-sm text-muted">
+              Everything side by side — no surprises.
+            </p>
+          </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-neutral-800 bg-neutral-900">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-border">
+            <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="border-b border-neutral-800">
-                  <th className="text-left py-4 px-5 font-medium text-neutral-500 w-1/2">
+                <tr className="border-b border-border bg-surface">
+                  <th className="text-left py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider w-[45%]">
                     Feature
                   </th>
                   {plans.map((p) => (
                     <th
                       key={p.id}
-                      className={`text-center py-4 px-3 font-semibold ${
-                        p.id === 'pro' ? 'text-neutral-100' : 'text-neutral-400'
-                      }`}
+                      className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider"
+                      style={{
+                        color: p.id === 'pro' ? GOLD : 'var(--muted-foreground)',
+                      }}
                     >
                       {p.name}
                     </th>
@@ -361,30 +381,24 @@ export default function PricingPage() {
                 {comparisonRows.map((row, i) => (
                   <tr
                     key={row.label}
-                    className={`border-b border-neutral-800/60 ${
-                      i % 2 === 0 ? 'bg-neutral-900' : 'bg-neutral-800/30'
-                    }`}
+                    className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-raised/40"
+                    style={{ background: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-raised)/20' }}
                   >
-                    <td className="py-3.5 px-5 text-neutral-300 font-medium">
+                    <td className="py-3.5 px-6 text-foreground/70 text-sm">
                       {row.label}
                     </td>
-                    {[row.free, row.pro, row.business].map((val, j) => (
-                      <td key={j} className="py-3.5 px-3 text-center">
-                        {val === '✓' ? (
-                          <Check className="w-4 h-4 text-neutral-400 mx-auto" />
-                        ) : val === '—' ? (
-                          <X className="w-4 h-4 text-neutral-700 mx-auto" />
-                        ) : (
-                          <span
-                            className={`text-xs font-medium ${
-                              j === 1 ? 'text-neutral-100' : 'text-neutral-400'
-                            }`}
-                          >
-                            {val}
-                          </span>
-                        )}
-                      </td>
-                    ))}
+                    <td className="py-3.5 px-4 text-center">
+                      <TableCell value={row.free} isPro={false} />
+                    </td>
+                    <td
+                      className="py-3.5 px-4 text-center"
+                      style={{ background: 'rgba(212,175,97,0.03)' }}
+                    >
+                      <TableCell value={row.pro} isPro={true} />
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <TableCell value={row.business} isPro={false} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -393,79 +407,79 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="px-4 sm:px-6 py-20">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-semibold text-neutral-50 text-center mb-10">
-            Frequently asked questions
-          </h2>
-          <div className="divide-y divide-neutral-800">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="py-5">
-                <p className="font-medium text-neutral-100 mb-2">{faq.q}</p>
-                <p className="text-sm text-neutral-500 leading-relaxed">
-                  {faq.a}
+      {/* ── FAQ ── */}
+      <section className="px-5 sm:px-8 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="text-2xl font-semibold text-foreground tracking-tight">
+              Common questions
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 max-w-5xl mx-auto">
+            {faqs.map((faq, i) => (
+              <div key={faq.q}>
+                <p className="text-xs font-semibold text-muted uppercase tracking-widest mb-2">
+                  {String(i + 1).padStart(2, '0')}
                 </p>
+                <p className="text-sm font-semibold text-foreground mb-2 leading-snug">
+                  {faq.q}
+                </p>
+                <p className="text-sm text-muted leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Banner — inverted (white on dark page) */}
-      <section className="px-4 sm:px-6 pb-20">
-        <div className="max-w-3xl mx-auto rounded-2xl bg-white px-8 py-12 text-center text-neutral-950">
-          <div className="w-10 h-10 rounded-2xl bg-neutral-100 flex items-center justify-center mx-auto mb-4">
-            <Zap className="w-5 h-5 text-neutral-700" />
-          </div>
-          <h2 className="text-2xl font-semibold tracking-tight mb-2 text-neutral-950">
-            Ready to upgrade?
-          </h2>
-          <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
-            Email us and we&apos;ll upgrade your account within 24 hours.
-            Self-serve payments coming soon.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-              href={`mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro`}
-              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl bg-neutral-950 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              {SUPPORT_EMAIL}
-            </a>
-            <a
-              href={`${APP_URL}/signup`}
-              className="inline-flex items-center gap-2 h-11 px-6 rounded-2xl border border-neutral-200 text-neutral-700 text-sm font-medium hover:bg-neutral-50 transition-colors"
-            >
-              Start free first
-              <ArrowRight className="w-4 h-4" />
-            </a>
+      {/* ── CTA Banner — always white, intentional contrast ── */}
+      <section className="px-5 sm:px-8 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="rounded-2xl bg-white px-8 sm:px-16 py-14 text-center">
+            <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-400 mb-4">
+              Ready to upgrade?
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-950 mb-3">
+              Your next meeting,<br />fully covered.
+            </h2>
+            <p className="text-sm text-neutral-400 mb-8 max-w-xs mx-auto leading-relaxed">
+              Email us and we&apos;ll upgrade your account within 24 hours. Self-serve payments coming soon.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={`mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro`}
+                className="inline-flex items-center gap-2.5 h-11 px-6 rounded-xl bg-neutral-950 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                {SUPPORT_EMAIL}
+              </a>
+              <a
+                href={`${APP_URL}/signup`}
+                className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-200 text-neutral-600 text-sm font-medium hover:bg-neutral-50 transition-colors"
+              >
+                Start free first
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-neutral-800 py-8 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-neutral-600">
+      {/* ── Footer ── */}
+      <footer className="border-t border-border py-8 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted">
             © {new Date().getFullYear()} Crelyzor. All rights reserved.
           </p>
-          <div className="flex items-center gap-5">
-            <Link
-              href="/"
-              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
-            >
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-xs text-muted hover:text-foreground transition-colors">
               Cards
             </Link>
-            <a
-              href={APP_URL}
-              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
-            >
+            <a href={APP_URL} className="text-xs text-muted hover:text-foreground transition-colors">
               App
             </a>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}
-              className="text-xs text-neutral-600 hover:text-neutral-300 transition-colors"
+              className="text-xs text-muted hover:text-foreground transition-colors"
             >
               Support
             </a>
