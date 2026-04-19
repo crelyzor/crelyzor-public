@@ -371,9 +371,7 @@ export default function PricingPage() {
                         ) : (
                           <span
                             className={`text-xs font-medium ${
-                              j === 1
-                                ? 'text-neutral-100'
-                                : 'text-neutral-400'
+                              j === 1 ? 'text-neutral-100' : 'text-neutral-400'
                             }`}
                           >
                             {val}
