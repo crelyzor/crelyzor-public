@@ -64,7 +64,8 @@ export function CTA() {
             <span style={{ color: GOLD }}>Built for you.</span>
           </h2>
           <p className="text-neutral-600 text-sm leading-relaxed mb-8 max-w-sm">
-            Join the waitlist for early access before public launch. Cards, AI meetings, scheduling, and tasks — all in one place.
+            Join the waitlist for early access before public launch. Cards, AI
+            meetings, scheduling, and tasks — all in one place.
           </p>
         </motion.div>
 
@@ -109,7 +110,9 @@ export function CTA() {
           )}
         </motion.form>
         {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-        <p className="text-neutral-800 text-xs mt-4">No spam. Unsubscribe anytime.</p>
+        <p className="text-neutral-800 text-xs mt-4">
+          No spam. Unsubscribe anytime.
+        </p>
       </div>
     </section>
   );

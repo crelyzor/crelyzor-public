@@ -28,9 +28,16 @@ export default function HomePage() {
               className="w-5 h-5 rounded-lg border flex items-center justify-center"
               style={{ borderColor: '#d4af61', backgroundColor: '#0a0a0a' }}
             >
-              <span style={{ color: '#d4af61' }} className="text-[10px] font-semibold">C</span>
+              <span
+                style={{ color: '#d4af61' }}
+                className="text-[10px] font-semibold"
+              >
+                C
+              </span>
             </div>
-            <span className="text-neutral-600 text-sm tracking-wide">Crelyzor</span>
+            <span className="text-neutral-600 text-sm tracking-wide">
+              Crelyzor
+            </span>
           </div>
           <p className="text-neutral-800 text-[11px] tracking-widest uppercase">
             © {new Date().getFullYear()} Crelyzor

@@ -24,7 +24,10 @@ export async function POST(req: NextRequest) {
       text: `New waitlist signup: ${email}`,
     });
   } catch {
-    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to send email' },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ ok: true });

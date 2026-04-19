@@ -6,7 +6,13 @@ import { RotateCcw } from 'lucide-react';
 
 const GOLD = '#d4af61';
 
-function BusinessCard({ flipped, onFlip }: { flipped: boolean; onFlip: () => void }) {
+function BusinessCard({
+  flipped,
+  onFlip,
+}: {
+  flipped: boolean;
+  onFlip: () => void;
+}) {
   return (
     <div
       className="w-full cursor-pointer select-none"
@@ -28,7 +34,8 @@ function BusinessCard({ flipped, onFlip }: { flipped: boolean; onFlip: () => voi
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             backgroundColor: '#0a0a0a',
-            boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.5)',
+            boxShadow:
+              '0 32px 80px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.5)',
           }}
         >
           <div
@@ -42,23 +49,39 @@ function BusinessCard({ flipped, onFlip }: { flipped: boolean; onFlip: () => voi
             <div className="flex items-start gap-4">
               <div
                 className="shrink-0 w-14 h-14 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: '#1a1a1a', boxShadow: `0 0 0 1.5px ${GOLD}` }}
+                style={{
+                  backgroundColor: '#1a1a1a',
+                  boxShadow: `0 0 0 1.5px ${GOLD}`,
+                }}
               >
-                <span style={{ color: GOLD }} className="text-xl font-semibold">H</span>
+                <span style={{ color: GOLD }} className="text-xl font-semibold">
+                  H
+                </span>
               </div>
               <div className="min-w-0 pt-1">
-                <h3 className="text-white font-semibold text-[17px] leading-tight">Harshit Rai</h3>
-                <p className="text-[11px] mt-1.5 uppercase tracking-widest" style={{ color: GOLD }}>
+                <h3 className="text-white font-semibold text-[17px] leading-tight">
+                  Harshit Rai
+                </h3>
+                <p
+                  className="text-[11px] mt-1.5 uppercase tracking-widest"
+                  style={{ color: GOLD }}
+                >
                   Founder, Crelyzor
                 </p>
               </div>
             </div>
             <div className="flex items-end justify-between">
               <div className="space-y-1.5">
-                <p className="text-neutral-400 text-[10px] tracking-wide">harshit@crelyzor.com</p>
-                <p className="text-neutral-400 text-[10px] tracking-wide">crelyzor.com</p>
+                <p className="text-neutral-400 text-[10px] tracking-wide">
+                  harshit@crelyzor.com
+                </p>
+                <p className="text-neutral-400 text-[10px] tracking-wide">
+                  crelyzor.com
+                </p>
               </div>
-              <p className="text-neutral-700 text-[8px] tracking-widest uppercase">Tap to flip</p>
+              <p className="text-neutral-700 text-[8px] tracking-widest uppercase">
+                Tap to flip
+              </p>
             </div>
           </div>
           <div
@@ -75,7 +98,8 @@ function BusinessCard({ flipped, onFlip }: { flipped: boolean; onFlip: () => voi
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
             backgroundColor: '#0a0a0a',
-            boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.5)',
+            boxShadow:
+              '0 32px 80px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.5)',
           }}
         >
           <div
@@ -87,18 +111,26 @@ function BusinessCard({ flipped, onFlip }: { flipped: boolean; onFlip: () => voi
           />
           <div className="relative h-full flex flex-col justify-between p-6 sm:p-7">
             <p className="text-neutral-400 text-[12px] leading-relaxed">
-              Building the all-in-one productivity OS for solo professionals — identity, schedule,
-              meetings, and work in one place.
+              Building the all-in-one productivity OS for solo professionals —
+              identity, schedule, meetings, and work in one place.
             </p>
             <div className="flex items-end justify-between">
               <div className="flex gap-3">
                 {['in', 'tw', 'gh'].map((s) => (
-                  <div key={s} className="p-2 rounded-lg bg-white/5" style={{ color: GOLD }}>
-                    <span className="text-[9px] font-semibold uppercase">{s}</span>
+                  <div
+                    key={s}
+                    className="p-2 rounded-lg bg-white/5"
+                    style={{ color: GOLD }}
+                  >
+                    <span className="text-[9px] font-semibold uppercase">
+                      {s}
+                    </span>
                   </div>
                 ))}
               </div>
-              <p className="text-neutral-700 text-[8px] tracking-widest uppercase">Tap to flip</p>
+              <p className="text-neutral-700 text-[8px] tracking-widest uppercase">
+                Tap to flip
+              </p>
             </div>
           </div>
           <div
@@ -142,8 +174,8 @@ export function Demo() {
               Shareable.
             </h2>
             <p className="text-neutral-600 text-base leading-relaxed mb-6">
-              A premium digital business card — with a 3D flip, NFC-ready, and connected to
-              everything you do.
+              A premium digital business card — with a 3D flip, NFC-ready, and
+              connected to everything you do.
             </p>
             <button
               onClick={() => setFlipped((f) => !f)}
@@ -161,7 +193,10 @@ export function Demo() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <BusinessCard flipped={flipped} onFlip={() => setFlipped((f) => !f)} />
+            <BusinessCard
+              flipped={flipped}
+              onFlip={() => setFlipped((f) => !f)}
+            />
           </motion.div>
         </div>
       </div>

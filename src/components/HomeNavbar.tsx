@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const GOLD = '#d4af61';
-const APP_URL = process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'https://app.crelyzor.com';
+const APP_URL =
+  process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'https://app.crelyzor.com';
 
 export function HomeNavbar() {
   return (
@@ -21,9 +22,13 @@ export function HomeNavbar() {
           className="w-7 h-7 rounded-lg border flex items-center justify-center"
           style={{ borderColor: `${GOLD}50`, backgroundColor: '#111' }}
         >
-          <span style={{ color: GOLD }} className="text-[11px] font-semibold">C</span>
+          <span style={{ color: GOLD }} className="text-[11px] font-semibold">
+            C
+          </span>
         </div>
-        <span className="text-white font-medium text-sm tracking-tight">Crelyzor</span>
+        <span className="text-white font-medium text-sm tracking-tight">
+          Crelyzor
+        </span>
       </div>
 
       {/* Right */}

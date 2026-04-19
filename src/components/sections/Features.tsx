@@ -84,7 +84,8 @@ export function Features() {
               <span style={{ color: GOLD }}>Eight superpowers.</span>
             </h2>
             <p className="text-neutral-600 text-sm leading-relaxed max-w-xs sm:text-right">
-              Replaces HiHello, Cal.com, Otter.ai, and Todoist — with AI woven through every layer.
+              Replaces HiHello, Cal.com, Otter.ai, and Todoist — with AI woven
+              through every layer.
             </p>
           </div>
         </motion.div>
@@ -104,13 +105,24 @@ export function Features() {
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${GOLD}12`, border: `1px solid ${GOLD}25` }}
+                  style={{
+                    backgroundColor: `${GOLD}12`,
+                    border: `1px solid ${GOLD}25`,
+                  }}
                 >
-                  <Icon className="w-4 h-4" style={{ color: GOLD }} strokeWidth={1.5} />
+                  <Icon
+                    className="w-4 h-4"
+                    style={{ color: GOLD }}
+                    strokeWidth={1.5}
+                  />
                 </div>
                 <div>
-                  <p className="text-white text-sm font-medium mb-1.5">{feature.name}</p>
-                  <p className="text-neutral-600 text-[13px] leading-relaxed">{feature.desc}</p>
+                  <p className="text-white text-sm font-medium mb-1.5">
+                    {feature.name}
+                  </p>
+                  <p className="text-neutral-600 text-[13px] leading-relaxed">
+                    {feature.desc}
+                  </p>
                 </div>
               </motion.div>
             );
@@ -125,14 +137,21 @@ export function Features() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 pt-8 border-t border-neutral-900 flex flex-wrap items-center gap-x-6 gap-y-2"
         >
-          <p className="text-neutral-700 text-[11px] uppercase tracking-widest">Replaces</p>
+          <p className="text-neutral-700 text-[11px] uppercase tracking-widest">
+            Replaces
+          </p>
           {['HiHello', 'Cal.com', 'Otter.ai', 'Todoist'].map((tool) => (
-            <span key={tool} className="text-neutral-600 text-[12px] line-through decoration-neutral-800">
+            <span
+              key={tool}
+              className="text-neutral-600 text-[12px] line-through decoration-neutral-800"
+            >
               {tool}
             </span>
           ))}
           <span className="text-neutral-700 text-[11px]">—</span>
-          <span className="text-[12px]" style={{ color: GOLD }}>Crelyzor</span>
+          <span className="text-[12px]" style={{ color: GOLD }}>
+            Crelyzor
+          </span>
         </motion.div>
       </div>
     </section>

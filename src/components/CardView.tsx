@@ -539,7 +539,9 @@ export function CardView({ data, username, slug }: CardViewProps) {
           {/* Bio */}
           {hasBio && (
             <>
-              {hasQuickActions && <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />}
+              {hasQuickActions && (
+                <div className="h-px bg-neutral-100 dark:bg-neutral-800 mx-4" />
+              )}
               <p className="px-4 py-4 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
                 {card.bio}
               </p>

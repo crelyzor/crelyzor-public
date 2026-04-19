@@ -94,9 +94,24 @@ const plans = [
 // ── Comparison table ──────────────────────────────────────────────────────────
 
 const comparisonRows = [
-  { label: 'Transcription', free: '120 min / mo', pro: '600 min / mo', business: 'Unlimited' },
-  { label: 'AI Credits', free: '50 / mo', pro: '1,000 / mo', business: 'Unlimited' },
-  { label: 'Auto-record & Transcribe (Google Meet)', free: false, pro: '5 hrs / mo', business: 'Unlimited' },
+  {
+    label: 'Transcription',
+    free: '120 min / mo',
+    pro: '600 min / mo',
+    business: 'Unlimited',
+  },
+  {
+    label: 'AI Credits',
+    free: '50 / mo',
+    pro: '1,000 / mo',
+    business: 'Unlimited',
+  },
+  {
+    label: 'Auto-record & Transcribe (Google Meet)',
+    free: false,
+    pro: '5 hrs / mo',
+    business: 'Unlimited',
+  },
   { label: 'Storage', free: '2 GB', pro: '20 GB', business: 'Unlimited' },
   { label: 'Digital Cards', free: true, pro: true, business: true },
   { label: 'Scheduling', free: true, pro: true, business: true },
@@ -139,17 +154,29 @@ const faqs = [
 
 // ── Cell renderer ─────────────────────────────────────────────────────────────
 
-function TableCell({ value, isPro }: { value: string | boolean; isPro: boolean }) {
+function TableCell({
+  value,
+  isPro,
+}: {
+  value: string | boolean;
+  isPro: boolean;
+}) {
   if (value === true) {
     return (
       <Check
         className="mx-auto"
-        style={{ width: 15, height: 15, color: isPro ? GOLD : 'var(--muted-foreground)' }}
+        style={{
+          width: 15,
+          height: 15,
+          color: isPro ? GOLD : 'var(--muted-foreground)',
+        }}
       />
     );
   }
   if (value === false) {
-    return <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />;
+    return (
+      <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />
+    );
   }
   return (
     <span
@@ -166,7 +193,6 @@ function TableCell({ value, isPro }: { value: string | boolean; isPro: boolean }
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
-
       {/* ── Nav ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-[var(--nav-bg)] backdrop-blur-xl border-b border-border">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
@@ -175,7 +201,13 @@ export default function PricingPage() {
             className="flex items-center gap-2.5 text-sm font-semibold text-foreground hover:opacity-80 transition-opacity"
           >
             <span className="w-6 h-6 rounded-md bg-foreground/10 flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-3.5 h-3.5"
+              >
                 <rect x="3" y="4" width="18" height="18" rx="2" />
                 <path d="M16 2v4M8 2v4M3 10h18" />
               </svg>
@@ -216,10 +248,13 @@ export default function PricingPage() {
           <h1 className="text-5xl sm:text-6xl font-semibold tracking-tight leading-[1.1] text-foreground">
             One tool.
             <br />
-            <span className="text-muted-foreground font-normal">Everything connected.</span>
+            <span className="text-muted-foreground font-normal">
+              Everything connected.
+            </span>
           </h1>
           <p className="mt-6 text-base text-muted-foreground leading-relaxed max-w-md mx-auto">
-            No credit card required. Every plan includes meetings, cards, scheduling, and AI — right out of the box.
+            No credit card required. Every plan includes meetings, cards,
+            scheduling, and AI — right out of the box.
           </p>
         </div>
       </section>
@@ -269,7 +304,9 @@ export default function PricingPage() {
                         {plan.price}
                       </span>
                       {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-neutral-400 mb-0.5">/ {plan.period}</span>
+                        <span className="text-sm text-neutral-400 mb-0.5">
+                          / {plan.period}
+                        </span>
                       )}
                     </div>
                     <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
@@ -291,7 +328,9 @@ export default function PricingPage() {
                         {plan.price}
                       </span>
                       {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-muted mb-0.5">/ {plan.period}</span>
+                        <span className="text-sm text-muted mb-0.5">
+                          / {plan.period}
+                        </span>
                       )}
                     </div>
                     <p className="text-xs text-muted mt-2 leading-relaxed">
@@ -312,12 +351,16 @@ export default function PricingPage() {
                           ) : (
                             <Check
                               className="w-3.5 h-3.5 mt-0.5 shrink-0"
-                              style={{ color: isPro ? GOLD : 'var(--muted-foreground)' }}
+                              style={{
+                                color: isPro ? GOLD : 'var(--muted-foreground)',
+                              }}
                             />
                           )}
                           <span
                             className={`text-sm leading-snug ${
-                              isNeg ? 'text-muted/50 line-through' : 'text-foreground/80'
+                              isNeg
+                                ? 'text-muted/50 line-through'
+                                : 'text-foreground/80'
                             }`}
                           >
                             {f.text}
@@ -369,7 +412,8 @@ export default function PricingPage() {
                       key={p.id}
                       className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider"
                       style={{
-                        color: p.id === 'pro' ? GOLD : 'var(--muted-foreground)',
+                        color:
+                          p.id === 'pro' ? GOLD : 'var(--muted-foreground)',
                       }}
                     >
                       {p.name}
@@ -382,7 +426,12 @@ export default function PricingPage() {
                   <tr
                     key={row.label}
                     className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-raised/40"
-                    style={{ background: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-raised)/20' }}
+                    style={{
+                      background:
+                        i % 2 === 0
+                          ? 'var(--surface)'
+                          : 'var(--surface-raised)/20',
+                    }}
                   >
                     <td className="py-3.5 px-6 text-foreground/70 text-sm">
                       {row.label}
@@ -439,10 +488,13 @@ export default function PricingPage() {
               Ready to upgrade?
             </p>
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-950 mb-3">
-              Your next meeting,<br />fully covered.
+              Your next meeting,
+              <br />
+              fully covered.
             </h2>
             <p className="text-sm text-neutral-400 mb-8 max-w-xs mx-auto leading-relaxed">
-              Email us and we&apos;ll upgrade your account within 24 hours. Self-serve payments coming soon.
+              Email us and we&apos;ll upgrade your account within 24 hours.
+              Self-serve payments coming soon.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
@@ -471,10 +523,16 @@ export default function PricingPage() {
             © {new Date().getFullYear()} Crelyzor. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-xs text-muted hover:text-foreground transition-colors">
+            <Link
+              href="/"
+              className="text-xs text-muted hover:text-foreground transition-colors"
+            >
               Cards
             </Link>
-            <a href={APP_URL} className="text-xs text-muted hover:text-foreground transition-colors">
+            <a
+              href={APP_URL}
+              className="text-xs text-muted hover:text-foreground transition-colors"
+            >
               App
             </a>
             <a
