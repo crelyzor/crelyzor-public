@@ -69,7 +69,10 @@ const plans = [
       { icon: HardDrive, text: '20 GB storage' },
       { icon: Check, text: 'Everything in Free' },
       { icon: Check, text: 'Ask AI — unlimited questions per meeting' },
-      { icon: Check, text: 'AI content generation (reports, emails, social posts)' },
+      {
+        icon: Check,
+        text: 'AI content generation (reports, emails, social posts)',
+      },
       { icon: Check, text: 'Priority support' },
     ],
   },
@@ -86,7 +89,10 @@ const plans = [
     features: [
       { icon: Mic, text: 'Unlimited transcription' },
       { icon: Sparkles, text: 'Unlimited AI credits' },
-      { icon: Bot, text: 'Unlimited auto-record & transcribe Google Meet calls' },
+      {
+        icon: Bot,
+        text: 'Unlimited auto-record & transcribe Google Meet calls',
+      },
       { icon: HardDrive, text: 'Unlimited storage' },
       { icon: Check, text: 'Everything in Pro' },
       { icon: Check, text: 'Custom onboarding' },
