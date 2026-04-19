@@ -44,7 +44,7 @@ const plans = [
     features: [
       { icon: Mic, text: '120 transcription minutes / month' },
       { icon: Sparkles, text: '50 AI credits / month' },
-      { icon: Bot, text: 'No auto-recording', negative: true },
+      { icon: Bot, text: 'No Google Meet auto-record', negative: true },
       { icon: HardDrive, text: '2 GB storage' },
       { icon: Check, text: 'Digital Cards + QR codes' },
       { icon: Check, text: 'Meeting notes & tasks' },
@@ -65,11 +65,11 @@ const plans = [
     features: [
       { icon: Mic, text: '600 transcription minutes / month' },
       { icon: Sparkles, text: '1,000 AI credits / month' },
-      { icon: Bot, text: '5 hrs auto-recording (Recall.ai)' },
+      { icon: Bot, text: '5 hrs auto-record & transcribe Google Meet calls' },
       { icon: HardDrive, text: '20 GB storage' },
       { icon: Check, text: 'Everything in Free' },
       { icon: Check, text: 'Ask AI — unlimited questions per meeting' },
-      { icon: Check, text: 'AI content generation (reports, emails, tweets)' },
+      { icon: Check, text: 'AI content generation (reports, emails, social posts)' },
       { icon: Check, text: 'Priority support' },
     ],
   },
@@ -86,7 +86,7 @@ const plans = [
     features: [
       { icon: Mic, text: 'Unlimited transcription' },
       { icon: Sparkles, text: 'Unlimited AI credits' },
-      { icon: Bot, text: 'Unlimited auto-recording' },
+      { icon: Bot, text: 'Unlimited auto-record & transcribe Google Meet calls' },
       { icon: HardDrive, text: 'Unlimited storage' },
       { icon: Check, text: 'Everything in Pro' },
       { icon: Check, text: 'Custom onboarding' },
@@ -112,7 +112,7 @@ const comparisonRows = [
     business: 'Unlimited',
   },
   {
-    label: 'Auto-record (Recall.ai)',
+    label: 'Auto-record & Transcribe (Google Meet)',
     free: '—',
     pro: '5 hrs / mo',
     business: 'Unlimited',
@@ -136,8 +136,8 @@ const faqs = [
     a: 'One credit ≈ one AI operation (a summary, a task extraction, a content generation, or a few Ask AI messages). Credits are calculated from OpenAI token usage — 1 credit per ~1,300 input tokens or ~220 output tokens.',
   },
   {
-    q: 'What is auto-recording (Recall.ai)?',
-    a: 'Crelyzor can automatically join your Google Meet, Zoom, or Teams calls just before they start, record the audio, and feed it straight into the transcription and AI pipeline — no manual upload needed. Available on Pro and Business.',
+    q: 'What is auto-record & transcribe for Google Meet?',
+    a: 'Crelyzor automatically joins your Google Meet calls just before they start, records the audio, transcribes it, and runs the full AI pipeline — summary, key points, and tasks — no manual upload needed. Available on Pro and Business.',
   },
   {
     q: 'Do credits roll over month to month?',
