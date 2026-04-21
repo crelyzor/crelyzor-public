@@ -34,7 +34,7 @@ export function CTA() {
   return (
     <section
       id="waitlist"
-      className="pt-12 pb-20 px-4 sm:pt-16 sm:pb-28 sm:px-8 border-t border-neutral-900 bg-[#0a0a0a] relative overflow-hidden"
+      className="pt-12 pb-20 px-4 sm:pt-16 sm:pb-28 sm:px-8 border-t border-[var(--border)] bg-background relative overflow-hidden"
     >
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] pointer-events-none"
@@ -50,11 +50,11 @@ export function CTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
-          <p className="text-[10px] tracking-[0.15em] text-neutral-600 uppercase font-medium mb-4">
+          <p className="text-[10px] tracking-[0.15em] text-[var(--muted-foreground)] uppercase font-medium mb-4 opacity-60">
             Early Access
           </p>
           <h2
-            className="font-semibold text-white leading-[1.04] tracking-tight mb-4"
+            className="font-semibold text-[var(--foreground)] leading-[1.04] tracking-tight mb-4"
             style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
           >
             One tool.
@@ -63,7 +63,7 @@ export function CTA() {
             <br />
             <span style={{ color: GOLD }}>Built for you.</span>
           </h2>
-          <p className="text-neutral-600 text-sm leading-relaxed mb-8 max-w-sm">
+          <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mb-8 max-w-sm">
             Join the waitlist for early access before public launch. Cards, AI
             meetings, scheduling, and tasks — all in one place.
           </p>
@@ -96,7 +96,7 @@ export function CTA() {
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white placeholder:text-neutral-700 text-sm focus:outline-none focus:border-neutral-700 transition-colors"
+                className="flex-1 px-4 py-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] placeholder:opacity-50 text-sm focus:outline-none focus:border-[var(--muted-foreground)] transition-colors"
               />
               <button
                 type="submit"
@@ -110,7 +110,7 @@ export function CTA() {
           )}
         </motion.form>
         {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-        <p className="text-neutral-800 text-xs mt-4">
+        <p className="text-[var(--muted-foreground)] text-xs mt-4 opacity-40">
           No spam. Unsubscribe anytime.
         </p>
       </div>

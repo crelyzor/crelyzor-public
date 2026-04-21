@@ -6,6 +6,7 @@ import { RotateCcw } from 'lucide-react';
 
 const GOLD = '#d4af61';
 
+// The business card is intentionally always dark — it's a physical card preview
 function BusinessCard({
   flipped,
   onFlip,
@@ -149,7 +150,7 @@ export function Demo() {
   return (
     <section
       id="demo"
-      className="bg-[#0a0a0a] pt-16 pb-12 px-4 sm:pt-28 sm:pb-16 sm:px-8"
+      className="bg-background pt-16 pb-12 px-4 sm:pt-28 sm:pb-16 sm:px-8"
     >
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
@@ -160,33 +161,33 @@ export function Demo() {
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            <p className="text-[10px] tracking-[0.15em] text-neutral-600 uppercase font-medium mb-3">
+            <p className="text-[10px] tracking-[0.15em] text-[var(--muted-foreground)] uppercase font-medium mb-3 opacity-60">
               Digital Identity
             </p>
             <h2
-              className="font-semibold text-white leading-[1.06] tracking-tight mb-5"
+              className="font-semibold text-[var(--foreground)] leading-[1.06] tracking-tight mb-5"
               style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}
             >
               Your identity.
               <br />
-              <span className="text-neutral-600">Physical. Digital.</span>
+              <span className="text-[var(--muted-foreground)]">Physical. Digital.</span>
               <br />
               Shareable.
             </h2>
-            <p className="text-neutral-600 text-base leading-relaxed mb-6">
+            <p className="text-[var(--muted-foreground)] text-base leading-relaxed mb-6">
               A premium digital business card — with a 3D flip, NFC-ready, and
               connected to everything you do.
             </p>
             <button
               onClick={() => setFlipped((f) => !f)}
-              className="flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-300 transition-colors"
+              className="flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               Flip the card
             </button>
           </motion.div>
 
-          {/* Card */}
+          {/* Card — always dark by design */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}

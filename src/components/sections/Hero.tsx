@@ -543,9 +543,9 @@ export function Hero() {
   const ActiveBody = STEPS[activeStep].Body;
 
   return (
-    <section className="bg-[#0a0a0a]">
+    <section className="bg-background">
       {/* Hero text */}
-      <div className="relative pt-24 pb-14 px-4 sm:pt-32 sm:pb-20 sm:px-8 overflow-hidden">
+      <div className="relative pt-24 pb-14 px-4 sm:pt-32 sm:pb-20 sm:px-8 overflow-hidden bg-background">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] pointer-events-none"
           style={{
@@ -571,7 +571,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="font-semibold text-white leading-[1.04] tracking-tight mb-6"
+            className="font-semibold text-[var(--foreground)] leading-[1.04] tracking-tight mb-6"
             style={{ fontSize: 'clamp(48px, 7vw, 88px)' }}
           >
             Your meetings
@@ -585,7 +585,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.12 }}
             className="flex flex-col sm:flex-row sm:items-end gap-6"
           >
-            <p className="text-neutral-500 text-lg leading-relaxed max-w-sm">
+            <p className="text-[var(--muted-foreground)] text-lg leading-relaxed max-w-sm">
               Cards, scheduling, AI transcription, tasks — one tool for your
               identity and your work.
             </p>
@@ -599,7 +599,7 @@ export function Hero() {
               </a>
               <Link
                 href="/pricing"
-                className="text-neutral-600 hover:text-neutral-300 text-sm transition-colors shrink-0"
+                className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-sm transition-colors shrink-0"
               >
                 See pricing →
               </Link>
@@ -643,10 +643,10 @@ export function Hero() {
                 className="w-1.5 h-1.5 rounded-full mb-2"
                 style={{ backgroundColor: GOLD }}
               />
-              <h3 className="text-white font-semibold text-lg leading-tight mb-1">
+              <h3 className="text-[var(--foreground)] font-semibold text-lg leading-tight mb-1">
                 {STEPS[activeStep].label}
               </h3>
-              <p className="text-neutral-500 text-sm leading-relaxed">
+              <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
                 {STEPS[activeStep].desc}
               </p>
             </motion.div>
@@ -753,15 +753,15 @@ export function Hero() {
                           backgroundColor: activeStep === i ? GOLD : '#2a2a2a',
                         }}
                       />
-                      <h3 className="text-white font-semibold text-xl mb-2 leading-tight">
+                      <h3 className="text-[var(--foreground)] font-semibold text-xl mb-2 leading-tight">
                         {step.label}
                       </h3>
-                      <p className="text-neutral-500 text-sm leading-relaxed">
+                      <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
                         {step.desc}
                       </p>
                     </motion.div>
                   ))}
-                  <p className="text-neutral-800 text-[10px] tracking-widest uppercase">
+                  <p className="text-[var(--muted-foreground)] text-[10px] tracking-widest uppercase opacity-30">
                     scroll to explore
                   </p>
                 </div>
@@ -841,7 +841,7 @@ export function Hero() {
                         style={{
                           width: activeStep === i ? '20px' : '6px',
                           height: '6px',
-                          backgroundColor: activeStep === i ? GOLD : '#2a2a2a',
+                          backgroundColor: activeStep === i ? GOLD : 'var(--border)',
                         }}
                       />
                     ))}

@@ -61,7 +61,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="bg-[#0a0a0a] py-20 px-4 sm:py-28 sm:px-8 border-t border-neutral-900">
+    <section className="bg-background py-20 px-4 sm:py-28 sm:px-8 border-t border-[var(--border)]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -71,27 +71,27 @@ export function Features() {
           transition={{ duration: 0.4 }}
           className="mb-16"
         >
-          <p className="text-[10px] tracking-[0.15em] text-neutral-600 uppercase font-medium mb-4">
+          <p className="text-[10px] tracking-[0.15em] text-[var(--muted-foreground)] uppercase font-medium mb-4 opacity-60">
             Everything included
           </p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <h2
-              className="font-semibold text-white leading-[1.06] tracking-tight"
+              className="font-semibold text-[var(--foreground)] leading-[1.06] tracking-tight"
               style={{ fontSize: 'clamp(32px, 5vw, 56px)' }}
             >
               One product.
               <br />
               <span style={{ color: GOLD }}>Eight superpowers.</span>
             </h2>
-            <p className="text-neutral-600 text-sm leading-relaxed max-w-xs sm:text-right">
+            <p className="text-[var(--muted-foreground)] text-sm leading-relaxed max-w-xs sm:text-right">
               Replaces HiHello, Cal.com, Otter.ai, and Todoist — with AI woven
               through every layer.
             </p>
           </div>
         </motion.div>
 
-        {/* Feature grid — 2 rows of 4, editorial spacing */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-900">
+        {/* Feature grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border)]">
           {features.map((feature, i) => {
             const Icon = feature.icon;
             return (
@@ -101,7 +101,7 @@ export function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: (i % 4) * 0.06 }}
-                className="bg-[#0a0a0a] p-6 flex flex-col gap-3 group"
+                className="bg-background p-6 flex flex-col gap-3 group"
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
@@ -117,10 +117,10 @@ export function Features() {
                   />
                 </div>
                 <div>
-                  <p className="text-white text-sm font-medium mb-1.5">
+                  <p className="text-[var(--foreground)] text-sm font-medium mb-1.5">
                     {feature.name}
                   </p>
-                  <p className="text-neutral-600 text-[13px] leading-relaxed">
+                  <p className="text-[var(--muted-foreground)] text-[13px] leading-relaxed">
                     {feature.desc}
                   </p>
                 </div>
@@ -135,20 +135,20 @@ export function Features() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 pt-8 border-t border-neutral-900 flex flex-wrap items-center gap-x-6 gap-y-2"
+          className="mt-10 pt-8 border-t border-[var(--border)] flex flex-wrap items-center gap-x-6 gap-y-2"
         >
-          <p className="text-neutral-700 text-[11px] uppercase tracking-widest">
+          <p className="text-[var(--muted-foreground)] text-[11px] uppercase tracking-widest opacity-40">
             Replaces
           </p>
           {['HiHello', 'Cal.com', 'Otter.ai', 'Todoist'].map((tool) => (
             <span
               key={tool}
-              className="text-neutral-600 text-[12px] line-through decoration-neutral-800"
+              className="text-[var(--muted-foreground)] text-[12px] line-through opacity-50"
             >
               {tool}
             </span>
           ))}
-          <span className="text-neutral-700 text-[11px]">—</span>
+          <span className="text-[var(--muted-foreground)] text-[11px] opacity-40">—</span>
           <span className="text-[12px]" style={{ color: GOLD }}>
             Crelyzor
           </span>

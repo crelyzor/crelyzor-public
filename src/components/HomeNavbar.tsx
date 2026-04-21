@@ -15,18 +15,19 @@ export function HomeNavbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       className="fixed top-0 left-0 right-0 z-50 px-4 py-4 sm:px-8 sm:py-5 flex items-center justify-between"
+      style={{ backgroundColor: 'var(--nav-bg)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
     >
       {/* Logo */}
       <div className="flex items-center gap-2.5">
         <div
           className="w-7 h-7 rounded-lg border flex items-center justify-center"
-          style={{ borderColor: `${GOLD}50`, backgroundColor: '#111' }}
+          style={{ borderColor: `${GOLD}50`, backgroundColor: 'var(--surface)' }}
         >
           <span style={{ color: GOLD }} className="text-[11px] font-semibold">
             C
           </span>
         </div>
-        <span className="text-white font-medium text-sm tracking-tight">
+        <span className="text-[var(--foreground)] font-medium text-sm tracking-tight">
           Crelyzor
         </span>
       </div>
@@ -36,13 +37,13 @@ export function HomeNavbar() {
         <ThemeToggle />
         <Link
           href="/pricing"
-          className="text-xs font-medium px-3 py-1.5 text-neutral-400 hover:text-white transition-colors hidden sm:block"
+          className="text-xs font-medium px-3 py-1.5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors hidden sm:block"
         >
           Pricing
         </Link>
         <a
           href={APP_URL}
-          className="text-xs font-medium px-3 py-1.5 text-neutral-400 hover:text-white transition-colors hidden sm:block"
+          className="text-xs font-medium px-3 py-1.5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors hidden sm:block"
         >
           Sign in
         </a>
