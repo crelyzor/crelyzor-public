@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { Check, X, ArrowRight, Mail } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL;
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 const SUPPORT_EMAIL = 'support@crelyzor.com';
 const GOLD = '#d4af61';
 

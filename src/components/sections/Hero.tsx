@@ -33,8 +33,7 @@ import {
 } from 'lucide-react';
 
 const GOLD = '#d4af61';
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL;
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 function MockNavbar({
   activePath,
@@ -502,50 +501,116 @@ function CardBody() {
 
 function TasksBody() {
   const cols = [
-    { label: 'Todo', color: '#555', tasks: ['Draft bias testing framework', 'Schedule regulatory review call', 'Update onboarding docs'] },
-    { label: 'In Progress', color: GOLD, tasks: ['Build card analytics page', 'Deepgram integration test'] },
-    { label: 'Done', color: '#4ade80', tasks: ['Google OAuth setup', 'AI summary pipeline', 'Email signature generator'] },
+    {
+      label: 'Todo',
+      color: '#555',
+      tasks: [
+        'Draft bias testing framework',
+        'Schedule regulatory review call',
+        'Update onboarding docs',
+      ],
+    },
+    {
+      label: 'In Progress',
+      color: GOLD,
+      tasks: ['Build card analytics page', 'Deepgram integration test'],
+    },
+    {
+      label: 'Done',
+      color: '#4ade80',
+      tasks: [
+        'Google OAuth setup',
+        'AI summary pipeline',
+        'Email signature generator',
+      ],
+    },
   ];
   return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+    <div
+      className="flex flex-col h-full overflow-hidden"
+      style={{ backgroundColor: '#0a0a0a' }}
+    >
       <div className="flex items-center justify-between px-5 pt-4 pb-3 shrink-0">
         <div className="flex items-center gap-3">
           <p className="text-white font-semibold text-sm">Tasks</p>
           <div className="flex items-center gap-1">
-            {['Inbox','Today','Upcoming','All','From Meetings'].map((v, i) => (
-              <button key={v} className="px-2 py-0.5 rounded text-[9px]" style={{ backgroundColor: i===0 ? '#1f1f1f' : 'transparent', color: i===0 ? '#fff' : '#555' }}>{v}</button>
-            ))}
+            {['Inbox', 'Today', 'Upcoming', 'All', 'From Meetings'].map(
+              (v, i) => (
+                <button
+                  key={v}
+                  className="px-2 py-0.5 rounded text-[9px]"
+                  style={{
+                    backgroundColor: i === 0 ? '#1f1f1f' : 'transparent',
+                    color: i === 0 ? '#fff' : '#555',
+                  }}
+                >
+                  {v}
+                </button>
+              )
+            )}
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className="text-[9px] px-2 py-1 rounded-lg border border-neutral-800 text-neutral-500">List</button>
-          <button className="text-[9px] px-2 py-1 rounded-lg border text-white" style={{ borderColor: GOLD+50, backgroundColor: GOLD+'15' }}>Board</button>
+          <button className="text-[9px] px-2 py-1 rounded-lg border border-neutral-800 text-neutral-500">
+            List
+          </button>
+          <button
+            className="text-[9px] px-2 py-1 rounded-lg border text-white"
+            style={{ borderColor: GOLD + 50, backgroundColor: GOLD + '15' }}
+          >
+            Board
+          </button>
         </div>
       </div>
       <div className="flex-1 flex gap-3 px-4 pb-4 overflow-hidden">
         {cols.map((col) => (
           <div key={col.label} className="flex-1 flex flex-col min-h-0">
             <div className="flex items-center gap-1.5 mb-2 shrink-0">
-              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: col.color }} />
-              <p className="text-[9px] font-medium tracking-wider uppercase" style={{ color: col.color }}>{col.label}</p>
-              <span className="text-[8px] text-neutral-700 ml-auto">{col.tasks.length}</span>
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: col.color }}
+              />
+              <p
+                className="text-[9px] font-medium tracking-wider uppercase"
+                style={{ color: col.color }}
+              >
+                {col.label}
+              </p>
+              <span className="text-[8px] text-neutral-700 ml-auto">
+                {col.tasks.length}
+              </span>
             </div>
             <div className="flex flex-col gap-1.5 overflow-hidden">
               {col.tasks.map((t, i) => (
-                <div key={i} className="rounded-lg border border-neutral-800 px-2.5 py-2" style={{ backgroundColor: '#111' }}>
+                <div
+                  key={i}
+                  className="rounded-lg border border-neutral-800 px-2.5 py-2"
+                  style={{ backgroundColor: '#111' }}
+                >
                   <div className="flex items-start gap-1.5">
                     <div className="w-3 h-3 rounded border border-neutral-700 mt-0.5 shrink-0" />
-                    <p className="text-[10px] text-neutral-300 leading-tight">{t}</p>
+                    <p className="text-[10px] text-neutral-300 leading-tight">
+                      {t}
+                    </p>
                   </div>
                   {i === 0 && (
                     <div className="flex items-center gap-1.5 mt-1.5">
-                      <span className="text-[7px] px-1.5 py-0.5 rounded" style={{ backgroundColor: GOLD+'20', color: GOLD }}>High</span>
-                      <span className="text-[7px] text-neutral-600">Due Apr 24</span>
+                      <span
+                        className="text-[7px] px-1.5 py-0.5 rounded"
+                        style={{ backgroundColor: GOLD + '20', color: GOLD }}
+                      >
+                        High
+                      </span>
+                      <span className="text-[7px] text-neutral-600">
+                        Due Apr 24
+                      </span>
                     </div>
                   )}
                 </div>
               ))}
-              <button className="w-full py-1.5 rounded-lg border border-dashed border-neutral-800 text-[9px] text-neutral-700 hover:text-neutral-500">+ Add task</button>
+              <button className="w-full py-1.5 rounded-lg border border-dashed border-neutral-800 text-[9px] text-neutral-700 hover:text-neutral-500">
+                + Add task
+              </button>
             </div>
           </div>
         ))}
@@ -555,8 +620,8 @@ function TasksBody() {
 }
 
 function CalendarBody() {
-  const hours = ['9 AM','10 AM','11 AM','12 PM','1 PM','2 PM'];
-  const days = ['Mon 21','Tue 22','Wed 23','Thu 24','Fri 25'];
+  const hours = ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM'];
+  const days = ['Mon 21', 'Tue 22', 'Wed 23', 'Thu 24', 'Fri 25'];
   const events = [
     { day: 1, start: 0, label: 'Standup', dur: 1 },
     { day: 0, start: 1, label: 'Ethics & Safety in AI', dur: 2, gold: true },
@@ -565,31 +630,84 @@ function CalendarBody() {
     { day: 1, start: 3, label: 'Task: Draft doc', dur: 1, task: true },
   ];
   return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+    <div
+      className="flex flex-col h-full overflow-hidden"
+      style={{ backgroundColor: '#0a0a0a' }}
+    >
       <div className="flex items-center justify-between px-4 pt-3 pb-2 shrink-0">
         <p className="text-white text-sm font-semibold">Apr 21 – Apr 25</p>
         <div className="flex items-center gap-1">
-          {['Month','Week','Day'].map((v,i) => (
-            <button key={v} className="text-[9px] px-2 py-0.5 rounded" style={{ backgroundColor: i===1?'#1f1f1f':'transparent', color: i===1?'#fff':'#555' }}>{v}</button>
+          {['Month', 'Week', 'Day'].map((v, i) => (
+            <button
+              key={v}
+              className="text-[9px] px-2 py-0.5 rounded"
+              style={{
+                backgroundColor: i === 1 ? '#1f1f1f' : 'transparent',
+                color: i === 1 ? '#fff' : '#555',
+              }}
+            >
+              {v}
+            </button>
           ))}
         </div>
       </div>
       <div className="flex flex-1 overflow-hidden px-2 pb-2">
         <div className="flex flex-col gap-0 w-8 shrink-0 pt-5">
-          {hours.map(h => <div key={h} className="flex-1 flex items-start"><span className="text-[7px] text-neutral-700">{h}</span></div>)}
+          {hours.map((h) => (
+            <div key={h} className="flex-1 flex items-start">
+              <span className="text-[7px] text-neutral-700">{h}</span>
+            </div>
+          ))}
         </div>
-        <div className="flex-1 grid gap-px" style={{ gridTemplateColumns: `repeat(${days.length}, 1fr)` }}>
+        <div
+          className="flex-1 grid gap-px"
+          style={{ gridTemplateColumns: `repeat(${days.length}, 1fr)` }}
+        >
           {days.map((d, di) => (
             <div key={d} className="flex flex-col">
-              <p className="text-[8px] text-center mb-1" style={{ color: di===1?'#fff':'#555' }}>{d}</p>
-              <div className="flex-1 relative" style={{ display: 'grid', gridTemplateRows: `repeat(${hours.length}, 1fr)` }}>
-                {hours.map((_, hi) => <div key={hi} className="border-t border-neutral-900" />)}
-                {events.filter(e => e.day === di).map((e, ei) => (
-                  <div key={ei} className="absolute left-0.5 right-0.5 rounded px-1 py-0.5 overflow-hidden"
-                    style={{ top: `${e.start*(100/hours.length)}%`, height: `${e.dur*(100/hours.length)}%`, backgroundColor: e.gold ? GOLD+'25' : e.task ? '#1e3a2a' : '#1f1f1f', borderLeft: `2px solid ${e.gold ? GOLD : e.task ? '#4ade80' : '#333'}` }}>
-                    <p className="text-[7px] leading-tight" style={{ color: e.gold ? GOLD : e.task ? '#4ade80' : '#aaa' }}>{e.label}</p>
-                  </div>
+              <p
+                className="text-[8px] text-center mb-1"
+                style={{ color: di === 1 ? '#fff' : '#555' }}
+              >
+                {d}
+              </p>
+              <div
+                className="flex-1 relative"
+                style={{
+                  display: 'grid',
+                  gridTemplateRows: `repeat(${hours.length}, 1fr)`,
+                }}
+              >
+                {hours.map((_, hi) => (
+                  <div key={hi} className="border-t border-neutral-900" />
                 ))}
+                {events
+                  .filter((e) => e.day === di)
+                  .map((e, ei) => (
+                    <div
+                      key={ei}
+                      className="absolute left-0.5 right-0.5 rounded px-1 py-0.5 overflow-hidden"
+                      style={{
+                        top: `${e.start * (100 / hours.length)}%`,
+                        height: `${e.dur * (100 / hours.length)}%`,
+                        backgroundColor: e.gold
+                          ? GOLD + '25'
+                          : e.task
+                            ? '#1e3a2a'
+                            : '#1f1f1f',
+                        borderLeft: `2px solid ${e.gold ? GOLD : e.task ? '#4ade80' : '#333'}`,
+                      }}
+                    >
+                      <p
+                        className="text-[7px] leading-tight"
+                        style={{
+                          color: e.gold ? GOLD : e.task ? '#4ade80' : '#aaa',
+                        }}
+                      >
+                        {e.label}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
           ))}
@@ -653,7 +771,9 @@ export function Hero() {
   });
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    setActiveStep(Math.min(STEPS.length - 1, Math.floor(latest * STEPS.length)));
+    setActiveStep(
+      Math.min(STEPS.length - 1, Math.floor(latest * STEPS.length))
+    );
   });
 
   const ActiveNavPath = STEPS[activeStep].activePath;

@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const GOLD = '#d4af61';
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL;
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export function HomeNavbar() {
   return (
