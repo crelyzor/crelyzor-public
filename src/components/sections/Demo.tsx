@@ -170,7 +170,9 @@ export function Demo() {
             >
               Your identity.
               <br />
-              <span className="text-[var(--muted-foreground)]">Physical. Digital.</span>
+              <span className="text-[var(--muted-foreground)]">
+                Physical. Digital.
+              </span>
               <br />
               Shareable.
             </h2>

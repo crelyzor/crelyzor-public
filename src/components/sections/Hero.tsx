@@ -841,7 +841,8 @@ export function Hero() {
                         style={{
                           width: activeStep === i ? '20px' : '6px',
                           height: '6px',
-                          backgroundColor: activeStep === i ? GOLD : 'var(--border)',
+                          backgroundColor:
+                            activeStep === i ? GOLD : 'var(--border)',
                         }}
                       />
                     ))}

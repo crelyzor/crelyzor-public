@@ -148,7 +148,9 @@ export function Features() {
               {tool}
             </span>
           ))}
-          <span className="text-[var(--muted-foreground)] text-[11px] opacity-40">—</span>
+          <span className="text-[var(--muted-foreground)] text-[11px] opacity-40">
+            —
+          </span>
           <span className="text-[12px]" style={{ color: GOLD }}>
             Crelyzor
           </span>
