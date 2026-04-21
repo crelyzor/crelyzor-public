@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { HomeNavbar } from '@/components/HomeNavbar';
 import { Hero } from '@/components/sections/Hero';
 import { Features } from '@/components/sections/Features';
@@ -41,11 +42,26 @@ export default function HomePage() {
               Crelyzor
             </span>
           </div>
-          <p className="text-[var(--muted-foreground)] text-[11px] tracking-widest uppercase opacity-40">
-            © {new Date().getFullYear()} Crelyzor
-          </p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/terms"
+              className="text-[11px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors opacity-60 hover:opacity-100"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-[11px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors opacity-60 hover:opacity-100"
+            >
+              Privacy
+            </Link>
+            <p className="text-[var(--muted-foreground)] text-[11px] tracking-widest uppercase opacity-40">
+              © {new Date().getFullYear()} Crelyzor
+            </p>
+          </div>
         </div>
       </footer>
+
     </main>
   );
 }

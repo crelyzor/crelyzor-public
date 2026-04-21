@@ -4,7 +4,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Check, X, ArrowRight, Mail } from 'lucide-react';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { HomeNavbar } from '@/components/HomeNavbar';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 const SUPPORT_EMAIL = 'support@crelyzor.com';
@@ -193,43 +193,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* ── Nav ── */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-[var(--nav-bg)] backdrop-blur-xl border-b border-border">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 text-sm font-semibold text-foreground hover:opacity-80 transition-opacity"
-          >
-            <span className="w-6 h-6 rounded-md bg-foreground/10 flex items-center justify-center">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="w-3.5 h-3.5"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <path d="M16 2v4M8 2v4M3 10h18" />
-              </svg>
-            </span>
-            Crelyzor
-          </Link>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <a
-              href={`${APP_URL}/signin`}
-              className="hidden sm:block text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5"
-            >
-              Sign in
-            </a>
-            <a
-              href={`${APP_URL}/signin`}
-              className="inline-flex items-center h-8 px-4 rounded-lg bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
-            >
-              Get started free
-            </a>
-          </div>
-        </div>
-      </nav>
+      <HomeNavbar />
 
       {/* ── Hero ── */}
       <section className="relative pt-32 pb-20 px-5 sm:px-8 overflow-hidden">

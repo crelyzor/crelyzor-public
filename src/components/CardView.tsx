@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { Sun, Moon } from 'lucide-react';
 import type { PublicCardResponse, CardLink, CardTheme } from '@/types/card';
 import { ContactForm } from './ContactForm';
 import { trackClick, downloadVCard } from '@/lib/api';
@@ -119,6 +120,14 @@ export function CardView({ data, username, slug }: CardViewProps) {
   const [showContactForm, setShowContactForm] = useState(false);
   const [savingContact, setSavingContact] = useState(false);
   const [avatarLoaded, setAvatarLoaded] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    const next = !html.classList.contains('dark');
+    html.classList.toggle('dark', next);
+    setIsDark(next);
+  };
 
   const { user, card } = data;
   const contactFields = card.contactFields ?? {};
@@ -163,9 +172,17 @@ export function CardView({ data, username, slug }: CardViewProps) {
 
   return (
     <div
-      className="min-h-screen bg-neutral-100 dark:bg-neutral-950 flex flex-col items-center py-12 px-4"
+      className="min-h-screen bg-neutral-100 dark:bg-neutral-950 flex flex-col items-center py-12 px-4 relative"
       style={{ fontFamily }}
     >
+      {/* Theme toggle */}
+      <button
+        onClick={toggleTheme}
+        className="fixed top-4 right-4 z-50 w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-neutral-800 shadow-md border border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white transition-colors"
+        aria-label="Toggle theme"
+      >
+        {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      </button>
       <div className="w-full max-w-sm">
         {/* ── FLIPPABLE CARD ──────────────────────────────────────── */}
         <div
