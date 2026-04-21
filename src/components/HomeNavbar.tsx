@@ -6,7 +6,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 const GOLD = '#d4af61';
 const APP_URL =
-  process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'https://app.crelyzor.com';
+  process.env.NEXT_PUBLIC_APP_URL;
 
 export function HomeNavbar() {
   return (
@@ -49,13 +49,13 @@ export function HomeNavbar() {
           Pricing
         </Link>
         <a
-          href={APP_URL}
+          href={`${APP_URL}/signin`}
           className="text-xs font-medium px-3 py-1.5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors hidden sm:block"
         >
           Sign in
         </a>
         <a
-          href={`${APP_URL}/signup`}
+          href={`${APP_URL}/signin`}
           className="text-xs font-medium px-4 py-2 rounded-full text-[#0a0a0a] transition-opacity hover:opacity-90"
           style={{ backgroundColor: GOLD }}
         >

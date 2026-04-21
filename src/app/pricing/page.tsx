@@ -7,7 +7,7 @@ import { Check, X, ArrowRight, Mail } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const APP_URL =
-  process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'https://app.crelyzor.com';
+  process.env.NEXT_PUBLIC_APP_URL;
 const SUPPORT_EMAIL = 'support@crelyzor.com';
 const GOLD = '#d4af61';
 
@@ -34,7 +34,7 @@ const plans = [
     tag: null,
     description: 'For individuals exploring Crelyzor.',
     cta: 'Get started free',
-    ctaHref: `${APP_URL}/signup`,
+    ctaHref: `${APP_URL}/signin`,
     ctaVariant: 'outline' as const,
     features: [
       { text: '120 transcription minutes / month' },
@@ -217,13 +217,13 @@ export default function PricingPage() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <a
-              href={APP_URL}
+              href={`${APP_URL}/signin`}
               className="hidden sm:block text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5"
             >
               Sign in
             </a>
             <a
-              href={`${APP_URL}/signup`}
+              href={`${APP_URL}/signin`}
               className="inline-flex items-center h-8 px-4 rounded-lg bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
             >
               Get started free
@@ -505,7 +505,7 @@ export default function PricingPage() {
                 {SUPPORT_EMAIL}
               </a>
               <a
-                href={`${APP_URL}/signup`}
+                href={`${APP_URL}/signin`}
                 className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-200 text-neutral-600 text-sm font-medium hover:bg-neutral-50 transition-colors"
               >
                 Start free first
@@ -530,7 +530,7 @@ export default function PricingPage() {
               Cards
             </Link>
             <a
-              href={APP_URL}
+              href={`${APP_URL}/signin`}
               className="text-xs text-muted hover:text-foreground transition-colors"
             >
               App
