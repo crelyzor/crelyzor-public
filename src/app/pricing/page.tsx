@@ -477,7 +477,6 @@ export default function PricingPage() {
               </a>
             </div>
           </div>
-
         </div>
       </section>
 
