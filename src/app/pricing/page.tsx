@@ -446,36 +446,38 @@ export default function PricingPage() {
       {/* ── CTA Banner — always white, intentional contrast ── */}
       <section className="px-5 sm:px-8 pb-24">
         <div className="max-w-6xl mx-auto">
-          <div className="rounded-2xl bg-white px-8 sm:px-16 py-14 text-center">
-            <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-400 mb-4">
+          <div className="rounded-2xl bg-neutral-950 dark:bg-white px-8 sm:px-16 py-14 text-center">
+            <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 dark:text-neutral-400 mb-4">
               Ready to upgrade?
             </p>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-950 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white dark:text-neutral-950 mb-3">
               Your next meeting,
               <br />
               fully covered.
             </h2>
-            <p className="text-sm text-neutral-400 mb-8 max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8 max-w-xs mx-auto leading-relaxed">
               Email us and we&apos;ll upgrade your account within 24 hours.
               Self-serve payments coming soon.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href={`mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro`}
-                className="inline-flex items-center gap-2.5 h-11 px-6 rounded-xl bg-neutral-950 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
+                className="inline-flex items-center gap-2.5 h-11 px-6 rounded-xl text-sm font-medium transition-colors"
+                style={{ backgroundColor: GOLD, color: '#0a0a0a' }}
               >
                 <Mail className="w-4 h-4" />
                 {SUPPORT_EMAIL}
               </a>
               <a
                 href={`${APP_URL}/signin`}
-                className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-200 text-neutral-600 text-sm font-medium hover:bg-neutral-50 transition-colors"
+                className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-700 dark:border-neutral-200 text-neutral-300 dark:text-neutral-600 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-50 transition-colors"
               >
                 Start free first
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
+
         </div>
       </section>
 
