@@ -246,11 +246,11 @@ export default function PricingPage() {
                       }
                 }
               >
-                {/* Pro — white header block (intentional contrast, always white) */}
+                {/* Pro — white in light, dark gold in dark mode */}
                 {isPro && (
-                  <div className="bg-white px-7 pt-6 pb-5">
+                  <div className="px-7 pt-6 pb-5 bg-white dark:bg-neutral-900">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-neutral-500">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 dark:text-neutral-400">
                         {plan.name}
                       </span>
                       {plan.tag && (
@@ -263,7 +263,7 @@ export default function PricingPage() {
                       )}
                     </div>
                     <div className="flex items-end gap-1.5">
-                      <span className="text-4xl font-bold tracking-tight text-neutral-950 leading-none">
+                      <span className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white leading-none">
                         {plan.price}
                       </span>
                       {(plan.price as string) !== 'Custom' && (
