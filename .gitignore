@@ -49,3 +49,5 @@ Thumbs.db
 # Turbopack
 .turbo/
 .env.local
+.env.staging
+.env.prod
