@@ -19,6 +19,11 @@ interface Props {
     avatarUrl: string | null;
     timezone: string | null;
   };
+  oldBooking?: {
+    id: string;
+    guestName: string;
+    guestEmail: string;
+  } | null;
 }
 
 // ── Time formatting helpers ────────────────────────────────────────────────────
@@ -53,8 +58,46 @@ function formatDateFull(dateStr: string, tz: string): string {
   }).format(noonUTC);
 }
 
+function getAmPm(isoUtc: string, tz: string): 'AM' | 'PM' {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    hour12: true,
+    timeZone: tz,
+  }).formatToParts(new Date(isoUtc));
+  const dp =
+    parts.find((p) => p.type === 'dayPeriod')?.value?.toUpperCase() ?? 'AM';
+  return dp as 'AM' | 'PM';
+}
+
+function get12HourInfo(
+  isoUtc: string,
+  tz: string
+): { hour12: number; minute: number; ampm: 'AM' | 'PM' } {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: tz,
+  }).formatToParts(new Date(isoUtc));
+  const h = Number(parts.find((p) => p.type === 'hour')?.value ?? '12');
+  const m = Number(parts.find((p) => p.type === 'minute')?.value ?? '0');
+  const ap = (parts.find((p) => p.type === 'dayPeriod')?.value?.toUpperCase() ??
+    'AM') as 'AM' | 'PM';
+  return { hour12: h === 0 ? 12 : h, minute: m, ampm: ap };
+}
+
+// Returns CSS rotation degrees: 0° = 12 o'clock, 90° = 3 o'clock
+function clockAngleDeg(hour12: number, minute: number): number {
+  return ((hour12 % 12) / 12 + minute / 720) * 360;
+}
+
 function toDateStr(y: number, m: number, d: number): string {
   return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
+
+function filterFutureSlots(slots: TimeSlot[]): TimeSlot[] {
+  const now = Date.now();
+  return slots.filter((slot) => new Date(slot.startTime).getTime() > now);
 }
 
 // ── Icon components ─────────────────────────────────────────────────────────────
@@ -121,9 +164,231 @@ const MONTH_NAMES = [
 const DAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const MAX_WINDOW_DAYS = 60;
 
+// ── ClockSlotPicker ───────────────────────────────────────────────────────────
+
+interface ClockSlotPickerProps {
+  slots: TimeSlot[];
+  selectedSlot: TimeSlot | null;
+  guestTimezone: string;
+  onSelect: (slot: TimeSlot) => void;
+}
+
+function ClockSlotPicker({
+  slots,
+  selectedSlot,
+  guestTimezone,
+  onSelect,
+}: ClockSlotPickerProps) {
+  const hasAM = slots.some((s) => getAmPm(s.startTime, guestTimezone) === 'AM');
+  const hasPM = slots.some((s) => getAmPm(s.startTime, guestTimezone) === 'PM');
+  const showToggle = hasAM && hasPM;
+
+  const [amPm, setAmPm] = useState<'AM' | 'PM'>(() => (hasAM ? 'AM' : 'PM'));
+
+  const visibleSlots = showToggle
+    ? slots.filter((s) => getAmPm(s.startTime, guestTimezone) === amPm)
+    : slots;
+
+  const selectedInfo = selectedSlot
+    ? get12HourInfo(selectedSlot.startTime, guestTimezone)
+    : null;
+
+  const C = 140; // SVG center
+  const SLOT_R = 82; // radius where slot dots live
+  const HOUR_LEN = 52; // hour hand length
+  const MIN_LEN = 76; // minute hand length
+  const toRad = (d: number) => (d * Math.PI) / 180;
+
+  return (
+    <div className="space-y-3">
+      {/* AM / PM toggle */}
+      {showToggle && (
+        <div className="flex gap-0.5 p-0.5 rounded-lg bg-neutral-100 w-fit mx-auto">
+          {(['AM', 'PM'] as const).map((period) => (
+            <button
+              key={period}
+              onClick={() => setAmPm(period)}
+              className={[
+                'px-5 py-1 rounded-md text-xs font-medium transition-all',
+                amPm === period
+                  ? 'text-[#0a0a0a]'
+                  : 'text-neutral-500 hover:text-neutral-700',
+              ].join(' ')}
+              style={amPm === period ? { background: '#d4af61' } : undefined}
+            >
+              {period}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Alarm clock face */}
+      <div className="mx-auto" style={{ width: 280, height: 280 }}>
+        <svg width={280} height={280} viewBox="0 0 280 280">
+          {/* Face background */}
+          <circle cx={C} cy={C} r={132} fill="#0f0f0f" />
+
+          {/* Double border ring */}
+          <circle
+            cx={C}
+            cy={C}
+            r={132}
+            fill="none"
+            stroke="#d4af61"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+          />
+          <circle
+            cx={C}
+            cy={C}
+            r={127}
+            fill="none"
+            stroke="#d4af61"
+            strokeWidth="0.5"
+            strokeOpacity="0.2"
+          />
+
+          {/* Tick marks — 60 minute ticks, hour ticks longer */}
+          {Array.from({ length: 60 }, (_, i) => {
+            const isHour = i % 5 === 0;
+            const a = toRad((i / 60) * 360 - 90);
+            return (
+              <line
+                key={i}
+                x1={C + Math.cos(a) * (isHour ? 113 : 119)}
+                y1={C + Math.sin(a) * (isHour ? 113 : 119)}
+                x2={C + Math.cos(a) * 124}
+                y2={C + Math.sin(a) * 124}
+                stroke={
+                  isHour ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.1)'
+                }
+                strokeWidth={isHour ? 1.5 : 0.75}
+              />
+            );
+          })}
+
+          {/* Hour labels — 12, 3, 6, 9 only */}
+          {[
+            { n: '12', a: -90 },
+            { n: '3', a: 0 },
+            { n: '6', a: 90 },
+            { n: '9', a: 180 },
+          ].map(({ n, a }) => {
+            const r = toRad(a);
+            return (
+              <text
+                key={n}
+                x={C + Math.cos(r) * 99}
+                y={C + Math.sin(r) * 99}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="rgba(255,255,255,0.45)"
+                fontSize="11"
+                fontFamily="Inter, system-ui, sans-serif"
+              >
+                {n}
+              </text>
+            );
+          })}
+
+          {/* Available slot dots */}
+          {visibleSlots.map((slot, i) => {
+            const { hour12, minute } = get12HourInfo(
+              slot.startTime,
+              guestTimezone
+            );
+            const a = toRad(clockAngleDeg(hour12, minute) - 90);
+            const x = C + Math.cos(a) * SLOT_R;
+            const y = C + Math.sin(a) * SLOT_R;
+            const isSel = selectedSlot?.startTime === slot.startTime;
+            return (
+              <g
+                key={i}
+                style={{ cursor: 'pointer' }}
+                onClick={() => onSelect(slot)}
+              >
+                {isSel && (
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={15}
+                    fill="#d4af61"
+                    fillOpacity="0.15"
+                  />
+                )}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={isSel ? 9 : 6.5}
+                  fill={isSel ? '#d4af61' : 'rgba(255,255,255,0.18)'}
+                  stroke={isSel ? '#d4af61' : 'rgba(255,255,255,0.32)'}
+                  strokeWidth="1"
+                />
+                {isSel && <circle cx={x} cy={y} r={3} fill="#0f0f0f" />}
+              </g>
+            );
+          })}
+
+          {/* Minute hand — drawn pointing up, rotated via CSS */}
+          {selectedInfo && (
+            <line
+              x1={C}
+              y1={C}
+              x2={C}
+              y2={C - MIN_LEN}
+              stroke="#d4af61"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeOpacity="0.85"
+              style={{
+                transformOrigin: `${C}px ${C}px`,
+                transform: `rotate(${selectedInfo.minute * 6}deg)`,
+                transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+          )}
+
+          {/* Hour hand */}
+          {selectedInfo && (
+            <line
+              x1={C}
+              y1={C}
+              x2={C}
+              y2={C - HOUR_LEN}
+              stroke="#d4af61"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              style={{
+                transformOrigin: `${C}px ${C}px`,
+                transform: `rotate(${clockAngleDeg(selectedInfo.hour12, selectedInfo.minute)}deg)`,
+                transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+          )}
+
+          {/* Center pivot */}
+          <circle cx={C} cy={C} r={5} fill="#d4af61" />
+          <circle cx={C} cy={C} r={2.5} fill="#0f0f0f" />
+        </svg>
+      </div>
+
+      {/* Selected time label */}
+      <p className="text-center text-sm font-medium text-neutral-900 min-h-[1.25rem]">
+        {selectedSlot ? (
+          formatTime(selectedSlot.startTime, guestTimezone)
+        ) : (
+          <span className="text-[11px] font-normal text-neutral-400">
+            Tap a dot to pick a time
+          </span>
+        )}
+      </p>
+    </div>
+  );
+}
+
 // ── BookingFlow ────────────────────────────────────────────────────────────────
 
-export function BookingFlow({ username, eventType, host }: Props) {
+export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
   const router = useRouter();
 
   const [guestTimezone] = useState(
@@ -148,8 +413,8 @@ export function BookingFlow({ username, eventType, host }: Props) {
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
   // Form state
-  const [guestName, setGuestName] = useState('');
-  const [guestEmail, setGuestEmail] = useState('');
+  const [guestName, setGuestName] = useState(oldBooking?.guestName ?? '');
+  const [guestEmail, setGuestEmail] = useState(oldBooking?.guestEmail ?? '');
   const [guestNote, setGuestNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -166,7 +431,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
     setSubmitError(null);
 
     getSlots(username, eventType.slug, selectedDate, controller.signal)
-      .then((data) => setSlots(data.slots))
+      .then((data) => setSlots(filterFutureSlots(data.slots)))
       .catch((err) => {
         if (err instanceof Error && err.name === 'AbortError') return;
         setSlotsError('Could not load available times. Please try again.');
@@ -219,6 +484,15 @@ export function BookingFlow({ username, eventType, host }: Props) {
     e.preventDefault();
     if (!selectedSlot || !guestName.trim() || !guestEmail.trim()) return;
 
+    // Guard against stale slot selection when the user keeps the page open.
+    if (new Date(selectedSlot.startTime) <= new Date()) {
+      setSubmitError(
+        'This time has already passed. Please choose a later slot.'
+      );
+      setSelectedSlot(null);
+      return;
+    }
+
     setSubmitting(true);
     setSubmitError(null);
 
@@ -231,6 +505,7 @@ export function BookingFlow({ username, eventType, host }: Props) {
         guestEmail: guestEmail.trim().toLowerCase(),
         guestNote: guestNote.trim() || undefined,
         guestTimezone,
+        rescheduleBookingId: oldBooking ? oldBooking.id : undefined,
       });
 
       // Store for confirmed page (sessionStorage — safe for single-tab flow)
@@ -256,10 +531,27 @@ export function BookingFlow({ username, eventType, host }: Props) {
         if (selectedDate) {
           setSlotsLoading(true);
           getSlots(username, eventType.slug, selectedDate)
-            .then((data) => setSlots(data.slots))
+            .then((data) => setSlots(filterFutureSlots(data.slots)))
             .catch(() => {})
             .finally(() => setSlotsLoading(false));
         }
+      } else if (err instanceof ApiError && err.status === 400) {
+        setSubmitError(
+          'This time is no longer valid. Please choose another slot.'
+        );
+        setSelectedSlot(null);
+
+        if (selectedDate) {
+          setSlotsLoading(true);
+          getSlots(username, eventType.slug, selectedDate)
+            .then((data) => setSlots(filterFutureSlots(data.slots)))
+            .catch(() => {})
+            .finally(() => setSlotsLoading(false));
+        }
+      } else if (err instanceof ApiError) {
+        setSubmitError(
+          err.message || 'Something went wrong. Please try again.'
+        );
       } else {
         setSubmitError('Something went wrong. Please try again.');
       }
@@ -302,6 +594,17 @@ export function BookingFlow({ username, eventType, host }: Props) {
               {eventType.locationType === 'ONLINE' ? 'Video call' : 'In person'}
             </span>
           </div>
+          {oldBooking && (
+            <div className="mt-4 px-3 py-2 bg-neutral-800 rounded-lg border border-neutral-700">
+              <p className="text-xs text-neutral-300">
+                You are rescheduling an existing booking for{' '}
+                <span className="font-medium text-white">
+                  {oldBooking.guestEmail}
+                </span>
+                .
+              </p>
+            </div>
+          )}
           <div
             className="mt-5 h-px w-16"
             style={{
@@ -415,13 +718,8 @@ export function BookingFlow({ username, eventType, host }: Props) {
             </p>
 
             {slotsLoading && (
-              <div className="flex flex-col gap-2">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <div
-                    key={i}
-                    className="h-11 bg-neutral-100 rounded-lg animate-pulse"
-                  />
-                ))}
+              <div className="flex justify-center py-2">
+                <div className="w-[280px] h-[280px] rounded-full bg-neutral-100 animate-pulse" />
               </div>
             )}
 
@@ -449,33 +747,15 @@ export function BookingFlow({ username, eventType, host }: Props) {
             )}
 
             {!slotsLoading && slots.length > 0 && (
-              <div className="flex flex-col gap-2">
-                {slots.map((slot, i) => {
-                  const isSelected = selectedSlot?.startTime === slot.startTime;
-                  return (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setSelectedSlot(slot);
-                        setSubmitError(null);
-                      }}
-                      className={[
-                        'h-11 rounded-lg text-sm font-medium transition-colors border whitespace-nowrap',
-                        isSelected
-                          ? 'text-white border-transparent'
-                          : 'text-neutral-700 border-neutral-200 hover:border-neutral-400 bg-white',
-                      ].join(' ')}
-                      style={
-                        isSelected
-                          ? { background: '#d4af61', borderColor: '#d4af61' }
-                          : undefined
-                      }
-                    >
-                      {formatTime(slot.startTime, guestTimezone)}
-                    </button>
-                  );
-                })}
-              </div>
+              <ClockSlotPicker
+                slots={slots}
+                selectedSlot={selectedSlot}
+                guestTimezone={guestTimezone}
+                onSelect={(slot) => {
+                  setSelectedSlot(slot);
+                  setSubmitError(null);
+                }}
+              />
             )}
           </div>
         )}
@@ -509,8 +789,9 @@ export function BookingFlow({ username, eventType, host }: Props) {
                   type="text"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
+                  disabled={!!oldBooking}
                   placeholder="Jane Doe"
-                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 transition-colors placeholder:text-neutral-300 text-neutral-900"
+                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 disabled:bg-neutral-100 disabled:text-neutral-500 transition-colors placeholder:text-neutral-300 text-neutral-900"
                 />
               </div>
 
@@ -524,8 +805,9 @@ export function BookingFlow({ username, eventType, host }: Props) {
                   type="email"
                   value={guestEmail}
                   onChange={(e) => setGuestEmail(e.target.value)}
+                  disabled={!!oldBooking}
                   placeholder="jane@example.com"
-                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 transition-colors placeholder:text-neutral-300 text-neutral-900"
+                  className="w-full h-10 px-3 text-sm rounded-lg border border-neutral-200 outline-none focus:border-neutral-400 disabled:bg-neutral-100 disabled:text-neutral-500 transition-colors placeholder:text-neutral-300 text-neutral-900"
                 />
               </div>
 
@@ -595,7 +877,11 @@ export function BookingFlow({ username, eventType, host }: Props) {
                     />
                   </svg>
                 )}
-                {submitting ? 'Confirming…' : 'Confirm booking'}
+                {submitting
+                  ? 'Confirming…'
+                  : oldBooking
+                    ? 'Confirm reschedule'
+                    : 'Confirm booking'}
               </button>
             </form>
           </div>

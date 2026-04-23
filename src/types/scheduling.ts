@@ -36,6 +36,7 @@ export interface BookingCreateInput {
   guestEmail: string;
   guestNote?: string;
   guestTimezone: string;
+  rescheduleBookingId?: string;
 }
 
 export interface BookingConfirmationData {

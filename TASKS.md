@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-04-04 (Phase 3.3 P0 complete — card page fixed)
+Last updated: 2026-04-07 (Phase 3.2/3.3 complete, Phase 3.4 next)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -69,7 +69,7 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 - [x] **Loading skeleton** — match card shape and dark bg while fetching. Two rects: card (aspect-ratio 1.586, near-black), detail section below (white). Animate with CSS `animate-pulse`.
 - [x] **Proper 404** — when card not found: call Next.js `notFound()` → `not-found.tsx` with on-brand dark layout, "This card doesn't exist" message, link to crelyzor.com home.
 - [x] **Smooth avatar image load** — wrap `<img>` in a container with the gold initials fallback behind it. On `onLoad`, fade the image in. Prevents layout shift.
-- [ ] **Hide empty sections** — bio, links, contact fields: don't render the section if the data is null/empty. Currently shows empty containers.
+- [x] **Hide empty sections** — bio, links, contact fields: don't render the section if the data is null/empty. Currently shows empty containers.
 
 ## P1 — Contact Form States
 
@@ -82,9 +82,10 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ## P2 — Mobile Verification
 
-- [ ] **Verify vCard on iOS** — test the "Save Contact" flow on Safari iOS. The vCard download uses `fetch + blob URL` with a `window.open` fallback. Verify contact saves with all fields.
-- [ ] **Verify vCard on Android** — test on Chrome Android. Same flow.
-- [ ] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
+- [x] **Verify vCard on iOS** — Save Contact flow verified and closed.
+- [x] **Verify vCard on Android** — Save Contact flow verified and closed.
+- [x] **Harden vCard mobile behavior in code** — use Web Share API with `.vcf` file when available; fallback to direct vCard URL navigation on iOS/Android to avoid blocked blob downloads.
+- [x] **Booking page on mobile** — verify the date picker + slot grid in `/schedule/:username/:slug` is usable on a 390px screen. Fix any overflow or tap-target issues.
 
 ---
 
@@ -99,6 +100,20 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 - [x] Home/landing page
 - [x] Not found page
 - [x] API integration with calendar-backend
+
+---
+
+## Phase 4.1 — Billing & Monetization ✅ Complete
+
+### P0 — Public Pricing Page
+
+- [x] `/pricing` page — `app/pricing/page.tsx`
+  - SSR, SEO meta tags, OG preview
+  - Plan comparison table: Free / Pro / Business (Custom)
+  - Feature checklist per plan
+  - `"Get started free"` CTA → sign in page
+  - `"Upgrade to Pro"` CTA → dashboard billing (for logged-in) or sign up (for new)
+  - FAQ section — "What are AI Credits?", "What is Recall.ai?", "Can I cancel anytime?"
 
 ---
 

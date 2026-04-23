@@ -1,83 +1,66 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { HomeNavbar } from '@/components/HomeNavbar';
+import { Hero } from '@/components/sections/Hero';
+import { Features } from '@/components/sections/Features';
+import { Demo } from '@/components/sections/Demo';
+import { CTA } from '@/components/sections/CTA';
 
 export const metadata: Metadata = {
-  title: 'Crelyzor Cards — Share Your Professional Identity',
+  title: 'Crelyzor — Your meetings remember everything',
   description:
-    'Share your professional identity with a single link. Clean, fast, and memorable.',
+    'One tool for your identity, schedule, meetings, and work. Digital cards, AI meeting transcription, smart scheduling — all connected.',
 };
+
+const GOLD = '#d4af61';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-neutral-50 flex items-center justify-center px-4">
-      <div className="max-w-lg w-full text-center">
-        {/* Logo mark */}
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-neutral-900 mb-8">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="1.5"
-            className="w-7 h-7"
-          >
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <path d="M16 2v4M8 2v4M3 10h18" />
-          </svg>
-        </div>
+    <main className="min-h-screen bg-background text-foreground">
+      <HomeNavbar />
+      <Hero />
+      <Features />
+      <Demo />
+      <CTA />
 
-        <h1 className="text-3xl font-semibold text-neutral-950 tracking-tight">
-          Digital Cards
-        </h1>
-        <p className="text-neutral-500 mt-3 text-base leading-relaxed max-w-sm mx-auto">
-          Share your professional identity with a single link. Clean, fast, and
-          memorable.
-        </p>
-
-        {/* Feature pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-          {[
-            'One-tap contact sharing',
-            'QR codes',
-            'Link tracking',
-            'vCard export',
-          ].map((feature) => (
-            <span
-              key={feature}
-              className="px-3.5 py-1.5 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-600"
+      {/* Footer */}
+      <footer className="border-t border-[var(--border)] py-8 px-6 bg-background">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div
+              className="w-5 h-5 rounded-lg border flex items-center justify-center"
+              style={{ borderColor: GOLD, backgroundColor: 'var(--surface)' }}
             >
-              {feature}
+              <span
+                style={{ color: GOLD }}
+                className="text-[10px] font-semibold"
+              >
+                C
+              </span>
+            </div>
+            <span className="text-[var(--muted-foreground)] text-sm tracking-wide">
+              Crelyzor
             </span>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="mt-10">
-          <a
-            href={
-              process.env.NEXT_PUBLIC_CALENDAR_URL ?? 'http://localhost:5173'
-            }
-            className="inline-flex items-center justify-center h-12 px-8 rounded-2xl bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
-          >
-            Create your card
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="w-4 h-4 ml-2"
+          </div>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/terms"
+              className="text-[11px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors opacity-60 hover:opacity-100"
             >
-              <path
-                d="M5 12h14M12 5l7 7-7 7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
+              Terms
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-[11px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors opacity-60 hover:opacity-100"
+            >
+              Privacy
+            </Link>
+            <p className="text-[var(--muted-foreground)] text-[11px] tracking-widest uppercase opacity-40">
+              © {new Date().getFullYear()} Crelyzor
+            </p>
+          </div>
         </div>
-
-        <p className="text-[11px] text-neutral-300 mt-16 tracking-wide">
-          Powered by Crelyzor
-        </p>
-      </div>
-    </div>
+      </footer>
+    </main>
   );
 }

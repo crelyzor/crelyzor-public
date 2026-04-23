@@ -7,18 +7,88 @@ import type {
   BookingConfirmationData,
 } from '@/types/scheduling';
 
+type ApiEnvelope<T> = {
+  status?: string;
+  statusCode?: number;
+  message?: string;
+  data?: T;
+};
+
+type ApiErrorBody = {
+  status?: string;
+  statusCode?: number;
+  code?: string;
+  message?: string;
+  details?: unknown;
+};
+
 // Structured API error for client-side error handling (e.g. 409 slot conflict)
 export class ApiError extends Error {
   status: number;
-  constructor(status: number, message: string) {
+  statusText: string;
+  code?: string;
+  details?: unknown;
+
+  constructor(
+    status: number,
+    statusText: string,
+    message: string,
+    options?: { code?: string; details?: unknown }
+  ) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.statusText = statusText;
+    this.code = options?.code;
+    this.details = options?.details;
   }
 }
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+
+function unwrapData<T>(json: unknown): T {
+  if (json && typeof json === 'object' && 'data' in json) {
+    return (json as ApiEnvelope<T>).data as T;
+  }
+  return json as T;
+}
+
+function parseApiErrorBody(json: unknown): {
+  message: string;
+  code?: string;
+  details?: unknown;
+} {
+  if (!json || typeof json !== 'object') {
+    return { message: 'Request failed' };
+  }
+
+  const body = json as ApiErrorBody;
+
+  return {
+    message: body.message ?? 'Request failed',
+    code: body.code,
+    details: body.details,
+  };
+}
+
+async function throwApiError(
+  res: Response,
+  fallbackMessage: string
+): Promise<never> {
+  const errJson = await res.json().catch(() => null);
+  const parsed = parseApiErrorBody(errJson);
+
+  throw new ApiError(
+    res.status,
+    res.statusText,
+    parsed.message || fallbackMessage,
+    {
+      code: parsed.code,
+      details: parsed.details,
+    }
+  );
+}
 
 // ── Server-side helpers ────────────────────────────────────────────────
 
@@ -29,14 +99,11 @@ async function serverRequest<T>(path: string): Promise<T> {
   });
 
   if (!res.ok) {
-    throw new Error(`API Error: ${res.status}`);
+    throw new Error(`API Error: ${res.status} ${res.statusText}`);
   }
 
   const json = await res.json();
-  if (json && typeof json === 'object' && 'data' in json) {
-    return json.data as T;
-  }
-  return json as T;
+  return unwrapData<T>(json);
 }
 
 export function getCard(
@@ -119,9 +186,11 @@ export async function getSlots(
     `${API_BASE}/public/scheduling/slots/${username}/${slug}?date=${date}`,
     { cache: 'no-store', signal }
   );
-  if (!res.ok) throw new ApiError(res.status, `Slots error: ${res.status}`);
+  if (!res.ok) {
+    await throwApiError(res, 'Could not load available slots');
+  }
   const json = await res.json();
-  return (json.data ?? json) as SlotsResponse;
+  return unwrapData<SlotsResponse>(json);
 }
 
 /**
@@ -137,14 +206,10 @@ export async function createBooking(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const errJson = await res.json().catch(() => ({}));
-    throw new ApiError(
-      res.status,
-      (errJson as { message?: string }).message ?? 'Booking failed'
-    );
+    await throwApiError(res, 'Booking failed');
   }
   const json = await res.json();
-  return (json.data ?? json) as BookingConfirmationData;
+  return unwrapData<BookingConfirmationData>(json);
 }
 
 export async function downloadVCard(
@@ -152,15 +217,55 @@ export async function downloadVCard(
   slug?: string
 ): Promise<void> {
   const url = getVCardUrl(username, slug);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
-  const blob = await res.blob();
-  const blobUrl = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = blobUrl;
-  a.download = `${username}${slug ? `-${slug}` : ''}.vcf`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(blobUrl);
+
+  const userAgent = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+  const isAndroid = /Android/.test(userAgent);
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to download: ${res.status}`);
+
+    const blob = await res.blob();
+
+    // Mobile share sheet provides the most reliable save/open flow on modern devices.
+    const file = new File([blob], `${username}${slug ? `-${slug}` : ''}.vcf`, {
+      type: 'text/vcard',
+    });
+    if (
+      typeof navigator !== 'undefined' &&
+      'canShare' in navigator &&
+      navigator.canShare({ files: [file] }) &&
+      'share' in navigator
+    ) {
+      try {
+        await navigator.share({ files: [file], title: 'Save Contact' });
+      } catch (err) {
+        // User-cancelled share should be a no-op, not a forced fallback open.
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        throw err;
+      }
+      return;
+    }
+
+    // Mobile Safari/Chrome can block blob-based downloads in some contexts.
+    if (isIOS || isAndroid) {
+      window.location.assign(url);
+      return;
+    }
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = `${username}${slug ? `-${slug}` : ''}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 }

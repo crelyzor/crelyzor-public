@@ -69,49 +69,47 @@ function PinIcon() {
   );
 }
 
-function EventTypeCard({
+function EventTypeRow({
   et,
   username,
+  isLast,
 }: {
   et: SchedulingEventType;
   username: string;
+  isLast: boolean;
 }) {
   return (
     <Link href={`/schedule/${username}/${et.slug}`}>
       <div
-        className="bg-white rounded-2xl p-5 hover:shadow-md transition-all duration-200 active:scale-[0.99]"
-        style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
+        className={`flex items-center justify-between px-5 py-4 hover:bg-neutral-50 transition-colors duration-150 active:bg-neutral-100 ${
+          !isLast ? 'border-b border-neutral-100' : ''
+        }`}
       >
-        <h3 className="text-sm font-medium text-neutral-900">{et.title}</h3>
-        {et.description && (
-          <p className="text-xs text-neutral-500 mt-1 line-clamp-2">
-            {et.description}
-          </p>
-        )}
-        <div className="flex items-center gap-3 mt-3">
-          <span className="flex items-center gap-1.5 text-[11px] text-neutral-500">
-            <ClockIcon />
-            {et.duration} min
-          </span>
-          <span className="text-neutral-200">·</span>
-          <span className="flex items-center gap-1.5 text-[11px] text-neutral-500">
-            {et.locationType === 'ONLINE' ? <VideoIcon /> : <PinIcon />}
-            {et.locationType === 'ONLINE' ? 'Online' : 'In person'}
-          </span>
+        <div className="flex-1 min-w-0 pr-4">
+          <h3 className="text-sm font-medium text-neutral-900">{et.title}</h3>
+          {et.description && (
+            <p className="text-xs text-neutral-400 mt-0.5 line-clamp-1">
+              {et.description}
+            </p>
+          )}
+          <div className="flex items-center gap-3 mt-1.5">
+            <span className="flex items-center gap-1 text-[11px] text-neutral-400">
+              <ClockIcon />
+              {et.duration} min
+            </span>
+            <span className="text-neutral-200">·</span>
+            <span className="flex items-center gap-1 text-[11px] text-neutral-400">
+              {et.locationType === 'ONLINE' ? <VideoIcon /> : <PinIcon />}
+              {et.locationType === 'ONLINE' ? 'Online' : 'In person'}
+            </span>
+          </div>
         </div>
-        <div
-          className="mt-4 h-px"
-          style={{
-            background:
-              'linear-gradient(to right, #d4af61, rgba(212,175,97,0.1))',
-          }}
-        />
-        <p
-          className="text-[10px] mt-3 font-medium"
+        <span
+          className="text-[11px] font-medium shrink-0"
           style={{ color: '#d4af61' }}
         >
-          Schedule →
-        </p>
+          Book →
+        </span>
       </div>
     </Link>
   );
@@ -130,57 +128,71 @@ export default async function SchedulingProfilePage({ params }: Props) {
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Dark header */}
-      <div className="px-4 pt-12 pb-8" style={{ background: '#0a0a0a' }}>
-        <div className="max-w-sm mx-auto">
+      <div className="pt-8 pb-10" style={{ background: '#0a0a0a' }}>
+        <div className="max-w-sm mx-auto px-4">
           <p className="text-[10px] uppercase tracking-widest text-neutral-500 mb-3">
             Booking
           </p>
-          <div className="flex items-center gap-3 mb-1">
-            {profile.user.avatarUrl && (
+          <div className="flex items-center gap-3">
+            {profile.user.avatarUrl ? (
               <Image
                 src={profile.user.avatarUrl}
                 alt={profile.user.name}
-                width={36}
-                height={36}
-                className="rounded-xl object-cover"
+                width={44}
+                height={44}
+                className="rounded-xl object-cover shrink-0"
                 style={{ border: '1px solid rgba(212,175,97,0.3)' }}
               />
+            ) : (
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: 'rgba(212,175,97,0.1)' }}
+              >
+                <span
+                  style={{ color: '#d4af61' }}
+                  className="text-base font-semibold"
+                >
+                  {profile.user.name[0].toUpperCase()}
+                </span>
+              </div>
             )}
-            <h1 className="text-xl font-semibold text-white">
-              {profile.user.name}
-            </h1>
+            <div>
+              <h1 className="text-lg font-semibold text-white leading-tight">
+                {profile.user.name}
+              </h1>
+              <p className="text-[11px] text-neutral-500 mt-0.5">
+                Select a meeting type to get started
+              </p>
+            </div>
           </div>
-          <p className="text-xs text-neutral-500 mt-1">
-            Select a meeting type to get started
-          </p>
-          <div
-            className="mt-6 h-px w-16"
-            style={{
-              background:
-                'linear-gradient(to right, #d4af61, rgba(212,175,97,0.2))',
-            }}
-          />
         </div>
       </div>
 
-      {/* Event type cards */}
-      <div className="max-w-sm mx-auto px-4 py-6 space-y-3">
-        {profile.eventTypes.length === 0 ? (
-          <div
-            className="bg-white rounded-2xl p-8 text-center"
-            style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
-          >
-            <p className="text-sm text-neutral-400">
-              No booking options are available right now.
-            </p>
-          </div>
-        ) : (
-          profile.eventTypes.map((et) => (
-            <EventTypeCard key={et.id} et={et} username={username} />
-          ))
-        )}
+      {/* Event type list */}
+      <div className="max-w-sm mx-auto px-4 -mt-5 pb-10">
+        <div
+          className="bg-white rounded-2xl overflow-hidden"
+          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
+        >
+          {profile.eventTypes.length === 0 ? (
+            <div className="p-8 text-center">
+              <p className="text-sm text-neutral-400">
+                No booking options available right now.
+              </p>
+            </div>
+          ) : (
+            profile.eventTypes.map((et, i) => (
+              <EventTypeRow
+                key={et.id}
+                et={et}
+                username={username}
+                isLast={i === profile.eventTypes.length - 1}
+              />
+            ))
+          )}
+        </div>
 
-        <div className="pt-4 pb-8 text-center">
+        <div className="pt-8 text-center">
           <Link
             href="/"
             className="text-[11px] tracking-widest uppercase text-neutral-400 hover:text-neutral-600 transition-colors"
