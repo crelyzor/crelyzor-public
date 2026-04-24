@@ -7,7 +7,7 @@ import { Check, X, ArrowRight, Mail } from 'lucide-react';
 import { HomeNavbar } from '@/components/HomeNavbar';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
-const SUPPORT_EMAIL = 'support@crelyzor.com';
+const SUPPORT_EMAIL = 'support@crelyzor.app';
 const GOLD = '#d4af61';
 
 export const metadata: Metadata = {
@@ -53,8 +53,8 @@ const plans = [
     period: 'per month',
     tag: 'Most popular',
     description: 'For professionals who run on meetings.',
-    cta: 'Upgrade to Pro',
-    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=Upgrade to Pro&body=Hi, I'd like to upgrade to the Crelyzor Pro plan.`,
+    cta: 'Get Pro — email us',
+    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=I want Pro&body=Hi, I'd like to upgrade to the Crelyzor Pro plan.`,
     ctaVariant: 'primary' as const,
     features: [
       { text: '600 transcription minutes / month' },

@@ -209,7 +209,7 @@ function HomeBody() {
                     </p>
                   </div>
                   <p className="text-neutral-600 text-[7px]">
-                    harshit@crelyzor.com
+                    harshit@crelyzor.app
                   </p>
                 </div>
                 <div
@@ -729,35 +729,35 @@ const STEPS: {
     desc: 'One view. Your meetings, overdue tasks, your digital card — everything at a glance, every morning.',
     activePath: 'home',
     Body: HomeBody,
-    urlPath: 'app.crelyzor.com/home',
+    urlPath: 'app.crelyzor.app/home',
   },
   {
     label: 'Meetings that remember',
     desc: 'Every meeting transcribed, summarized, and turned into action items. Automatically.',
     activePath: 'meetings',
     Body: MeetingBody,
-    urlPath: 'app.crelyzor.com/meetings/ethics-ai',
+    urlPath: 'app.crelyzor.app/meetings/ethics-ai',
   },
   {
     label: 'Tasks, the way you think',
     desc: 'Kanban board, list view, natural language input. AI extracts tasks from meetings automatically.',
     activePath: 'tasks',
     Body: TasksBody,
-    urlPath: 'app.crelyzor.com/tasks',
+    urlPath: 'app.crelyzor.app/tasks',
   },
   {
     label: 'Your whole week, one view',
     desc: 'Meetings, GCal events, and tasks with due dates — all on one calendar. Drag to reschedule.',
     activePath: 'calendar',
     Body: CalendarBody,
-    urlPath: 'app.crelyzor.com/calendar',
+    urlPath: 'app.crelyzor.app/calendar',
   },
   {
     label: 'Your identity, everywhere',
-    desc: "One digital card. NFC-ready, shareable link, connected to everyone you've ever met.",
+    desc: "One digital card. Shareable link, QR code, connected to everyone you've ever met.",
     activePath: 'cards',
     Body: CardBody,
-    urlPath: 'app.crelyzor.com/cards',
+    urlPath: 'app.crelyzor.app/cards',
   },
 ];
 
