@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 const GOLD = '#d4af61';
 const FOUNDER_EMAIL = 'harsh@crelyzor.app';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.crelyzor.app';
 
 export function CTA() {
   return (
@@ -75,7 +75,7 @@ export function CTA() {
             </a>
             <span className="text-[var(--border)]">·</span>
             <a
-              href={`mailto:${FOUNDER_EMAIL}?subject=Bug report`}
+              href={`mailto:${FOUNDER_EMAIL}?subject=${encodeURIComponent('Bug report')}`}
               className="text-sm transition-colors hover:opacity-80"
               style={{ color: GOLD }}
             >

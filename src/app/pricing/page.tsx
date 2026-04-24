@@ -54,7 +54,7 @@ const plans = [
     tag: 'Most popular',
     description: 'For professionals who run on meetings.',
     cta: 'Get Pro — email us',
-    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=I want Pro&body=Hi, I'd like to upgrade to the Crelyzor Pro plan.`,
+    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('I want Pro')}&body=${encodeURIComponent("Hi, I'd like to upgrade to the Crelyzor Pro plan.")}`,
     ctaVariant: 'primary' as const,
     features: [
       { text: '600 transcription minutes / month' },
@@ -75,7 +75,7 @@ const plans = [
     tag: null,
     description: 'For teams with high volume or custom needs.',
     cta: 'Contact us',
-    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=Business Plan Inquiry`,
+    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Business Plan Inquiry')}`,
     ctaVariant: 'outline' as const,
     features: [
       { text: 'Unlimited transcription' },
