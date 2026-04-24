@@ -74,10 +74,10 @@ function BusinessCard({
             <div className="flex items-end justify-between">
               <div className="space-y-1.5">
                 <p className="text-neutral-400 text-[10px] tracking-wide">
-                  harshit@crelyzor.com
+                  harshit@crelyzor.app
                 </p>
                 <p className="text-neutral-400 text-[10px] tracking-wide">
-                  crelyzor.com
+                  crelyzor.app
                 </p>
               </div>
               <p className="text-neutral-700 text-[8px] tracking-widest uppercase">
@@ -170,15 +170,13 @@ export function Demo() {
             >
               Your identity.
               <br />
-              <span className="text-[var(--muted-foreground)]">
-                Physical. Digital.
-              </span>
+              <span className="text-[var(--muted-foreground)]">Digital.</span>
               <br />
               Shareable.
             </h2>
             <p className="text-[var(--muted-foreground)] text-base leading-relaxed mb-6">
-              A premium digital business card — with a 3D flip, NFC-ready, and
-              connected to everything you do.
+              A premium digital business card — with a 3D flip, connected to
+              everything you do.
             </p>
             <button
               onClick={() => setFlipped((f) => !f)}

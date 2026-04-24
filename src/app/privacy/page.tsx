@@ -128,10 +128,10 @@ export default function PrivacyPage() {
               You have the right to access, correct, or delete your personal
               data. To exercise these rights, contact us at{' '}
               <a
-                href="mailto:support@crelyzor.com"
+                href="mailto:support@crelyzor.app"
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
-                support@crelyzor.com
+                support@crelyzor.app
               </a>
               . We will respond within 30 days.
             </p>
@@ -156,10 +156,10 @@ export default function PrivacyPage() {
             <p>
               For privacy-related questions or data requests, contact us at{' '}
               <a
-                href="mailto:support@crelyzor.com"
+                href="mailto:support@crelyzor.app"
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
-                support@crelyzor.com
+                support@crelyzor.app
               </a>
               .
             </p>
