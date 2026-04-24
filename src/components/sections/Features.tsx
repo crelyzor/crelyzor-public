@@ -20,7 +20,7 @@ const features = [
   {
     icon: CreditCard,
     name: 'Digital Cards',
-    desc: 'Shareable URL, QR code, NFC-ready, vCard download, card analytics, multiple cards per profile.',
+    desc: 'Shareable URL, QR code, vCard download, card analytics, multiple cards per profile.',
   },
   {
     icon: Mic,
