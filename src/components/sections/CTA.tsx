@@ -63,8 +63,8 @@ export function CTA() {
             perfecting it in private.
             <br />
             <br />
-            If something breaks, feels off, or you have an idea — I want to
-            hear it directly.
+            If something breaks, feels off, or you have an idea — I want to hear
+            it directly.
           </p>
           <div className="flex items-center gap-4">
             <a

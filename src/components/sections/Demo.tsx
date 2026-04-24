@@ -170,14 +170,13 @@ export function Demo() {
             >
               Your identity.
               <br />
-              <span className="text-[var(--muted-foreground)]">
-                Digital.
-              </span>
+              <span className="text-[var(--muted-foreground)]">Digital.</span>
               <br />
               Shareable.
             </h2>
             <p className="text-[var(--muted-foreground)] text-base leading-relaxed mb-6">
-              A premium digital business card — with a 3D flip, connected to everything you do.
+              A premium digital business card — with a 3D flip, connected to
+              everything you do.
             </p>
             <button
               onClick={() => setFlipped((f) => !f)}
