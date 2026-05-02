@@ -7,7 +7,7 @@ import { Check, X, ArrowRight, Mail } from 'lucide-react';
 import { HomeNavbar } from '@/components/HomeNavbar';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
-const SUPPORT_EMAIL = 'support@crelyzor.app';
+const SUPPORT_EMAIL = 'harshkeshari100@gmail.com';
 const GOLD = '#d4af61';
 
 export const metadata: Metadata = {

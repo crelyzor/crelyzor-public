@@ -14,9 +14,63 @@ export const metadata: Metadata = {
 
 const GOLD = '#d4af61';
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Crelyzor',
+  url: 'https://crelyzor.app',
+  logo: 'https://crelyzor.app/assets/icon-512.png',
+  description:
+    'All-in-one professional identity platform — digital cards, AI meeting transcription, and smart scheduling.',
+  sameAs: [],
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Crelyzor',
+  url: 'https://crelyzor.app',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://crelyzor.app/{search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Crelyzor',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://crelyzor.app',
+  description:
+    'All-in-one professional identity platform — digital cards, AI meeting transcription, smart scheduling, and task management.',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+};
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
+      />
       <HomeNavbar />
       <Hero />
       <Features />

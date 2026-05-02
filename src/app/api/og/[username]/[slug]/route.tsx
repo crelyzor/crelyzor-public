@@ -8,9 +8,9 @@ const HEIGHT = 630;
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ username: string }> }
+  { params }: { params: Promise<{ username: string; slug: string }> }
 ) {
-  const { username } = await params;
+  const { username, slug } = await params;
 
   let displayName = username;
   let title = '';
@@ -18,7 +18,7 @@ export async function GET(
   let avatarUrl: string | null = null;
 
   try {
-    const data = await getCard(username);
+    const data = await getCard(username, slug);
     displayName = data.card.displayName;
     title = data.card.title ?? '';
     accent = data.card.theme?.primaryColor ?? '#d4af61';

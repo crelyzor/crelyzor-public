@@ -209,7 +209,7 @@ function HomeBody() {
                     </p>
                   </div>
                   <p className="text-neutral-600 text-[7px]">
-                    harshit@crelyzor.app
+                    harsh@crelyzor.app
                   </p>
                 </div>
                 <div
@@ -801,7 +801,9 @@ export function Hero() {
               className="w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: GOLD }}
             />
-            Early access — limited spots
+            <span style={{ color: GOLD }} className="font-medium">Crelyzor</span>
+            <span className="text-neutral-700">·</span>
+            Early access
           </motion.div>
 
           <motion.h1

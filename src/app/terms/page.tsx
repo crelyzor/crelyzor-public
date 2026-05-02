@@ -146,10 +146,10 @@ export default function TermsPage() {
             <p>
               For questions about these Terms, contact us at{' '}
               <a
-                href="mailto:support@crelyzor.app"
+                href="mailto:harshkeshari100@gmail.com"
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
-                support@crelyzor.app
+                harshkeshari100@gmail.com
               </a>
               .
             </p>
