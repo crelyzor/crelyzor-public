@@ -79,8 +79,16 @@ export default function HomePage() {
       <footer className="border-t border-[var(--border)] py-8 px-6 bg-background">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center">
-            <img src="/assets/logo-light.svg" alt="Crelyzor" className="h-5 w-auto block dark:hidden" />
-            <img src="/assets/logo-dark.svg" alt="Crelyzor" className="h-5 w-auto hidden dark:block" />
+            <img
+              src="/assets/logo-light.svg"
+              alt="Crelyzor"
+              className="h-5 w-auto block dark:hidden"
+            />
+            <img
+              src="/assets/logo-dark.svg"
+              alt="Crelyzor"
+              className="h-5 w-auto hidden dark:block"
+            />
           </div>
           <div className="flex items-center gap-5">
             <Link
