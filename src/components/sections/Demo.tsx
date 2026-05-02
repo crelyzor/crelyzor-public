@@ -74,7 +74,7 @@ function BusinessCard({
             <div className="flex items-end justify-between">
               <div className="space-y-1.5">
                 <p className="text-neutral-400 text-[10px] tracking-wide">
-                  harshit@crelyzor.app
+                  harsh@crelyzor.app
                 </p>
                 <p className="text-neutral-400 text-[10px] tracking-wide">
                   crelyzor.app

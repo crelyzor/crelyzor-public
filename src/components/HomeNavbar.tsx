@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -21,21 +22,21 @@ export function HomeNavbar() {
       }}
     >
       {/* Logo */}
-      <div className="flex items-center gap-2.5">
-        <div
-          className="w-7 h-7 rounded-lg border flex items-center justify-center"
-          style={{
-            borderColor: `${GOLD}50`,
-            backgroundColor: 'var(--surface)',
-          }}
-        >
-          <span style={{ color: GOLD }} className="text-[11px] font-semibold">
-            C
-          </span>
-        </div>
-        <span className="text-[var(--foreground)] font-medium text-sm tracking-tight">
-          Crelyzor
-        </span>
+      <div className="flex items-center">
+        <Image
+          src="/assets/logo-light.svg"
+          alt="Crelyzor"
+          width={120}
+          height={28}
+          className="h-7 w-auto block dark:hidden"
+        />
+        <Image
+          src="/assets/logo-dark.svg"
+          alt="Crelyzor"
+          width={120}
+          height={28}
+          className="h-7 w-auto hidden dark:block"
+        />
       </div>
 
       {/* Right */}

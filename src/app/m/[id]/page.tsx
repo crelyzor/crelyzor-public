@@ -49,23 +49,28 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
   try {
     const data = await getPublicMeeting(id);
     const { meeting, summary } = data;
     const description = summary
       ? summary.summary.slice(0, 160)
       : `${meetingTypeLabel(meeting.type)} shared via Crelyzor.`;
+    const canonical = `${base}/m/${id}`;
 
     return {
       title: meeting.title,
       description,
+      robots: { index: true, follow: true },
+      alternates: { canonical },
       openGraph: {
         title: meeting.title,
         description,
         type: 'article',
+        url: canonical,
       },
       twitter: {
-        card: 'summary',
+        card: 'summary_large_image',
         title: meeting.title,
         description,
       },

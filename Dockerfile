@@ -18,14 +18,13 @@ COPY . .
 RUN pnpm build
 
 
-# ── Stage 3: runner — Next.js server ─────────────────────────────────────────
+# ── Stage 3: runner — Next.js standalone server ──────────────────────────────
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-RUN npm install -g pnpm
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+ENV PORT=5174
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 EXPOSE 5174
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]

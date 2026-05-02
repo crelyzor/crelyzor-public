@@ -10,6 +10,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username, slug } = await params;
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
   try {
     const profile = await getSchedulingProfile(username);
     const et = profile.eventTypes.find((e) => e.slug === slug);
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title,
       description: `Schedule a ${et.duration}-minute ${et.title} with ${profile.user.name}.`,
+      alternates: { canonical: `${base}/schedule/${username}/${slug}` },
       openGraph: { title, type: 'website' },
     };
   } catch {

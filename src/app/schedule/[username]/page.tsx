@@ -11,13 +11,22 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
   try {
     const profile = await getSchedulingProfile(username);
     const title = `Book time with ${profile.user.name}`;
+    const description = `Schedule a meeting with ${profile.user.name} via Crelyzor.`;
+    const ogImage = `/api/og/${username}`;
     return {
       title,
-      description: `Schedule a meeting with ${profile.user.name} via Crelyzor.`,
-      openGraph: { title, type: 'website' },
+      description,
+      alternates: { canonical: `${base}/schedule/${username}` },
+      openGraph: {
+        title,
+        description,
+        type: 'website',
+        images: [{ url: ogImage, width: 1200, height: 630 }],
+      },
     };
   } catch {
     return { title: 'Booking Page Not Found' };

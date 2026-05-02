@@ -12,11 +12,63 @@ export const metadata: Metadata = {
     'One tool for your identity, schedule, meetings, and work. Digital cards, AI meeting transcription, smart scheduling — all connected.',
 };
 
-const GOLD = '#d4af61';
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Crelyzor',
+  url: 'https://crelyzor.app',
+  logo: 'https://crelyzor.app/assets/icon-512.png',
+  description:
+    'All-in-one professional identity platform — digital cards, AI meeting transcription, and smart scheduling.',
+  sameAs: [],
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Crelyzor',
+  url: 'https://crelyzor.app',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://crelyzor.app/{search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Crelyzor',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://crelyzor.app',
+  description:
+    'All-in-one professional identity platform — digital cards, AI meeting transcription, smart scheduling, and task management.',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+};
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
+      />
       <HomeNavbar />
       <Hero />
       <Features />
@@ -26,21 +78,17 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-[var(--border)] py-8 px-6 bg-background">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-5 h-5 rounded-lg border flex items-center justify-center"
-              style={{ borderColor: GOLD, backgroundColor: 'var(--surface)' }}
-            >
-              <span
-                style={{ color: GOLD }}
-                className="text-[10px] font-semibold"
-              >
-                C
-              </span>
-            </div>
-            <span className="text-[var(--muted-foreground)] text-sm tracking-wide">
-              Crelyzor
-            </span>
+          <div className="flex items-center">
+            <img
+              src="/assets/logo-light.svg"
+              alt="Crelyzor"
+              className="h-5 w-auto block dark:hidden"
+            />
+            <img
+              src="/assets/logo-dark.svg"
+              alt="Crelyzor"
+              className="h-5 w-auto hidden dark:block"
+            />
           </div>
           <div className="flex items-center gap-5">
             <Link

@@ -72,7 +72,7 @@ export function Features() {
           className="mb-16"
         >
           <p className="text-[10px] tracking-[0.15em] text-[var(--muted-foreground)] uppercase font-medium mb-4 opacity-60">
-            Everything included
+            Everything in Crelyzor
           </p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <h2
