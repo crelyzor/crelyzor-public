@@ -23,8 +23,20 @@ export function HomeNavbar() {
     >
       {/* Logo */}
       <div className="flex items-center">
-        <Image src="/assets/logo-light.svg" alt="Crelyzor" width={120} height={28} className="h-7 w-auto block dark:hidden" />
-        <Image src="/assets/logo-dark.svg" alt="Crelyzor" width={120} height={28} className="h-7 w-auto hidden dark:block" />
+        <Image
+          src="/assets/logo-light.svg"
+          alt="Crelyzor"
+          width={120}
+          height={28}
+          className="h-7 w-auto block dark:hidden"
+        />
+        <Image
+          src="/assets/logo-dark.svg"
+          alt="Crelyzor"
+          width={120}
+          height={28}
+          className="h-7 w-auto hidden dark:block"
+        />
       </div>
 
       {/* Right */}

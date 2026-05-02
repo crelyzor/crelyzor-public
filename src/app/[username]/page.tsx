@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // Parse firstName/lastName from displayName
     const nameParts = card.displayName.trim().split(' ');
     const firstName = nameParts[0];
-    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined;
+    const lastName =
+      nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined;
 
     return {
       title,
@@ -69,8 +70,16 @@ export default async function UserCardPage({ params }: Props) {
 
   // Collect social profile URLs from links
   const socialTypes = new Set([
-    'twitter', 'linkedin', 'github', 'instagram', 'facebook',
-    'youtube', 'tiktok', 'pinterest', 'snapchat', 'reddit',
+    'twitter',
+    'linkedin',
+    'github',
+    'instagram',
+    'facebook',
+    'youtube',
+    'tiktok',
+    'pinterest',
+    'snapchat',
+    'reddit',
   ]);
   const sameAs = card.links
     .filter((l) => socialTypes.has(l.type.toLowerCase()) && l.url)
@@ -87,7 +96,8 @@ export default async function UserCardPage({ params }: Props) {
   if (card.title) personJsonLd.jobTitle = card.title;
   if (card.bio) personJsonLd.description = card.bio;
   if (card.contactFields.email) personJsonLd.email = card.contactFields.email;
-  if (card.contactFields.phone) personJsonLd.telephone = card.contactFields.phone;
+  if (card.contactFields.phone)
+    personJsonLd.telephone = card.contactFields.phone;
 
   return (
     <>

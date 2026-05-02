@@ -801,7 +801,9 @@ export function Hero() {
               className="w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: GOLD }}
             />
-            <span style={{ color: GOLD }} className="font-medium">Crelyzor</span>
+            <span style={{ color: GOLD }} className="font-medium">
+              Crelyzor
+            </span>
             <span className="text-neutral-700">·</span>
             Early access
           </motion.div>
