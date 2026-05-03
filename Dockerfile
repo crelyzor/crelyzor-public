@@ -3,7 +3,8 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
 
 
 # ── Stage 2: builder — compile for production (used by prod/staging compose) ──
@@ -15,7 +16,8 @@ ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 COPY . .
-RUN pnpm build
+RUN --mount=type=cache,target=/app/.next/cache \
+    pnpm build
 
 
 # ── Stage 3: runner — Next.js standalone server ──────────────────────────────
