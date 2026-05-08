@@ -18,6 +18,8 @@ import {
   Sun,
   LayoutGrid,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ArrowLeft,
   Share2,
   MoreHorizontal,
@@ -851,111 +853,10 @@ export function Hero() {
 
       {/* Product walkthrough */}
       <div id="product">
-        {/* Mobile: tap-to-switch */}
+        {/* Mobile: prev/next nav */}
         <div className="md:hidden px-4 pt-2 pb-16">
-          <div className="flex gap-2 mb-5">
-            {STEPS.map((step, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveStep(i)}
-                className="flex-1 py-2 rounded-lg border text-[10px] font-medium tracking-wide transition-all"
-                style={{
-                  borderColor: activeStep === i ? `${GOLD}60` : '#2a2a2a',
-                  backgroundColor:
-                    activeStep === i ? `${GOLD}12` : 'transparent',
-                  color: activeStep === i ? GOLD : '#555',
-                }}
-              >
-                {STEPS[i].label.split(' ').slice(0, 2).join(' ')}
-              </button>
-            ))}
-          </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`mob-step-${activeStep}`}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.25 }}
-              className="mb-5"
-            >
-              <div
-                className="w-1.5 h-1.5 rounded-full mb-2"
-                style={{ backgroundColor: GOLD }}
-              />
-              <h3 className="text-[var(--foreground)] font-semibold text-lg leading-tight mb-1">
-                {STEPS[activeStep].label}
-              </h3>
-              <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
-                {STEPS[activeStep].desc}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="overflow-x-auto -mx-4 px-4">
-            <div
-              className="rounded-2xl overflow-hidden border border-neutral-800"
-              style={{
-                minWidth: '400px',
-                boxShadow:
-                  '0 24px 60px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.4)',
-              }}
-            >
-              <div
-                className="flex items-center gap-3 px-4 py-2.5 border-b border-neutral-800"
-                style={{ backgroundColor: '#111' }}
-              >
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                </div>
-                <div className="flex-1 flex justify-center">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`mob-url-${activeStep}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex items-center gap-1.5 bg-neutral-800 rounded-md px-3 py-1 text-[10px] text-neutral-500"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full border border-neutral-600 shrink-0" />
-                      {STEPS[activeStep].urlPath}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </div>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`mob-nav-${STEPS[activeStep].activePath}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <MockNavbar activePath={STEPS[activeStep].activePath} />
-                </motion.div>
-              </AnimatePresence>
-              <div style={{ height: '380px', overflow: 'hidden' }}>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`mob-body-${activeStep}`}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="h-full"
-                  >
-                    <ActiveBody />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center gap-2 mt-5">
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-2 mb-6">
             {STEPS.map((_, i) => (
               <button
                 key={i}
@@ -968,6 +869,99 @@ export function Hero() {
                 }}
               />
             ))}
+          </div>
+
+          {/* Step label + description */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`mob-step-${activeStep}`}
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.25 }}
+              className="mb-5"
+            >
+              <div
+                className="w-1.5 h-1.5 rounded-full mb-2"
+                style={{ backgroundColor: GOLD }}
+              />
+              <h3 className="text-[var(--foreground)] font-semibold text-xl leading-tight mb-1.5">
+                {STEPS[activeStep].label}
+              </h3>
+              <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
+                {STEPS[activeStep].desc}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* App frame — fullwidth, no horizontal scroll */}
+          <div
+            className="rounded-2xl overflow-hidden border border-neutral-800 w-full"
+            style={{
+              boxShadow:
+                '0 24px 60px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.4)',
+            }}
+          >
+            {/* URL bar only — skip desktop MockNavbar on mobile */}
+            <div
+              className="flex items-center gap-2 px-3 py-2 border-b border-neutral-800"
+              style={{ backgroundColor: '#111' }}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`mob-url-${activeStep}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex-1 flex items-center gap-1.5 bg-neutral-800 rounded px-2.5 py-1 text-[10px] text-neutral-500 min-w-0"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full border border-neutral-600 shrink-0" />
+                  <span className="truncate">{STEPS[activeStep].urlPath}</span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Content */}
+            <div style={{ height: '340px', overflow: 'hidden' }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`mob-body-${activeStep}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="h-full"
+                >
+                  <ActiveBody />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Prev / Next */}
+          <div className="flex items-center justify-between mt-5">
+            <button
+              onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
+              disabled={activeStep === 0}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-neutral-800 text-neutral-500 text-xs disabled:opacity-20 transition-opacity"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              Prev
+            </button>
+            <span className="text-[11px] text-neutral-700">
+              {activeStep + 1} / {STEPS.length}
+            </span>
+            <button
+              onClick={() =>
+                setActiveStep((s) => Math.min(STEPS.length - 1, s + 1))
+              }
+              disabled={activeStep === STEPS.length - 1}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-neutral-800 text-neutral-500 text-xs disabled:opacity-20 transition-opacity"
+            >
+              Next
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
