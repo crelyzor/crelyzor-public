@@ -22,7 +22,7 @@ export function HomeNavbar() {
       }}
     >
       {/* Logo */}
-      <div className="flex items-center">
+      <Link href="/" className="flex items-center">
         <Image
           src="/assets/logo-light.svg"
           alt="Crelyzor"
@@ -37,7 +37,7 @@ export function HomeNavbar() {
           height={28}
           className="h-7 w-auto hidden dark:block"
         />
-      </div>
+      </Link>
 
       {/* Right */}
       <div className="flex items-center gap-2">
