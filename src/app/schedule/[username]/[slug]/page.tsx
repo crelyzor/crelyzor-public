@@ -47,9 +47,10 @@ export default async function BookingPage({ params, searchParams }: Props) {
     try {
       const apiUrl =
         process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
-      const res = await fetch(`${apiUrl}/public/bookings/${rescheduleId}`, {
-        cache: 'no-store',
-      });
+      const res = await fetch(
+        `${apiUrl}/public/bookings/${rescheduleId}?username=${encodeURIComponent(username)}&slug=${encodeURIComponent(slug)}`,
+        { cache: 'no-store' },
+      );
       if (res.ok) {
         const json = await res.json();
         const bookingData = json.data?.booking;
