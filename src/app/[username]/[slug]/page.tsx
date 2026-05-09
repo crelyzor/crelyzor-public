@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCard } from '@/lib/api';
 import { CardView } from '@/components/CardView';
+import { safeJsonLd } from '@/lib/jsonLd';
 
 interface Props {
   params: Promise<{ username: string; slug: string }>;
@@ -100,7 +101,7 @@ export default async function UserSlugCardPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personJsonLd) }}
       />
       <CardView data={data} username={username} slug={slug} />
     </>
