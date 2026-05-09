@@ -49,7 +49,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
         process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
       const res = await fetch(
         `${apiUrl}/public/bookings/${rescheduleId}?username=${encodeURIComponent(username)}&slug=${encodeURIComponent(slug)}`,
-        { cache: 'no-store' },
+        { cache: 'no-store' }
       );
       if (res.ok) {
         const json = await res.json();
