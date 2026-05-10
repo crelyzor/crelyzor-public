@@ -49,7 +49,9 @@ export class ApiError extends Error {
 // Client-side: always use the public-facing URL.
 const API_BASE =
   typeof window === 'undefined'
-    ? (process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1')
+    ? (process.env.INTERNAL_API_BASE_URL ??
+      process.env.NEXT_PUBLIC_API_BASE_URL ??
+      'http://localhost:4000/api/v1')
     : (process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1');
 
 function unwrapData<T>(json: unknown): T {
