@@ -44,8 +44,13 @@ export class ApiError extends Error {
   }
 }
 
+// Server-side (SSR/RSC): use internal Docker network URL if set, so containers
+// can reach the backend by service name rather than localhost.
+// Client-side: always use the public-facing URL.
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+  typeof window === 'undefined'
+    ? (process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1')
+    : (process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1');
 
 function unwrapData<T>(json: unknown): T {
   if (json && typeof json === 'object' && 'data' in json) {
