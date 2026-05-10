@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import type { PublicCardResponse, CardLink, CardTheme } from '@/types/card';
 import { ContactForm } from './ContactForm';
+import { PlanBadge } from './PlanBadge';
 import { trackClick, downloadVCard } from '@/lib/api';
 
 // ── Constants ────────────────────────────────────────────────────────
@@ -288,6 +289,11 @@ export function CardView({ data, username, slug }: CardViewProps) {
                           >
                             {card.title}
                           </p>
+                        )}
+                        {user.plan !== 'FREE' && (
+                          <div className="mt-1.5">
+                            <PlanBadge plan={user.plan} />
+                          </div>
                         )}
                       </div>
                     </div>
