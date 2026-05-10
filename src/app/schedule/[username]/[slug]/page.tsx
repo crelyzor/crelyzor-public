@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { getSchedulingProfile } from '@/lib/api';
 import { BookingFlow } from './BookingFlow';
 
+export const revalidate = 60;
+
 interface Props {
   params: Promise<{ username: string; slug: string }>;
   searchParams: Promise<{ reschedule?: string }>;
