@@ -24,102 +24,61 @@ export const metadata: Metadata = {
 
 // ── Plan data ─────────────────────────────────────────────────────────────────
 
-const plans = [
-  {
-    id: 'free',
-    name: 'Free',
-    price: '₹0',
-    period: 'forever',
-    tag: null,
-    description: 'For individuals exploring Crelyzor.',
-    cta: 'Get started free',
-    ctaHref: `${APP_URL}/signin`,
-    ctaVariant: 'outline' as const,
-    features: [
-      { text: '120 transcription minutes / month' },
-      { text: '50 AI credits / month' },
-      { text: 'Google Meet auto-record', negative: true },
-      { text: '2 GB storage' },
-      { text: 'Digital Cards + QR codes' },
-      { text: 'Meeting notes & tasks' },
-      { text: 'Scheduling (unlimited bookings)' },
-      { text: 'Global search' },
-    ],
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    price: '₹1,499',
-    period: 'per month',
-    tag: 'Most popular',
-    description: 'For professionals who run on meetings.',
-    cta: 'Get Pro — email us',
-    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('I want Pro')}&body=${encodeURIComponent("Hi, I'd like to upgrade to the Crelyzor Pro plan.")}`,
-    ctaVariant: 'primary' as const,
-    features: [
-      { text: '600 transcription minutes / month' },
-      { text: '1,000 AI credits / month' },
-      { text: 'Auto-record & transcribe Google Meet calls' },
-      { text: '20 GB storage' },
-      { text: 'Everything in Free' },
-      { text: 'Ask AI — unlimited questions per meeting' },
-      { text: 'AI content generation (reports, emails, social posts)' },
-      { text: 'Priority support' },
-    ],
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    price: 'Custom',
-    period: 'negotiated per deal',
-    tag: null,
-    description: 'For teams with high volume or custom needs.',
-    cta: 'Contact us',
-    ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Business Plan Inquiry')}`,
-    ctaVariant: 'outline' as const,
-    features: [
-      { text: 'Unlimited transcription' },
-      { text: 'Unlimited AI credits' },
-      { text: 'Unlimited auto-record & transcribe (Google Meet)' },
-      { text: 'Unlimited storage' },
-      { text: 'Everything in Pro' },
-      { text: 'Custom onboarding' },
-      { text: 'SLA & dedicated support' },
-      { text: 'Invoiced billing' },
-    ],
-  },
-] as const;
+const freePlan = {
+  id: 'free',
+  label: 'Open',
+  name: 'Free',
+  price: '₹0',
+  period: 'forever',
+  description: 'For individuals exploring Crelyzor.',
+  cta: 'Get started free',
+  ctaHref: `${APP_URL}/signin`,
+  features: [
+    { text: '120 transcription minutes / month' },
+    { text: '50 AI credits / month' },
+    { text: 'Google Meet auto-record', negative: true },
+    { text: '2 GB storage' },
+    { text: 'Digital Cards + QR codes' },
+    { text: 'Meeting notes & tasks' },
+    { text: 'Scheduling (unlimited bookings)' },
+    { text: 'Global search' },
+  ],
+} as const;
+
+const enterprisePlan = {
+  id: 'enterprise',
+  label: 'Enterprise',
+  tag: 'Recommended',
+  name: 'Custom',
+  description: 'For teams with high volume or custom needs.',
+  cta: 'Book a Demo',
+  ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Business Plan Inquiry')}`,
+  features: [
+    { text: 'Unlimited transcription' },
+    { text: 'Unlimited AI credits' },
+    { text: 'Unlimited auto-record & transcribe (Google Meet)' },
+    { text: 'Unlimited storage' },
+    { text: 'Custom onboarding' },
+    { text: 'SLA & dedicated support' },
+    { text: 'Invoiced billing' },
+  ],
+} as const;
 
 // ── Comparison table ──────────────────────────────────────────────────────────
 
 const comparisonRows = [
-  {
-    label: 'Transcription',
-    free: '120 min / mo',
-    pro: '600 min / mo',
-    business: 'Unlimited',
-  },
-  {
-    label: 'AI Credits',
-    free: '50 / mo',
-    pro: '1,000 / mo',
-    business: 'Unlimited',
-  },
-  {
-    label: 'Auto-record & Transcribe (Google Meet)',
-    free: false,
-    pro: '5 hrs / mo',
-    business: 'Unlimited',
-  },
-  { label: 'Storage', free: '2 GB', pro: '20 GB', business: 'Unlimited' },
-  { label: 'Digital Cards', free: true, pro: true, business: true },
-  { label: 'Scheduling', free: true, pro: true, business: true },
-  { label: 'Ask AI', free: true, pro: true, business: true },
-  { label: 'AI Content Generation', free: true, pro: true, business: true },
-  { label: 'Global Search', free: true, pro: true, business: true },
-  { label: 'Priority Support', free: false, pro: true, business: true },
-  { label: 'SLA & Dedicated Support', free: false, pro: false, business: true },
-  { label: 'Custom Onboarding', free: false, pro: false, business: true },
+  { label: 'Transcription', free: '120 min / mo', enterprise: 'Unlimited' },
+  { label: 'AI Credits', free: '50 / mo', enterprise: 'Unlimited' },
+  { label: 'Auto-record & Transcribe (Google Meet)', free: false, enterprise: 'Unlimited' },
+  { label: 'Storage', free: '2 GB', enterprise: 'Unlimited' },
+  { label: 'Digital Cards', free: true, enterprise: true },
+  { label: 'Scheduling', free: true, enterprise: true },
+  { label: 'Ask AI', free: true, enterprise: true },
+  { label: 'AI Content Generation', free: true, enterprise: true },
+  { label: 'Global Search', free: true, enterprise: true },
+  { label: 'Priority Support', free: false, enterprise: true },
+  { label: 'SLA & Dedicated Support', free: false, enterprise: true },
+  { label: 'Custom Onboarding', free: false, enterprise: true },
 ];
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
@@ -153,35 +112,13 @@ const faqs = [
 
 // ── Cell renderer ─────────────────────────────────────────────────────────────
 
-function TableCell({
-  value,
-  isPro,
-}: {
-  value: string | boolean;
-  isPro: boolean;
-}) {
-  if (value === true) {
-    return (
-      <Check
-        className="mx-auto"
-        style={{
-          width: 15,
-          height: 15,
-          color: isPro ? GOLD : 'var(--muted-foreground)',
-        }}
-      />
-    );
-  }
-  if (value === false) {
-    return (
-      <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />
-    );
-  }
+function TableCell({ value }: { value: string | boolean }) {
+  if (value === true)
+    return <Check className="mx-auto text-muted-foreground" style={{ width: 15, height: 15 }} />;
+  if (value === false)
+    return <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />;
   return (
-    <span
-      className="text-xs font-medium tabular-nums"
-      style={{ color: isPro ? GOLD : 'var(--muted-foreground)' }}
-    >
+    <span className="text-xs font-medium tabular-nums text-muted-foreground">
       {value}
     </span>
   );
@@ -224,136 +161,109 @@ export default function PricingPage() {
 
       {/* ── Plan cards ── */}
       <section className="px-5 sm:px-8 pb-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-          {plans.map((plan) => {
-            const isPro = plan.id === 'pro';
-            const isBusiness = plan.id === 'business';
+        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
 
-            return (
-              <div
-                key={plan.id}
-                className="relative rounded-2xl flex flex-col overflow-hidden"
-                style={
-                  isPro
-                    ? {
-                        border: `1px solid rgba(212,175,97,0.25)`,
-                        boxShadow: `0 0 0 1px rgba(212,175,97,0.08), 0 24px 48px rgba(0,0,0,0.3)`,
-                        background: 'var(--surface)',
-                      }
-                    : {
-                        border: '1px solid var(--border)',
-                        background: 'var(--surface)',
-                      }
-                }
-              >
-                {/* Pro — white in light, dark gold in dark mode */}
-                {isPro && (
-                  <div className="px-7 pt-6 pb-5 bg-white dark:bg-neutral-900">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 dark:text-neutral-400">
-                        {plan.name}
-                      </span>
-                      {plan.tag && (
-                        <span
-                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
-                          style={{ background: GOLD, color: '#0a0a0a' }}
-                        >
-                          {plan.tag}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-end gap-1.5">
-                      <span className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white leading-none">
-                        {plan.price}
-                      </span>
-                      {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-neutral-400 mb-0.5">
-                          / {plan.period}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
-                      {plan.description}
-                    </p>
-                  </div>
-                )}
-
-                {/* Free & Business — dark header */}
-                {!isPro && (
-                  <div className="px-7 pt-6 pb-5 border-b border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-muted">
-                        {plan.name}
-                      </span>
-                    </div>
-                    <div className="flex items-end gap-1.5">
-                      <span className="text-4xl font-bold tracking-tight text-foreground leading-none">
-                        {plan.price}
-                      </span>
-                      {(plan.price as string) !== 'Custom' && (
-                        <span className="text-sm text-muted mb-0.5">
-                          / {plan.period}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-muted mt-2 leading-relaxed">
-                      {plan.description}
-                    </p>
-                  </div>
-                )}
-
-                {/* Features */}
-                <div className="px-7 py-6 flex flex-col flex-1 gap-6">
-                  <ul className="space-y-3 flex-1">
-                    {plan.features.map((f, i) => {
-                      const isNeg = 'negative' in f && f.negative;
-                      return (
-                        <li key={i} className="flex items-start gap-3">
-                          {isNeg ? (
-                            <X className="w-3.5 h-3.5 mt-0.5 shrink-0 text-muted/50" />
-                          ) : (
-                            <Check
-                              className="w-3.5 h-3.5 mt-0.5 shrink-0"
-                              style={{
-                                color: isPro ? GOLD : 'var(--muted-foreground)',
-                              }}
-                            />
-                          )}
-                          <span
-                            className={`text-sm leading-snug ${
-                              isNeg
-                                ? 'text-muted/50 line-through'
-                                : 'text-foreground/80'
-                            }`}
-                          >
-                            {f.text}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  <a
-                    href={plan.ctaHref}
-                    className={
-                      isPro
-                        ? 'flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-medium transition-opacity hover:opacity-85 cta-gold'
-                        : 'flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-medium transition-all border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30'
-                    }
-                  >
-                    {plan.cta}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+          {/* ── Free — light tray (dark: zinc tray) ── */}
+          <div className="flex flex-col rounded bg-[#F4F4F5] dark:bg-zinc-800 p-1.5 ring-1 ring-zinc-900/5 dark:ring-zinc-700/30 shadow-sm">
+            {/* Header inner card */}
+            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm">
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+                  {freePlan.label}
+                </h3>
+                <div className="mt-2.5 flex items-baseline leading-none">
+                  <span className="text-[30px] sm:text-[36px] font-bold tracking-tight text-zinc-950 dark:text-white">
+                    {freePlan.name}
+                  </span>
                 </div>
+                <p className="mt-2.5 text-[13.5px] font-medium text-zinc-600 dark:text-zinc-400">
+                  {freePlan.description}
+                </p>
               </div>
-            );
-          })}
+              <a
+                href={freePlan.ctaHref}
+                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded bg-zinc-950 dark:bg-white py-3 px-4 text-[14px] font-semibold text-white dark:text-zinc-950 shadow-md transition-[transform,background-color] duration-150 hover:bg-zinc-800 dark:hover:bg-zinc-100 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+              >
+                {freePlan.cta}
+              </a>
+            </div>
+
+            {/* Features inner card */}
+            <div className="flex-1 mt-1.5 rounded bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm px-5 py-5 sm:px-7 sm:py-6">
+              <ul className="flex flex-col gap-y-2.5">
+                {freePlan.features.map((f, i) => {
+                  const isNeg = 'negative' in f && f.negative;
+                  return (
+                    <li key={i} className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300">
+                      {isNeg ? (
+                        <X className="size-4 shrink-0 text-zinc-300 dark:text-zinc-600" />
+                      ) : (
+                        <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="10" fill="#18181B" className="dark:fill-zinc-600" />
+                          <path d="M8 12.5L10.5 15L16 9" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                      <span className={isNeg ? 'text-zinc-400 dark:text-zinc-600 line-through' : ''}>{f.text}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+
+          {/* ── Enterprise — dark tray ── */}
+          <div className="flex flex-col rounded bg-[#3f3f46] p-1.5 shadow-2xl">
+            {/* Header inner card */}
+            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded bg-[#18181b]">
+              <div>
+                <div className="flex items-center gap-2.5">
+                  <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+                    {enterprisePlan.label}
+                  </h3>
+                  <span className="rounded bg-white/10 px-2 py-0.5 text-[9px] font-semibold tracking-wider text-zinc-300 uppercase">
+                    {enterprisePlan.tag}
+                  </span>
+                </div>
+                <div className="mt-2.5 flex items-baseline leading-none">
+                  <span className="text-[30px] sm:text-[36px] font-bold tracking-tight text-white">
+                    {enterprisePlan.name}
+                  </span>
+                </div>
+                <p className="mt-2.5 text-[13.5px] font-medium text-zinc-400">
+                  {enterprisePlan.description}
+                </p>
+              </div>
+              <a
+                href={enterprisePlan.ctaHref}
+                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded bg-white py-3 px-4 text-[14px] font-semibold text-zinc-950 shadow-md transition-transform duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                {enterprisePlan.cta}
+              </a>
+            </div>
+
+            {/* Features inner card */}
+            <div className="flex-1 mt-1.5 rounded bg-[#222225] border border-white/5 px-5 py-5 sm:px-7 sm:py-6">
+              <p className="font-mono text-[12px] text-zinc-400 mb-4">Everything in Free, plus:</p>
+              <ul className="flex flex-col gap-y-2.5">
+                {enterprisePlan.features.map((f, i) => (
+                  <li key={i} className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-200">
+                    <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="9.5" stroke="#52525B" strokeWidth="1.5" />
+                      <path d="M8 12.5L10.5 15L16 9" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {f.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* ── Comparison table ── */}
       <section className="px-5 sm:px-8 pb-24">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-2xl font-semibold text-foreground tracking-tight">
               Full comparison
@@ -367,21 +277,15 @@ export default function PricingPage() {
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="border-b border-border bg-surface">
-                  <th className="text-left py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider w-[45%]">
+                  <th className="text-left py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider w-[55%]">
                     Feature
                   </th>
-                  {plans.map((p) => (
-                    <th
-                      key={p.id}
-                      className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider"
-                      style={{
-                        color:
-                          p.id === 'pro' ? GOLD : 'var(--muted-foreground)',
-                      }}
-                    >
-                      {p.name}
-                    </th>
-                  ))}
+                  <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {freePlan.label}
+                  </th>
+                  <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {enterprisePlan.label}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -389,27 +293,14 @@ export default function PricingPage() {
                   <tr
                     key={row.label}
                     className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-raised/40"
-                    style={{
-                      background:
-                        i % 2 === 0
-                          ? 'var(--surface)'
-                          : 'var(--surface-raised)/20',
-                    }}
+                    style={{ background: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-raised)/20' }}
                   >
-                    <td className="py-3.5 px-6 text-foreground/70 text-sm">
-                      {row.label}
+                    <td className="py-3.5 px-6 text-foreground/70 text-sm">{row.label}</td>
+                    <td className="py-3.5 px-4 text-center">
+                      <TableCell value={row.free} />
                     </td>
                     <td className="py-3.5 px-4 text-center">
-                      <TableCell value={row.free} isPro={false} />
-                    </td>
-                    <td
-                      className="py-3.5 px-4 text-center"
-                      style={{ background: 'rgba(212,175,97,0.03)' }}
-                    >
-                      <TableCell value={row.pro} isPro={true} />
-                    </td>
-                    <td className="py-3.5 px-4 text-center">
-                      <TableCell value={row.business} isPro={false} />
+                      <TableCell value={row.enterprise} />
                     </td>
                   </tr>
                 ))}
@@ -446,16 +337,16 @@ export default function PricingPage() {
       {/* ── CTA Banner — always white, intentional contrast ── */}
       <section className="px-5 sm:px-8 pb-24">
         <div className="max-w-6xl mx-auto">
-          <div className="rounded-2xl bg-neutral-950 dark:bg-white px-8 sm:px-16 py-14 text-center">
-            <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 dark:text-neutral-400 mb-4">
+          <div className="rounded-2xl bg-neutral-950 dark:bg-zinc-800/60 dark:border dark:border-zinc-700/50 px-8 sm:px-16 py-14 text-center">
+            <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 dark:text-zinc-500 mb-4">
               Ready to upgrade?
             </p>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white dark:text-neutral-950 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-3">
               Your next meeting,
               <br />
               fully covered.
             </h2>
-            <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8 max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-neutral-400 dark:text-zinc-400 mb-8 max-w-xs mx-auto leading-relaxed">
               Email us and we&apos;ll upgrade your account within 24 hours.
               Self-serve payments coming soon.
             </p>
@@ -470,7 +361,7 @@ export default function PricingPage() {
               </a>
               <a
                 href={`${APP_URL}/signin`}
-                className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-700 dark:border-neutral-200 text-neutral-300 dark:text-neutral-600 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-50 transition-colors"
+                className="inline-flex items-center gap-2 h-11 px-6 rounded-xl border border-neutral-700 dark:border-zinc-600 text-neutral-300 dark:text-zinc-300 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-zinc-700 transition-colors"
               >
                 Start free first
                 <ArrowRight className="w-3.5 h-3.5" />
