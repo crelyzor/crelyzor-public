@@ -107,7 +107,10 @@ export function ConfirmedClient() {
   return (
     <div className={isEmbed ? 'bg-transparent' : 'min-h-screen bg-neutral-100'}>
       {/* Dark header */}
-      <div className={`px-4 pb-8 ${isEmbed ? 'pt-6' : 'pt-12'}`} style={{ background: '#0a0a0a' }}>
+      <div
+        className={`px-4 pb-8 ${isEmbed ? 'pt-6' : 'pt-12'}`}
+        style={{ background: '#0a0a0a' }}
+      >
         <div className="max-w-sm mx-auto">
           <div
             className="w-10 h-10 rounded-full flex items-center justify-center mb-4"

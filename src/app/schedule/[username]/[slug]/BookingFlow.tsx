@@ -389,7 +389,13 @@ function ClockSlotPicker({
 
 // ── BookingFlow ────────────────────────────────────────────────────────────────
 
-export function BookingFlow({ username, eventType, host, oldBooking, isEmbed = false }: Props) {
+export function BookingFlow({
+  username,
+  eventType,
+  host,
+  oldBooking,
+  isEmbed = false,
+}: Props) {
   const router = useRouter();
 
   const [guestTimezone] = useState(
@@ -425,7 +431,10 @@ export function BookingFlow({ username, eventType, host, oldBooking, isEmbed = f
     if (!isEmbed) return;
     const sendHeight = () =>
       window.parent.postMessage(
-        { type: 'CRELYZOR:resize', height: document.documentElement.scrollHeight },
+        {
+          type: 'CRELYZOR:resize',
+          height: document.documentElement.scrollHeight,
+        },
         '*'
       );
     sendHeight();
@@ -587,7 +596,10 @@ export function BookingFlow({ username, eventType, host, oldBooking, isEmbed = f
   return (
     <div className={isEmbed ? 'bg-transparent' : 'min-h-screen bg-neutral-100'}>
       {/* Dark header */}
-      <div className={`px-4 pb-8 ${isEmbed ? 'pt-6' : 'pt-12'}`} style={{ background: '#0a0a0a' }}>
+      <div
+        className={`px-4 pb-8 ${isEmbed ? 'pt-6' : 'pt-12'}`}
+        style={{ background: '#0a0a0a' }}
+      >
         <div className="max-w-sm mx-auto">
           {!isEmbed && (
             <Link

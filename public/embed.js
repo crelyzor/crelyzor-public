@@ -17,7 +17,8 @@
 
     var iframe = document.createElement('iframe');
     iframe.src = base + '/schedule/' + config.link + '?embed=1';
-    iframe.style.cssText = 'width:100%;border:none;display:block;min-height:600px;';
+    iframe.style.cssText =
+      'width:100%;border:none;display:block;min-height:600px;';
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('allow', 'clipboard-write');
     container.appendChild(iframe);
@@ -26,7 +27,10 @@
       if (!e.data || typeof e.data.type !== 'string') return;
       if (!e.data.type.startsWith('CRELYZOR:')) return;
 
-      if (e.data.type === 'CRELYZOR:resize' && typeof e.data.height === 'number') {
+      if (
+        e.data.type === 'CRELYZOR:resize' &&
+        typeof e.data.height === 'number'
+      ) {
         iframe.style.height = e.data.height + 'px';
       }
 
