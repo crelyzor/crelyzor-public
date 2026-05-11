@@ -69,7 +69,11 @@ const enterprisePlan = {
 const comparisonRows = [
   { label: 'Transcription', free: '120 min / mo', enterprise: 'Unlimited' },
   { label: 'AI Credits', free: '50 / mo', enterprise: 'Unlimited' },
-  { label: 'Auto-record & Transcribe (Google Meet)', free: false, enterprise: 'Unlimited' },
+  {
+    label: 'Auto-record & Transcribe (Google Meet)',
+    free: false,
+    enterprise: 'Unlimited',
+  },
   { label: 'Storage', free: '2 GB', enterprise: 'Unlimited' },
   { label: 'Digital Cards', free: true, enterprise: true },
   { label: 'Scheduling', free: true, enterprise: true },
@@ -114,9 +118,16 @@ const faqs = [
 
 function TableCell({ value }: { value: string | boolean }) {
   if (value === true)
-    return <Check className="mx-auto text-muted-foreground" style={{ width: 15, height: 15 }} />;
+    return (
+      <Check
+        className="mx-auto text-muted-foreground"
+        style={{ width: 15, height: 15 }}
+      />
+    );
   if (value === false)
-    return <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />;
+    return (
+      <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />
+    );
   return (
     <span className="text-xs font-medium tabular-nums text-muted-foreground">
       {value}
@@ -162,7 +173,6 @@ export default function PricingPage() {
       {/* ── Plan cards ── */}
       <section className="px-5 sm:px-8 pb-24">
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-
           {/* ── Free — light tray (dark: zinc tray) ── */}
           <div className="flex flex-col rounded bg-[#F4F4F5] dark:bg-zinc-800 p-1.5 ring-1 ring-zinc-900/5 dark:ring-zinc-700/30 shadow-sm">
             {/* Header inner card */}
@@ -194,16 +204,44 @@ export default function PricingPage() {
                 {freePlan.features.map((f, i) => {
                   const isNeg = 'negative' in f && f.negative;
                   return (
-                    <li key={i} className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300">
+                    <li
+                      key={i}
+                      className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300"
+                    >
                       {isNeg ? (
                         <X className="size-4 shrink-0 text-zinc-300 dark:text-zinc-600" />
                       ) : (
-                        <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="12" cy="12" r="10" fill="#18181B" className="dark:fill-zinc-600" />
-                          <path d="M8 12.5L10.5 15L16 9" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="size-4 shrink-0"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            fill="#18181B"
+                            className="dark:fill-zinc-600"
+                          />
+                          <path
+                            d="M8 12.5L10.5 15L16 9"
+                            stroke="white"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                       )}
-                      <span className={isNeg ? 'text-zinc-400 dark:text-zinc-600 line-through' : ''}>{f.text}</span>
+                      <span
+                        className={
+                          isNeg
+                            ? 'text-zinc-400 dark:text-zinc-600 line-through'
+                            : ''
+                        }
+                      >
+                        {f.text}
+                      </span>
                     </li>
                   );
                 })}
@@ -243,13 +281,35 @@ export default function PricingPage() {
 
             {/* Features inner card */}
             <div className="flex-1 mt-1.5 rounded bg-[#222225] border border-white/5 px-5 py-5 sm:px-7 sm:py-6">
-              <p className="font-mono text-[12px] text-zinc-400 mb-4">Everything in Free, plus:</p>
+              <p className="font-mono text-[12px] text-zinc-400 mb-4">
+                Everything in Free, plus:
+              </p>
               <ul className="flex flex-col gap-y-2.5">
                 {enterprisePlan.features.map((f, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-200">
-                    <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="9.5" stroke="#52525B" strokeWidth="1.5" />
-                      <path d="M8 12.5L10.5 15L16 9" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <li
+                    key={i}
+                    className="flex items-center gap-2.5 text-[13.5px] font-medium text-zinc-200"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="size-4 shrink-0"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="9.5"
+                        stroke="#52525B"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M8 12.5L10.5 15L16 9"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                     {f.text}
                   </li>
@@ -257,7 +317,6 @@ export default function PricingPage() {
               </ul>
             </div>
           </div>
-
         </div>
       </section>
 
@@ -293,9 +352,16 @@ export default function PricingPage() {
                   <tr
                     key={row.label}
                     className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-raised/40"
-                    style={{ background: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-raised)/20' }}
+                    style={{
+                      background:
+                        i % 2 === 0
+                          ? 'var(--surface)'
+                          : 'var(--surface-raised)/20',
+                    }}
                   >
-                    <td className="py-3.5 px-6 text-foreground/70 text-sm">{row.label}</td>
+                    <td className="py-3.5 px-6 text-foreground/70 text-sm">
+                      {row.label}
+                    </td>
                     <td className="py-3.5 px-4 text-center">
                       <TableCell value={row.free} />
                     </td>
