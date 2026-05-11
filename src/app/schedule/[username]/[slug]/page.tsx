@@ -7,7 +7,7 @@ export const revalidate = 60;
 
 interface Props {
   params: Promise<{ username: string; slug: string }>;
-  searchParams: Promise<{ reschedule?: string }>;
+  searchParams: Promise<{ reschedule?: string; embed?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookingPage({ params, searchParams }: Props) {
   const { username, slug } = await params;
-  const { reschedule: rescheduleId } = await searchParams;
+  const { reschedule: rescheduleId, embed } = await searchParams;
+  const isEmbed = embed === '1';
 
   let profile;
   try {
@@ -80,6 +81,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
       eventType={eventType}
       host={profile.user}
       oldBooking={oldBooking}
+      isEmbed={isEmbed}
     />
   );
 }

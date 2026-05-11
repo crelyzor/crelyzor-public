@@ -11,6 +11,19 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },
+  async headers() {
+    return [
+      {
+        // Allow schedule pages to be embedded in iframes from any origin.
+        // Next.js sets X-Frame-Options: SAMEORIGIN by default — this overrides it.
+        source: '/schedule/:path*',
+        headers: [
+          { key: 'X-Frame-Options', value: 'ALLOWALL' },
+          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
