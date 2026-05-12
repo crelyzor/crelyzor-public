@@ -104,6 +104,23 @@ export function ConfirmedClient() {
     }
   }, []);
 
+  // Keep iframe height in sync on the confirmation page when embedded
+  useEffect(() => {
+    if (!isEmbed) return;
+    const parentOrigin = document.referrer
+      ? new URL(document.referrer).origin
+      : '*';
+    const sendHeight = () =>
+      window.parent.postMessage(
+        { type: 'CRELYZOR:resize', height: document.documentElement.scrollHeight },
+        parentOrigin
+      );
+    sendHeight();
+    const observer = new ResizeObserver(sendHeight);
+    observer.observe(document.documentElement);
+    return () => observer.disconnect();
+  }, [isEmbed]);
+
   return (
     <div className={isEmbed ? 'bg-transparent' : 'min-h-screen bg-neutral-100'}>
       {/* Dark header */}

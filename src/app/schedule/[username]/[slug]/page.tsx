@@ -3,8 +3,6 @@ import type { Metadata } from 'next';
 import { getSchedulingProfile } from '@/lib/api';
 import { BookingFlow } from './BookingFlow';
 
-export const revalidate = 60;
-
 interface Props {
   params: Promise<{ username: string; slug: string }>;
   searchParams: Promise<{ reschedule?: string; embed?: string }>;
@@ -49,7 +47,9 @@ export default async function BookingPage({ params, searchParams }: Props) {
   if (rescheduleId) {
     try {
       const apiUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+        process.env.INTERNAL_API_BASE_URL ??
+        process.env.NEXT_PUBLIC_API_BASE_URL ??
+        'http://localhost:4000/api/v1';
       const res = await fetch(
         `${apiUrl}/public/bookings/${rescheduleId}?username=${encodeURIComponent(username)}&slug=${encodeURIComponent(slug)}`,
         { cache: 'no-store' }

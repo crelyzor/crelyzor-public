@@ -5,9 +5,10 @@ const BADGE_CONFIG = {
   BUSINESS: { label: 'BUSINESS', className: 'border-[#6366f1] text-[#6366f1]' },
 } as const;
 
-export function PlanBadge({ plan }: { plan: Plan }) {
-  if (plan === 'FREE') return null;
-  const config = BADGE_CONFIG[plan];
+export function PlanBadge({ plan }: { plan: Plan | undefined }) {
+  if (!plan || plan === 'FREE') return null;
+  const config = BADGE_CONFIG[plan as keyof typeof BADGE_CONFIG];
+  if (!config) return null;
   return (
     <span
       className={`inline-flex items-center rounded-full border px-1.5 py-0.5 text-[9px] font-semibold tracking-wider uppercase ${config.className}`}

@@ -426,7 +426,13 @@ export function BookingFlow({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Notify parent iframe of height changes when in embed mode
+  // Notify parent iframe of height changes when in embed mode.
+  // Derive parent origin from document.referrer to avoid posting to '*'.
+  const parentOrigin =
+    isEmbed && typeof document !== 'undefined' && document.referrer
+      ? new URL(document.referrer).origin
+      : '*';
+
   useEffect(() => {
     if (!isEmbed) return;
     const sendHeight = () =>
@@ -435,13 +441,13 @@ export function BookingFlow({
           type: 'CRELYZOR:resize',
           height: document.documentElement.scrollHeight,
         },
-        '*'
+        parentOrigin
       );
     sendHeight();
     const observer = new ResizeObserver(sendHeight);
     observer.observe(document.documentElement);
     return () => observer.disconnect();
-  }, [isEmbed]);
+  }, [isEmbed, parentOrigin]);
 
   // Fetch slots on date change — also clears slot/form state
   useEffect(() => {
@@ -543,9 +549,16 @@ export function BookingFlow({
       }
 
       if (isEmbed) {
+        // Send minimal payload — never expose PII (guestName/guestEmail) to the parent origin
         window.parent.postMessage(
-          { type: 'CRELYZOR:booking-confirmed', data: result },
-          '*'
+          {
+            type: 'CRELYZOR:booking-confirmed',
+            data: {
+              bookingId: result.booking.id,
+              status: result.booking.status,
+            },
+          },
+          parentOrigin
         );
       }
 

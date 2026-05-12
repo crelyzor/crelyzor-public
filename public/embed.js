@@ -15,15 +15,24 @@
       return;
     }
 
+    // Build the iframe URL properly so existing query params in config.link are preserved
+    var scheduleUrl = new URL(base + '/schedule/' + config.link);
+    scheduleUrl.searchParams.set('embed', '1');
+
     var iframe = document.createElement('iframe');
-    iframe.src = base + '/schedule/' + config.link + '?embed=1';
+    iframe.src = scheduleUrl.toString();
     iframe.style.cssText =
       'width:100%;border:none;display:block;min-height:600px;';
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('allow', 'clipboard-write');
     container.appendChild(iframe);
 
+    var embedOrigin = new URL(base).origin;
+
     window.addEventListener('message', function (e) {
+      // Validate source and origin to prevent spoofed messages
+      if (e.source !== iframe.contentWindow) return;
+      if (e.origin !== embedOrigin) return;
       if (!e.data || typeof e.data.type !== 'string') return;
       if (!e.data.type.startsWith('CRELYZOR:')) return;
 
