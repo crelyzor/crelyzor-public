@@ -6,6 +6,20 @@ export const runtime = 'edge';
 const WIDTH = 1200;
 const HEIGHT = 630;
 
+const ALLOWED_AVATAR_HOSTS = new Set([
+  'storage.googleapis.com',
+  'lh3.googleusercontent.com',
+]);
+
+function isAllowedAvatarHost(url: string): boolean {
+  try {
+    const { protocol, hostname } = new URL(url);
+    return protocol === 'https:' && ALLOWED_AVATAR_HOSTS.has(hostname);
+  } catch {
+    return false;
+  }
+}
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ username: string }> }
@@ -29,7 +43,7 @@ export async function GET(
 
   // Attempt to inline the avatar as a base64 data URI for edge ImageResponse
   let avatarSrc: string | null = null;
-  if (avatarUrl) {
+  if (avatarUrl && isAllowedAvatarHost(avatarUrl)) {
     try {
       const res = await fetch(avatarUrl);
       const buf = await res.arrayBuffer();

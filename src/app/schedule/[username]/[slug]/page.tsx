@@ -5,7 +5,7 @@ import { BookingFlow } from './BookingFlow';
 
 interface Props {
   params: Promise<{ username: string; slug: string }>;
-  searchParams: Promise<{ reschedule?: string }>;
+  searchParams: Promise<{ reschedule?: string; embed?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -29,7 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookingPage({ params, searchParams }: Props) {
   const { username, slug } = await params;
-  const { reschedule: rescheduleId } = await searchParams;
+  const { reschedule: rescheduleId, embed } = await searchParams;
+  const isEmbed = embed === '1';
 
   let profile;
   try {
@@ -46,10 +47,13 @@ export default async function BookingPage({ params, searchParams }: Props) {
   if (rescheduleId) {
     try {
       const apiUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
-      const res = await fetch(`${apiUrl}/public/bookings/${rescheduleId}`, {
-        cache: 'no-store',
-      });
+        process.env.INTERNAL_API_BASE_URL ??
+        process.env.NEXT_PUBLIC_API_BASE_URL ??
+        'http://localhost:4000/api/v1';
+      const res = await fetch(
+        `${apiUrl}/public/bookings/${rescheduleId}?username=${encodeURIComponent(username)}&slug=${encodeURIComponent(slug)}`,
+        { cache: 'no-store' }
+      );
       if (res.ok) {
         const json = await res.json();
         const bookingData = json.data?.booking;
@@ -77,6 +81,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
       eventType={eventType}
       host={profile.user}
       oldBooking={oldBooking}
+      isEmbed={isEmbed}
     />
   );
 }

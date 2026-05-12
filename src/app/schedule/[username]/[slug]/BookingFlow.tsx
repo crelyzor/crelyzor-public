@@ -24,6 +24,7 @@ interface Props {
     guestName: string;
     guestEmail: string;
   } | null;
+  isEmbed?: boolean;
 }
 
 // ── Time formatting helpers ────────────────────────────────────────────────────
@@ -388,7 +389,13 @@ function ClockSlotPicker({
 
 // ── BookingFlow ────────────────────────────────────────────────────────────────
 
-export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
+export function BookingFlow({
+  username,
+  eventType,
+  host,
+  oldBooking,
+  isEmbed = false,
+}: Props) {
   const router = useRouter();
 
   const [guestTimezone] = useState(
@@ -418,6 +425,29 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
   const [guestNote, setGuestNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Notify parent iframe of height changes when in embed mode.
+  // Derive parent origin from document.referrer to avoid posting to '*'.
+  const parentOrigin =
+    isEmbed && typeof document !== 'undefined' && document.referrer
+      ? new URL(document.referrer).origin
+      : '*';
+
+  useEffect(() => {
+    if (!isEmbed) return;
+    const sendHeight = () =>
+      window.parent.postMessage(
+        {
+          type: 'CRELYZOR:resize',
+          height: document.documentElement.scrollHeight,
+        },
+        parentOrigin
+      );
+    sendHeight();
+    const observer = new ResizeObserver(sendHeight);
+    observer.observe(document.documentElement);
+    return () => observer.disconnect();
+  }, [isEmbed, parentOrigin]);
 
   // Fetch slots on date change — also clears slot/form state
   useEffect(() => {
@@ -518,8 +548,22 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
         // Ignore if sessionStorage is unavailable
       }
 
+      if (isEmbed) {
+        // Send minimal payload — never expose PII (guestName/guestEmail) to the parent origin
+        window.parent.postMessage(
+          {
+            type: 'CRELYZOR:booking-confirmed',
+            data: {
+              bookingId: result.booking.id,
+              status: result.booking.status,
+            },
+          },
+          parentOrigin
+        );
+      }
+
       router.push(
-        `/schedule/${username}/${eventType.slug}/confirmed?bookingId=${result.booking.id}`
+        `/schedule/${username}/${eventType.slug}/confirmed?bookingId=${result.booking.id}${isEmbed ? '&embed=1' : ''}`
       );
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
@@ -563,25 +607,30 @@ export function BookingFlow({ username, eventType, host, oldBooking }: Props) {
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-neutral-100">
+    <div className={isEmbed ? 'bg-transparent' : 'min-h-screen bg-neutral-100'}>
       {/* Dark header */}
-      <div className="px-4 pt-12 pb-8" style={{ background: '#0a0a0a' }}>
+      <div
+        className={`px-4 pb-8 ${isEmbed ? 'pt-6' : 'pt-12'}`}
+        style={{ background: '#0a0a0a' }}
+      >
         <div className="max-w-sm mx-auto">
-          <Link
-            href={`/schedule/${username}`}
-            className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-neutral-500 hover:text-neutral-400 transition-colors mb-4"
-          >
-            <svg
-              className="w-3 h-3"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+          {!isEmbed && (
+            <Link
+              href={`/schedule/${username}`}
+              className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-neutral-500 hover:text-neutral-400 transition-colors mb-4"
             >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-            {host.name}
-          </Link>
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              {host.name}
+            </Link>
+          )}
           <h1 className="text-xl font-semibold text-white">
             {eventType.title}
           </h1>
