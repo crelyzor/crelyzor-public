@@ -13,6 +13,9 @@ node_modules/
 # Next.js auto-generated (do not commit)
 next-env.d.ts
 
+# TypeScript build artifacts
+*.tsbuildinfo
+
 # Environment variables
 *.local
 .env

@@ -117,6 +117,48 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ---
 
+## Phase 7 — Teams (Public)
+
+> Full design spec: `docs/superpowers/specs/2026-05-09-teams-design.md`
+
+New public routes for Teams. All SSR, SEO-critical.
+
+---
+
+### P0 — Team Public Card Page
+
+New route: `/t/[slug]/page.tsx`
+
+- [ ] **SSR fetch** — `GET /public/teams/:slug` (new backend endpoint). Returns team name, logo, description, member list (name, role, their team card preview).
+- [ ] **Page design** — same premium dark aesthetic as personal cards. Team logo instead of avatar. Member roster cards below (small grid, each links to `/t/:slug/members/:username` or their personal card if public).
+- [ ] **OG meta** — `generateMetadata`: `"Acme Corp — on Crelyzor"`, description from team bio, OG image with team logo.
+- [ ] **404** — `notFound()` when team slug not found or team is deleted.
+- [ ] **JSON-LD** — Organization schema (use `safeJsonLd()` helper — already exists for XSS safety).
+
+---
+
+### P1 — Team Member Booking Page
+
+New route: `/schedule/t/[slug]/[username]/page.tsx`
+
+- [ ] **SSR** — fetch team profile (`/public/scheduling/team/:slug/profile`) + member's event types for this team context (`/public/scheduling/team/:slug/:username`).
+- [ ] **Page design** — same booking UI as personal scheduling page (`/schedule/[username]/[slug]`) but header shows team name + logo alongside the member's name.
+- [ ] **Slot picker** — client-side slot fetching (same pattern as personal). Slots come from `/public/scheduling/slots/:username/:slug?date=` (no change needed — works per event type slug).
+- [ ] **Booking form** — same as personal. On submit: `POST /public/bookings` (no change needed — booking references the EventType which has `teamId` set).
+- [ ] **Confirmation** — same confirmed page pattern.
+- [ ] **OG meta** — `"Book with [Member Name] at Acme Corp"`.
+- [ ] **404** — team not found OR member not on team.
+
+---
+
+### P2 — Backend Public Team Endpoint (coordinate with backend)
+
+This is a backend task but listed here as dependency for P0:
+
+- [ ] `GET /public/teams/:slug` — no auth. Returns `{ team: { name, slug, logoUrl }, members: [{ user: { displayName, username, avatarUrl }, role, teamCard: { ... } }] }`. Only active members (`leftAt IS NULL`). Team must not be soft-deleted.
+
+---
+
 ## Future
 
 - [ ] Wallet pass support (Apple Wallet, Google Wallet)

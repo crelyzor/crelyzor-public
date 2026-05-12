@@ -43,6 +43,7 @@ export interface CardUser {
   name: string;
   username: string;
   avatarUrl: string | null;
+  plan?: 'FREE' | 'PRO' | 'BUSINESS';
 }
 
 export interface PublicCardResponse {
