@@ -112,7 +112,10 @@ export function ConfirmedClient() {
       : '*';
     const sendHeight = () =>
       window.parent.postMessage(
-        { type: 'CRELYZOR:resize', height: document.documentElement.scrollHeight },
+        {
+          type: 'CRELYZOR:resize',
+          height: document.documentElement.scrollHeight,
+        },
         parentOrigin
       );
     sendHeight();

@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
           // X-Frame-Options does not support ALLOWALL — use CSP frame-ancestors instead.
           // Next.js sets X-Frame-Options: SAMEORIGIN by default; remove it for embed routes.
           { key: 'X-Frame-Options', value: '' },
-          { key: 'Content-Security-Policy', value: "frame-ancestors *" },
+          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
         ],
       },
     ];
