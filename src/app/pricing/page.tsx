@@ -49,9 +49,9 @@ const enterprisePlan = {
   id: 'enterprise',
   label: 'Enterprise',
   tag: 'Recommended',
-  name: 'Custom',
-  description: 'For teams with high volume or custom needs.',
-  cta: 'Book a Demo',
+  name: 'Pro / Business',
+  description: 'Talk to us — get the plan that fits you.',
+  cta: 'Talk to us',
   ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Business Plan Inquiry')}`,
   features: [
     { text: 'Unlimited transcription' },
@@ -67,8 +67,18 @@ const enterprisePlan = {
 // ── Comparison table ──────────────────────────────────────────────────────────
 
 const comparisonRows = [
-  { label: 'Transcription', free: '120 min / mo', pro: '600 min / mo', enterprise: 'Unlimited' },
-  { label: 'AI Credits', free: '50 / mo', pro: '1,000 / mo', enterprise: 'Unlimited' },
+  {
+    label: 'Transcription',
+    free: '120 min / mo',
+    pro: '600 min / mo',
+    enterprise: 'Unlimited',
+  },
+  {
+    label: 'AI Credits',
+    free: '50 / mo',
+    pro: '1,000 / mo',
+    enterprise: 'Unlimited',
+  },
   {
     label: 'Auto-record & Transcribe (Google Meet)',
     free: false,
@@ -82,7 +92,12 @@ const comparisonRows = [
   { label: 'AI Content Generation', free: true, pro: true, enterprise: true },
   { label: 'Global Search', free: true, pro: true, enterprise: true },
   { label: 'Priority Support', free: false, pro: true, enterprise: true },
-  { label: 'SLA & Dedicated Support', free: false, pro: false, enterprise: true },
+  {
+    label: 'SLA & Dedicated Support',
+    free: false,
+    pro: false,
+    enterprise: true,
+  },
   { label: 'Custom Onboarding', free: false, pro: false, enterprise: true },
 ];
 
