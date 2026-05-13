@@ -67,22 +67,23 @@ const enterprisePlan = {
 // ── Comparison table ──────────────────────────────────────────────────────────
 
 const comparisonRows = [
-  { label: 'Transcription', free: '120 min / mo', enterprise: 'Unlimited' },
-  { label: 'AI Credits', free: '50 / mo', enterprise: 'Unlimited' },
+  { label: 'Transcription', free: '120 min / mo', pro: '600 min / mo', enterprise: 'Unlimited' },
+  { label: 'AI Credits', free: '50 / mo', pro: '1,000 / mo', enterprise: 'Unlimited' },
   {
     label: 'Auto-record & Transcribe (Google Meet)',
     free: false,
+    pro: '5 hrs / mo',
     enterprise: 'Unlimited',
   },
-  { label: 'Storage', free: '2 GB', enterprise: 'Unlimited' },
-  { label: 'Digital Cards', free: true, enterprise: true },
-  { label: 'Scheduling', free: true, enterprise: true },
-  { label: 'Ask AI', free: true, enterprise: true },
-  { label: 'AI Content Generation', free: true, enterprise: true },
-  { label: 'Global Search', free: true, enterprise: true },
-  { label: 'Priority Support', free: false, enterprise: true },
-  { label: 'SLA & Dedicated Support', free: false, enterprise: true },
-  { label: 'Custom Onboarding', free: false, enterprise: true },
+  { label: 'Storage', free: '2 GB', pro: '20 GB', enterprise: 'Unlimited' },
+  { label: 'Digital Cards', free: true, pro: true, enterprise: true },
+  { label: 'Scheduling', free: true, pro: true, enterprise: true },
+  { label: 'Ask AI', free: true, pro: true, enterprise: true },
+  { label: 'AI Content Generation', free: true, pro: true, enterprise: true },
+  { label: 'Global Search', free: true, pro: true, enterprise: true },
+  { label: 'Priority Support', free: false, pro: true, enterprise: true },
+  { label: 'SLA & Dedicated Support', free: false, pro: false, enterprise: true },
+  { label: 'Custom Onboarding', free: false, pro: false, enterprise: true },
 ];
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
@@ -127,7 +128,11 @@ function TableCell({
     return (
       <Check
         className="mx-auto"
-        style={{ width: 15, height: 15, color: accent ?? 'var(--muted-foreground)' }}
+        style={{
+          width: 15,
+          height: 15,
+          color: accent ?? 'var(--muted-foreground)',
+        }}
       />
     );
   if (value === false)
@@ -353,13 +358,16 @@ export default function PricingPage() {
                     Feature
                   </th>
                   <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    {freePlan.label}
+                    Free
                   </th>
                   <th
                     className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: GOLD }}
                   >
-                    {enterprisePlan.label}
+                    Pro
+                  </th>
+                  <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Business
                   </th>
                 </tr>
               </thead>
@@ -382,7 +390,10 @@ export default function PricingPage() {
                       <TableCell value={row.free} />
                     </td>
                     <td className="py-3.5 px-4 text-center">
-                      <TableCell value={row.enterprise} accent={GOLD} />
+                      <TableCell value={row.pro} accent={GOLD} />
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <TableCell value={row.enterprise} />
                     </td>
                   </tr>
                 ))}
