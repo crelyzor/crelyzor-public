@@ -116,12 +116,18 @@ const faqs = [
 
 // ── Cell renderer ─────────────────────────────────────────────────────────────
 
-function TableCell({ value }: { value: string | boolean }) {
+function TableCell({
+  value,
+  accent,
+}: {
+  value: string | boolean;
+  accent?: string;
+}) {
   if (value === true)
     return (
       <Check
-        className="mx-auto text-muted-foreground"
-        style={{ width: 15, height: 15 }}
+        className="mx-auto"
+        style={{ width: 15, height: 15, color: accent ?? 'var(--muted-foreground)' }}
       />
     );
   if (value === false)
@@ -129,7 +135,10 @@ function TableCell({ value }: { value: string | boolean }) {
       <X className="mx-auto text-muted/40" style={{ width: 14, height: 14 }} />
     );
   return (
-    <span className="text-xs font-medium tabular-nums text-muted-foreground">
+    <span
+      className="text-xs font-medium tabular-nums"
+      style={{ color: accent ?? 'var(--muted-foreground)' }}
+    >
       {value}
     </span>
   );
@@ -174,9 +183,9 @@ export default function PricingPage() {
       <section className="px-5 sm:px-8 pb-24">
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* ── Free — light tray (dark: zinc tray) ── */}
-          <div className="flex flex-col rounded bg-[#F4F4F5] dark:bg-zinc-800 p-1.5 ring-1 ring-zinc-900/5 dark:ring-zinc-700/30 shadow-sm">
+          <div className="flex flex-col rounded-2xl bg-[#F4F4F5] dark:bg-zinc-800 p-1.5 ring-1 ring-zinc-900/5 dark:ring-zinc-700/30 shadow-sm">
             {/* Header inner card */}
-            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm">
+            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded-xl bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm">
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
                   {freePlan.label}
@@ -192,14 +201,14 @@ export default function PricingPage() {
               </div>
               <a
                 href={freePlan.ctaHref}
-                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded bg-zinc-950 dark:bg-white py-3 px-4 text-[14px] font-semibold text-white dark:text-zinc-950 shadow-md transition-[transform,background-color] duration-150 hover:bg-zinc-800 dark:hover:bg-zinc-100 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-zinc-950 dark:bg-white py-3 px-4 text-[14px] font-semibold text-white dark:text-zinc-950 shadow-md transition-[transform,background-color] duration-150 hover:bg-zinc-800 dark:hover:bg-zinc-100 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
               >
                 {freePlan.cta}
               </a>
             </div>
 
             {/* Features inner card */}
-            <div className="flex-1 mt-1.5 rounded bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm px-5 py-5 sm:px-7 sm:py-6">
+            <div className="flex-1 mt-1.5 rounded-xl bg-white dark:bg-zinc-900 ring-1 ring-zinc-200/80 dark:ring-zinc-700/40 shadow-sm px-5 py-5 sm:px-7 sm:py-6">
               <ul className="flex flex-col gap-y-2.5">
                 {freePlan.features.map((f, i) => {
                   const isNeg = 'negative' in f && f.negative;
@@ -250,15 +259,18 @@ export default function PricingPage() {
           </div>
 
           {/* ── Enterprise — dark tray ── */}
-          <div className="flex flex-col rounded bg-[#3f3f46] p-1.5 shadow-2xl">
+          <div className="flex flex-col rounded-2xl bg-[#3f3f46] p-1.5 shadow-2xl">
             {/* Header inner card */}
-            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded bg-[#18181b]">
+            <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded-xl bg-[#18181b]">
               <div>
                 <div className="flex items-center gap-2.5">
                   <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
                     {enterprisePlan.label}
                   </h3>
-                  <span className="rounded bg-white/10 px-2 py-0.5 text-[9px] font-semibold tracking-wider text-zinc-300 uppercase">
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[9px] font-semibold tracking-wider uppercase"
+                    style={{ backgroundColor: `${GOLD}22`, color: GOLD }}
+                  >
                     {enterprisePlan.tag}
                   </span>
                 </div>
@@ -273,14 +285,15 @@ export default function PricingPage() {
               </div>
               <a
                 href={enterprisePlan.ctaHref}
-                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded bg-white py-3 px-4 text-[14px] font-semibold text-zinc-950 shadow-md transition-transform duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded-xl py-3 px-4 text-[14px] font-semibold shadow-md transition-transform duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2"
+                style={{ backgroundColor: GOLD, color: '#0a0a0a' }}
               >
                 {enterprisePlan.cta}
               </a>
             </div>
 
             {/* Features inner card */}
-            <div className="flex-1 mt-1.5 rounded bg-[#222225] border border-white/5 px-5 py-5 sm:px-7 sm:py-6">
+            <div className="flex-1 mt-1.5 rounded-xl bg-[#222225] border border-white/5 px-5 py-5 sm:px-7 sm:py-6">
               <p className="font-mono text-[12px] text-zinc-400 mb-4">
                 Everything in Free, plus:
               </p>
@@ -342,7 +355,10 @@ export default function PricingPage() {
                   <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {freePlan.label}
                   </th>
-                  <th className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <th
+                    className="text-center py-4 px-4 text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: GOLD }}
+                  >
                     {enterprisePlan.label}
                   </th>
                 </tr>
@@ -366,7 +382,7 @@ export default function PricingPage() {
                       <TableCell value={row.free} />
                     </td>
                     <td className="py-3.5 px-4 text-center">
-                      <TableCell value={row.enterprise} />
+                      <TableCell value={row.enterprise} accent={GOLD} />
                     </td>
                   </tr>
                 ))}
