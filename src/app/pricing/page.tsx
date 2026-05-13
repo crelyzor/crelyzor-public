@@ -284,9 +284,6 @@ export default function PricingPage() {
             <div className="flex flex-col px-5 py-4 sm:px-7 sm:pt-6 sm:pb-6 h-[212px] rounded-xl bg-[#18181b]">
               <div>
                 <div className="flex items-center gap-2.5">
-                  <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
-                    {enterprisePlan.label}
-                  </h3>
                   <span
                     className="rounded-full px-2 py-0.5 text-[9px] font-semibold tracking-wider uppercase"
                     style={{ backgroundColor: `${GOLD}22`, color: GOLD }}
