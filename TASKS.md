@@ -126,7 +126,7 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 - [ ] **Update `/privacy` page** (or create one if missing) — add an "Encryption at rest" section explaining: Google Cloud KMS, per-user encryption keys, AES-256-GCM, what's encrypted (meeting transcripts, notes, AI content, tasks, private contacts, booking PII), what's not (public card profile, IDs, timestamps). Tone: factual, not marketing.
 - [ ] **Landing/marketing copy audit** — if the homepage or any marketing page makes claims about data security, update them to reflect "encrypted at rest with Google Cloud KMS" — claims must match reality.
-- [ ] **Booking confirmation page** — small footer line: *"Your booking details (email, notes) are encrypted at rest."* — reassures non-Crelyzor guests submitting through `/schedule/*`.
+- [ ] **Booking confirmation page** — small footer line: _"Your booking details (email, notes) are encrypted at rest."_ — reassures non-Crelyzor guests submitting through `/schedule/*`.
 
 ---
 
