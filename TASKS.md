@@ -117,6 +117,12 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ---
 
+## Phase 4.9 — In-App Notifications
+
+> No changes in this repo. In-app notifications are authenticated-dashboard-only (`crelyzor-frontend`). The only Resend emails sent from public flows (booking confirmation to guest, booking cancelled) still go via email — no in-app notification is created for guest users who are not logged in.
+
+---
+
 ## Phase 5 — Encryption at Rest
 
 > Full design spec: `../docs/superpowers/specs/2026-05-16-encryption-at-rest-design.md`
