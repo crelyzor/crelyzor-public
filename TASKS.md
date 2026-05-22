@@ -122,19 +122,23 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 > Cal.com-style iframe embed. All 5 changes are frontend-only in this repo — no backend changes needed.
 
 ### P0 — Allow iframing
+
 - [x] `next.config.ts` — custom headers for `/schedule/**`: `X-Frame-Options: ALLOWALL` + `Content-Security-Policy: frame-ancestors *`
 
 ### P1 — Embed mode UI
+
 - [x] `schedule/[username]/[slug]/page.tsx` — read `searchParams.embed`, pass `isEmbed: boolean` to `<BookingFlow />`
 - [x] `schedule/[username]/[slug]/BookingFlow.tsx` — when `isEmbed`: hide nav/header, remove top padding, `bg-transparent`
 - [x] `schedule/[username]/[slug]/confirmed/ConfirmedClient.tsx` — read `?embed=1` from `useSearchParams`, strip chrome when present
 
 ### P2 — postMessage bridge
+
 - [x] `BookingFlow.tsx` — fire `CRELYZOR:booking-confirmed` postMessage after `createBooking()` succeeds in embed mode
 - [x] `BookingFlow.tsx` — fire `CRELYZOR:resize` on content height changes via `ResizeObserver`
 - [x] Pass `?embed=1` through to confirmed redirect URL
 
 ### P3 — embed.js script
+
 - [x] `public/embed.js` — vanilla JS, no deps, exposes `window.Crelyzor('init', { link, container, onBooking })`, listens for resize + booking-confirmed postMessages
 
 ---
