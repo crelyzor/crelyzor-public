@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-04-07 (Phase 3.2/3.3 complete, Phase 3.4 next)
+Last updated: 2026-05-22 (Phase 4.8 complete ✅ — Embeddable Booking Widget shipped)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -114,6 +114,28 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
   - `"Get started free"` CTA → sign in page
   - `"Upgrade to Pro"` CTA → dashboard billing (for logged-in) or sign up (for new)
   - FAQ section — "What are AI Credits?", "What is Recall.ai?", "Can I cancel anytime?"
+
+---
+
+## Phase 4.8 — Embeddable Booking Widget ✅ Complete
+
+> Cal.com-style iframe embed. All 5 changes are frontend-only in this repo — no backend changes needed.
+
+### P0 — Allow iframing
+- [x] `next.config.ts` — custom headers for `/schedule/**`: `X-Frame-Options: ALLOWALL` + `Content-Security-Policy: frame-ancestors *`
+
+### P1 — Embed mode UI
+- [x] `schedule/[username]/[slug]/page.tsx` — read `searchParams.embed`, pass `isEmbed: boolean` to `<BookingFlow />`
+- [x] `schedule/[username]/[slug]/BookingFlow.tsx` — when `isEmbed`: hide nav/header, remove top padding, `bg-transparent`
+- [x] `schedule/[username]/[slug]/confirmed/ConfirmedClient.tsx` — read `?embed=1` from `useSearchParams`, strip chrome when present
+
+### P2 — postMessage bridge
+- [x] `BookingFlow.tsx` — fire `CRELYZOR:booking-confirmed` postMessage after `createBooking()` succeeds in embed mode
+- [x] `BookingFlow.tsx` — fire `CRELYZOR:resize` on content height changes via `ResizeObserver`
+- [x] Pass `?embed=1` through to confirmed redirect URL
+
+### P3 — embed.js script
+- [x] `public/embed.js` — vanilla JS, no deps, exposes `window.Crelyzor('init', { link, container, onBooking })`, listens for resize + booking-confirmed postMessages
 
 ---
 
