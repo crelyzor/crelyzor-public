@@ -20,7 +20,7 @@ export const revalidate = 0;
 async function getBookingDetails(id: string) {
   try {
     const apiUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+      process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1';
     const res = await fetch(`${apiUrl}/public/bookings/${id}`, {
       cache: 'no-store',
     });
