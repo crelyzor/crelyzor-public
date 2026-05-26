@@ -32,8 +32,7 @@ async function getBookingDetails(id: string) {
 
     const json = await res.json();
     return json.data.booking;
-  } catch (error) {
-    console.error('Error fetching booking details:', error);
+  } catch {
     return null;
   }
 }
