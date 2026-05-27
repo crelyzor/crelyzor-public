@@ -232,8 +232,12 @@ export type PublicBooking = {
 /**
  * Server-side: fetch a public booking by ID. Returns null on 404.
  */
-export async function getPublicBooking(id: string): Promise<PublicBooking | null> {
-  const res = await fetch(`${API_BASE}/public/bookings/${id}`, { cache: 'no-store' });
+export async function getPublicBooking(
+  id: string
+): Promise<PublicBooking | null> {
+  const res = await fetch(`${API_BASE}/public/bookings/${id}`, {
+    cache: 'no-store',
+  });
   if (!res.ok) {
     if (res.status === 404) return null;
     throw new Error(`Failed to fetch booking: ${res.status}`);
@@ -245,7 +249,10 @@ export async function getPublicBooking(id: string): Promise<PublicBooking | null
 /**
  * Client-side: cancel a booking. Throws on failure.
  */
-export async function cancelBooking(bookingId: string, reason?: string): Promise<void> {
+export async function cancelBooking(
+  bookingId: string,
+  reason?: string
+): Promise<void> {
   const res = await fetch(`${API_BASE}/public/bookings/${bookingId}/cancel`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
