@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CancelForm } from './cancel-form';
+import { getPublicBooking } from '@/lib/api';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -19,19 +20,7 @@ export const revalidate = 0;
 
 async function getBookingDetails(id: string) {
   try {
-    const apiUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api/v1';
-    const res = await fetch(`${apiUrl}/public/bookings/${id}`, {
-      cache: 'no-store',
-    });
-
-    if (!res.ok) {
-      if (res.status === 404) return null;
-      throw new Error('Failed to fetch booking');
-    }
-
-    const json = await res.json();
-    return json.data.booking;
+    return await getPublicBooking(id);
   } catch {
     return null;
   }

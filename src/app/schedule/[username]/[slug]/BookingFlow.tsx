@@ -417,6 +417,7 @@ export function BookingFlow({
   const [slots, setSlots] = useState<TimeSlot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [slotsError, setSlotsError] = useState<string | null>(null);
+  const [slotsRetryKey, setSlotsRetryKey] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
   // Form state
@@ -469,7 +470,7 @@ export function BookingFlow({
       .finally(() => setSlotsLoading(false));
 
     return () => controller.abort();
-  }, [selectedDate, username, eventType.slug]);
+  }, [selectedDate, username, eventType.slug, slotsRetryKey]);
 
   // ── Calendar helpers ──────────────────────────────────────────────────────────
 
@@ -785,7 +786,13 @@ export function BookingFlow({
                   <line x1="12" y1="8" x2="12" y2="12" />
                   <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
-                <p className="text-xs text-neutral-500">{slotsError}</p>
+                <p className="text-xs text-neutral-500 flex-1">{slotsError}</p>
+                <button
+                  onClick={() => setSlotsRetryKey((k) => k + 1)}
+                  className="text-xs text-neutral-600 underline underline-offset-2 shrink-0"
+                >
+                  Retry
+                </button>
               </div>
             )}
 
