@@ -219,6 +219,50 @@ export async function createBooking(
   return unwrapData<BookingConfirmationData>(json);
 }
 
+export type PublicBooking = {
+  id: string;
+  status: string;
+  startTime: string;
+  endTime: string;
+  timezone: string;
+  eventType: { title: string };
+  host: { name: string };
+};
+
+/**
+ * Server-side: fetch a public booking by ID. Returns null on 404.
+ */
+export async function getPublicBooking(
+  id: string
+): Promise<PublicBooking | null> {
+  const res = await fetch(`${API_BASE}/public/bookings/${id}`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    if (res.status === 404) return null;
+    throw new Error(`Failed to fetch booking: ${res.status}`);
+  }
+  const json = await res.json();
+  return unwrapData<PublicBooking>(json);
+}
+
+/**
+ * Client-side: cancel a booking. Throws on failure.
+ */
+export async function cancelBooking(
+  bookingId: string,
+  reason?: string
+): Promise<void> {
+  const res = await fetch(`${API_BASE}/public/bookings/${bookingId}/cancel`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reason: reason?.trim() || undefined }),
+  });
+  if (!res.ok) {
+    await throwApiError(res, 'Failed to cancel booking');
+  }
+}
+
 export async function downloadVCard(
   username: string,
   slug?: string

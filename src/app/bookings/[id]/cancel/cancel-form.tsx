@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { cancelBooking } from '@/lib/api';
 
 interface CancelFormProps {
   bookingId: string;
@@ -19,22 +20,7 @@ export function CancelForm({ bookingId }: CancelFormProps) {
     setError(null);
 
     try {
-      const apiUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
-      const res = await fetch(`${apiUrl}/public/bookings/${bookingId}/cancel`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reason: reason.trim() || undefined }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || 'Failed to cancel booking');
-      }
-
+      await cancelBooking(bookingId, reason);
       // Refresh the page server-state to show the "already cancelled" layout
       router.refresh();
     } catch (err) {

@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-04-07 (Phase 3.2/3.3 complete, Phase 3.4 next)
+Last updated: 2026-05-22 (Phase 4.8 complete ✅ — Embeddable Booking Widget shipped)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -117,6 +117,32 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ---
 
+## Phase 4.8 — Embeddable Booking Widget ✅ Complete
+
+> Cal.com-style iframe embed. All 5 changes are frontend-only in this repo — no backend changes needed.
+
+### P0 — Allow iframing
+
+- [x] `next.config.ts` — custom headers for `/schedule/**`: `X-Frame-Options: ALLOWALL` + `Content-Security-Policy: frame-ancestors *`
+
+### P1 — Embed mode UI
+
+- [x] `schedule/[username]/[slug]/page.tsx` — read `searchParams.embed`, pass `isEmbed: boolean` to `<BookingFlow />`
+- [x] `schedule/[username]/[slug]/BookingFlow.tsx` — when `isEmbed`: hide nav/header, remove top padding, `bg-transparent`
+- [x] `schedule/[username]/[slug]/confirmed/ConfirmedClient.tsx` — read `?embed=1` from `useSearchParams`, strip chrome when present
+
+### P2 — postMessage bridge
+
+- [x] `BookingFlow.tsx` — fire `CRELYZOR:booking-confirmed` postMessage after `createBooking()` succeeds in embed mode
+- [x] `BookingFlow.tsx` — fire `CRELYZOR:resize` on content height changes via `ResizeObserver`
+- [x] Pass `?embed=1` through to confirmed redirect URL
+
+### P3 — embed.js script
+
+- [x] `public/embed.js` — vanilla JS, no deps, exposes `window.Crelyzor('init', { link, container, onBooking })`, listens for resize + booking-confirmed postMessages
+
+---
+
 ## Phase 4.9 — In-App Notifications
 
 > No changes in this repo. In-app notifications are authenticated-dashboard-only (`crelyzor-frontend`). The only Resend emails sent from public flows (booking confirmation to guest, booking cancelled) still go via email — no in-app notification is created for guest users who are not logged in.
@@ -138,43 +164,85 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 
 ## Phase 6 — Teams (Public)
 
-> Full design spec: `docs/superpowers/specs/2026-05-09-teams-design.md`
+> Full design spec: `../docs/internal/superpowers/specs/2026-05-09-teams-design.md`
+> Aesthetic: **Premium. Dark. Tactile.** — match existing card aesthetic exactly (Inter font, `#0a0a0a` card surfaces, gold `#d4af61` accent used sparingly, white detail anchor section). The team page should feel like a luxury directory, not a corporate "About us".
 
 New public routes for Teams. All SSR, SEO-critical.
 
 ---
 
-### P0 — Team Public Card Page
+### P0 — Email Invite Acceptance Page
 
-New route: `/t/[slug]/page.tsx`
+New route: `app/invite/[token]/page.tsx` (SSR).
 
-- [ ] **SSR fetch** — `GET /public/teams/:slug` (new backend endpoint). Returns team name, logo, description, member list (name, role, their team card preview).
-- [ ] **Page design** — same premium dark aesthetic as personal cards. Team logo instead of avatar. Member roster cards below (small grid, each links to `/t/:slug/members/:username` or their personal card if public).
-- [ ] **OG meta** — `generateMetadata`: `"Acme Corp — on Crelyzor"`, description from team bio, OG image with team logo.
-- [ ] **404** — `notFound()` when team slug not found or team is deleted.
-- [ ] **JSON-LD** — Organization schema (use `safeJsonLd()` helper — already exists for XSS safety).
-
----
-
-### P1 — Team Member Booking Page
-
-New route: `/schedule/t/[slug]/[username]/page.tsx`
-
-- [ ] **SSR** — fetch team profile (`/public/scheduling/team/:slug/profile`) + member's event types for this team context (`/public/scheduling/team/:slug/:username`).
-- [ ] **Page design** — same booking UI as personal scheduling page (`/schedule/[username]/[slug]`) but header shows team name + logo alongside the member's name.
-- [ ] **Slot picker** — client-side slot fetching (same pattern as personal). Slots come from `/public/scheduling/slots/:username/:slug?date=` (no change needed — works per event type slug).
-- [ ] **Booking form** — same as personal. On submit: `POST /public/bookings` (no change needed — booking references the EventType which has `teamId` set).
-- [ ] **Confirmation** — same confirmed page pattern.
-- [ ] **OG meta** — `"Book with [Member Name] at Acme Corp"`.
-- [ ] **404** — team not found OR member not on team.
+- [ ] **SSR fetch** — `GET /public/invites/:token` (new backend endpoint). Returns `{ team: { name, slug, logoUrl }, role, inviter: { name }, expiresAt }` or 404/410.
+- [ ] **Page layout** — `bg-neutral-100` page; centered white card (`rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)]`, max-w-md, px-8 py-10):
+  - Team logo (72px, `rounded-xl`) centered. If no logo: initials block with gold accent (`bg-[rgba(212,175,97,0.1)] text-[#d4af61]`).
+  - Heading: `text-lg font-medium text-neutral-900` — "You've been invited to **[Team]**".
+  - Subtitle: `text-xs uppercase tracking-widest text-neutral-500` — "Invited by [inviter] as [role]".
+  - Divider.
+  - If user is signed in:
+    - `Accept invitation` button — `h-11 rounded-xl bg-neutral-900 text-white text-sm font-medium w-full`. Calls `POST /invites/:token/accept` (with JWT cookie), redirects to dashboard `/teams/:teamId`.
+    - `Decline` link below (text-xs neutral-500).
+  - If not signed in:
+    - `Sign in with Google to accept` button — same style as Accept, with Google G icon (16px) left.
+    - Triggers OAuth flow with `state` carrying the token; on callback, backend auto-accepts and redirects to dashboard.
+- [ ] **Expired state** — `Clock` icon (24px neutral-400) + "This invitation has expired" + subtitle "Ask [inviter] to send a new one." No CTA.
+- [ ] **Already accepted/declined/cancelled** — subtitle reflects state ("You've already joined [Team]" → link to dashboard; "You declined this invitation").
+- [ ] **404** for invalid token.
+- [ ] **OG meta** — `"You're invited to [Team] on Crelyzor"`, OG image with team logo.
 
 ---
 
-### P2 — Backend Public Team Endpoint (coordinate with backend)
+### P1 — Team Public Page
 
-This is a backend task but listed here as dependency for P0:
+New route: `app/t/[slug]/page.tsx` (SSR).
 
-- [ ] `GET /public/teams/:slug` — no auth. Returns `{ team: { name, slug, logoUrl }, members: [{ user: { displayName, username, avatarUrl }, role, teamCard: { ... } }] }`. Only active members (`leftAt IS NULL`). Team must not be soft-deleted.
+- [ ] **SSR fetch** — `GET /public/teams/:slug`. Returns team name, slug, description, logoUrl, createdAt, member list (active only).
+- [ ] **Page layout** — `bg-neutral-100`, centered max-w-2xl, py-12. Hero section (centered text):
+  - Team logo (96px, `rounded-2xl`, dark `bg-[#0a0a0a]` surface with gold border `border-[#d4af61]/40`) — or initials block with gold accent if no logo.
+  - Team name `text-3xl font-medium text-neutral-900 tracking-tight mt-6`.
+  - Description `text-sm text-neutral-600 max-w-md mx-auto mt-2`.
+  - Meta row (gap-4 text-[11px] uppercase tracking-widest text-neutral-500): `Users2` icon + "6 members" · `Calendar` icon + "Since May 2026".
+- [ ] **Members section** — below hero, white anchor card (`bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] mt-10 p-6`):
+  - Section header: `text-[10px] uppercase tracking-widest text-neutral-500 mb-4` — "MEMBERS".
+  - Grid (`grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3`). Each member tile (`rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 transition-colors`):
+    - 40px avatar (`rounded-lg`) — or gold initials block fallback.
+    - Name `text-sm font-medium text-neutral-900 mt-3`.
+    - Role pill (`text-[10px] uppercase tracking-widest text-neutral-500 mt-1`) — e.g. "OWNER".
+    - If member has team scheduling enabled: `Book a call →` link (`text-xs text-neutral-700 mt-3`) → `/schedule/t/[slug]/[username]`.
+- [ ] **Footer** — `text-[11px] tracking-wide uppercase text-neutral-400 text-center mt-12` — "Powered by Crelyzor".
+- [ ] **OG meta** — `"[Team] — on Crelyzor"`, description from team description, OG image with team logo on `#0a0a0a` background with gold accent line.
+- [ ] **JSON-LD** — Organization schema via `safeJsonLd()` helper.
+- [ ] **404** — `notFound()` when slug missing or team `isDeleted: true`.
+
+---
+
+### P2 — Team Member Booking Page
+
+New route: `app/schedule/t/[slug]/[username]/page.tsx` (SSR).
+
+- [ ] **SSR** — fetch team profile (`/public/scheduling/team/:slug/profile`) + member's team-scoped event types (`/public/scheduling/team/:slug/:username`).
+- [ ] **Page header** (above booking UI):
+  - Small bar (`flex items-center gap-3 text-xs text-neutral-500`): 28px team logo (`rounded-lg`) + team name (`text-neutral-900 font-medium`) + `→` (neutral-300) + "Book with **[Member Name]**".
+  - Subtle gold underline (`h-px bg-[#d4af61]/30 w-12 mt-3`) — single accent touch, no more.
+- [ ] **Booking flow** — reuse the existing personal booking layout (`app/schedule/[username]/[slug]/page.tsx` patterns). Event type list → slot picker → booking form → confirmation. No structural change; just data source.
+- [ ] **Booking submit** — `POST /public/bookings` (no change — booking references the EventType which carries `teamId`).
+- [ ] **Confirmation page** — small footer line: "Booked with [Member Name] at [Team]." + existing encryption assurance line.
+- [ ] **OG meta** — `"Book with [Member Name] at [Team] — Crelyzor"`.
+- [ ] **404** — team not found, member not on team, or member has no team-scoped scheduling.
+
+---
+
+### P3 — Backend Coordination (dependencies for above)
+
+Listed here for visibility — these are tracked in `crelyzor-backend/TASKS.md` Phase 6 P2 and P6:
+
+- [ ] `GET /public/invites/:token` — no auth.
+- [ ] `POST /invites/:token/accept` — requires JWT.
+- [ ] `GET /public/teams/:slug` — no auth.
+- [ ] `GET /public/scheduling/team/:slug/profile` — no auth.
+- [ ] `GET /public/scheduling/team/:slug/:username` — no auth.
 
 ---
 
