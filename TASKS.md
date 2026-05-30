@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-05-22 (Phase 4.8 complete ✅ — Embeddable Booking Widget shipped)
+Last updated: 2026-05-30 (Phase 6 P14.a shipped ✅ — Public SSR /invite/[token] preview page. Premium-public aesthetic with team logo / gold-initials fallback / Open-in-Crelyzor CTA / ApiError(410) expired card. P14.b dashboard accept handler is next.)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -171,26 +171,19 @@ New public routes for Teams. All SSR, SEO-critical.
 
 ---
 
-### P0 — Email Invite Acceptance Page
+### P0 — Email Invite Acceptance Page ✅ Preview shipped (P14.a — 2026-05-30)
 
-New route: `app/invite/[token]/page.tsx` (SSR).
+Dev notes: `../docs/dev-notes/phase-6-p14a-public-invite-preview.md`.
 
-- [ ] **SSR fetch** — `GET /public/invites/:token` (new backend endpoint). Returns `{ team: { name, slug, logoUrl }, role, inviter: { name }, expiresAt }` or 404/410.
-- [ ] **Page layout** — `bg-neutral-100` page; centered white card (`rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)]`, max-w-md, px-8 py-10):
-  - Team logo (72px, `rounded-xl`) centered. If no logo: initials block with gold accent (`bg-[rgba(212,175,97,0.1)] text-[#d4af61]`).
-  - Heading: `text-lg font-medium text-neutral-900` — "You've been invited to **[Team]**".
-  - Subtitle: `text-xs uppercase tracking-widest text-neutral-500` — "Invited by [inviter] as [role]".
-  - Divider.
-  - If user is signed in:
-    - `Accept invitation` button — `h-11 rounded-xl bg-neutral-900 text-white text-sm font-medium w-full`. Calls `POST /invites/:token/accept` (with JWT cookie), redirects to dashboard `/teams/:teamId`.
-    - `Decline` link below (text-xs neutral-500).
-  - If not signed in:
-    - `Sign in with Google to accept` button — same style as Accept, with Google G icon (16px) left.
-    - Triggers OAuth flow with `state` carrying the token; on callback, backend auto-accepts and redirects to dashboard.
-- [ ] **Expired state** — `Clock` icon (24px neutral-400) + "This invitation has expired" + subtitle "Ask [inviter] to send a new one." No CTA.
-- [ ] **Already accepted/declined/cancelled** — subtitle reflects state ("You've already joined [Team]" → link to dashboard; "You declined this invitation").
-- [ ] **404** for invalid token.
-- [ ] **OG meta** — `"You're invited to [Team] on Crelyzor"`, OG image with team logo.
+Route: `app/invite/[token]/page.tsx` (SSR). Backend endpoint is already `GET /api/v1/invites/:token` (no auth) per indexRouter.ts:113.
+
+- [x] **SSR fetch** — `getInvitePreview(token)` in `src/lib/api.ts`. Returns `PublicInvitePreview | null`; throws `ApiError(410)` on expired so the page can render the expired-card variant.
+- [x] **Page layout** — `bg-neutral-100` page; centered white card (`rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)]`, max-w-md, px-8 py-10). Team logo (72px, `rounded-xl`) or gold-initials fallback on `rgba(212,175,97,0.1)` bg with `#d4af61` text. Heading + micro-label subtitle + divider + dark CTA + expires sub-line.
+- [x] **CTA → dashboard** — `Open in Crelyzor to accept` → `${NEXT_PUBLIC_APP_URL}/invite/${token}` with `referrerPolicy="no-referrer"` to prevent token-leak via Referer header. The actual accept POST lives in the dashboard (requires JWT) — ships in P14.b.
+- [x] **Expired state** — `Clock` icon (neutral-100 disc) + "This invitation has expired" + "Ask the team owner to send a new invitation." No CTA. Triggered by `ApiError.status === 410`.
+- [x] **404** — `notFound()` falls through to existing not-found.tsx for invalid / cancelled / declined / accepted / team-deleted tokens.
+- [x] **OG meta** — `"You're invited to [Team] · Crelyzor"`, robots noindex, OG image from `team.logoUrl` when available, canonical alternates.
+- [~] **In-app accept/decline directly on this page** — NOT built here by design. Accept requires JWT; the public site is auth-free. CTA hands off to the dashboard. The reviewer-approved split keeps crelyzor-public clean.
 
 ---
 

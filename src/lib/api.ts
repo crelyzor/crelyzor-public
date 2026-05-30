@@ -1,4 +1,5 @@
 import type { PublicCardResponse } from '@/types/card';
+import type { PublicInvitePreview } from '@/types/invite';
 import type { PublicMeetingResponse } from '@/types/meeting';
 import type {
   SchedulingProfile,
@@ -261,6 +262,28 @@ export async function cancelBooking(
   if (!res.ok) {
     await throwApiError(res, 'Failed to cancel booking');
   }
+}
+
+// ── Team Invites (Phase 6 P14.a) ──────────────────────────────────────
+
+/**
+ * Server-side: fetch a public invite preview by token.
+ * Returns null on 404 (missing / cancelled / declined / accepted / team deleted).
+ * Throws ApiError(410) when the invite has expired so the page can render the
+ * expired-card state.
+ */
+export async function getInvitePreview(
+  token: string
+): Promise<PublicInvitePreview | null> {
+  const res = await fetch(`${API_BASE}/invites/${token}`, {
+    cache: 'no-store',
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    await throwApiError(res, 'Failed to load invitation');
+  }
+  const json = await res.json();
+  return unwrapData<PublicInvitePreview>(json);
 }
 
 export async function downloadVCard(
