@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-05-30 (Phase 6 P14.a shipped ✅ — Public SSR /invite/[token] preview page. Premium-public aesthetic with team logo / gold-initials fallback / Open-in-Crelyzor CTA / ApiError(410) expired card. P14.b dashboard accept handler is next.)
+Last updated: 2026-06-01 (Phase 6 P14.c shipped ✅ — Public SSR /t/:slug team profile page. Hero with dark logo wrapper + gold border (or gold-initials fallback), white anchor card with member roster (avatar + role pill + bookable "Book a call →" link), JSON-LD Organization schema, dual-fetch with single-failure tolerance. P14.a + P14.b also live. P14.d team-member booking page is next.)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -187,27 +187,21 @@ Route: `app/invite/[token]/page.tsx` (SSR). Backend endpoint is already `GET /ap
 
 ---
 
-### P1 — Team Public Page
+### P1 — Team Public Page ✅ Complete (P14.c — 2026-06-01)
 
-New route: `app/t/[slug]/page.tsx` (SSR).
+Dev notes: `../docs/dev-notes/phase-6-p14c-public-team-page.md`.
 
-- [ ] **SSR fetch** — `GET /public/teams/:slug`. Returns team name, slug, description, logoUrl, createdAt, member list (active only).
-- [ ] **Page layout** — `bg-neutral-100`, centered max-w-2xl, py-12. Hero section (centered text):
-  - Team logo (96px, `rounded-2xl`, dark `bg-[#0a0a0a]` surface with gold border `border-[#d4af61]/40`) — or initials block with gold accent if no logo.
-  - Team name `text-3xl font-medium text-neutral-900 tracking-tight mt-6`.
-  - Description `text-sm text-neutral-600 max-w-md mx-auto mt-2`.
-  - Meta row (gap-4 text-[11px] uppercase tracking-widest text-neutral-500): `Users2` icon + "6 members" · `Calendar` icon + "Since May 2026".
-- [ ] **Members section** — below hero, white anchor card (`bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] mt-10 p-6`):
-  - Section header: `text-[10px] uppercase tracking-widest text-neutral-500 mb-4` — "MEMBERS".
-  - Grid (`grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3`). Each member tile (`rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 transition-colors`):
-    - 40px avatar (`rounded-lg`) — or gold initials block fallback.
-    - Name `text-sm font-medium text-neutral-900 mt-3`.
-    - Role pill (`text-[10px] uppercase tracking-widest text-neutral-500 mt-1`) — e.g. "OWNER".
-    - If member has team scheduling enabled: `Book a call →` link (`text-xs text-neutral-700 mt-3`) → `/schedule/t/[slug]/[username]`.
-- [ ] **Footer** — `text-[11px] tracking-wide uppercase text-neutral-400 text-center mt-12` — "Powered by Crelyzor".
-- [ ] **OG meta** — `"[Team] — on Crelyzor"`, description from team description, OG image with team logo on `#0a0a0a` background with gold accent line.
-- [ ] **JSON-LD** — Organization schema via `safeJsonLd()` helper.
-- [ ] **404** — `notFound()` when slug missing or team `isDeleted: true`.
+Route: `app/t/[slug]/page.tsx` (SSR). Dual fetch: `GET /api/v1/public/teams/:slug` (required) + `GET /api/v1/public/scheduling/team/:slug/profile` (optional, degrades gracefully).
+
+- [x] **SSR fetch** — `getPublicTeam(slug)` + `getPublicTeamScheduling(slug)` in `src/lib/api.ts`. Scheduling fetch wrapped in try/catch so the team profile still renders if that endpoint hiccups.
+- [x] **Page layout** — `bg-neutral-100`, centered max-w-2xl, py-12. Hero (centered): 96px dark `#0a0a0a` logo wrapper with gold `#d4af61` border, or gold-initials fallback. Team name 3xl, optional description, meta row "N members" + "Since [Month YYYY]" with Users2 + Calendar icons.
+- [x] **Members section** — white anchor card (`bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] mt-10 p-6`) with "MEMBERS" micro-label + responsive 1/2/3-column grid. Each tile: 40px avatar (or gold initials) + name + role pill ("Owner" / "Admin" / "Member") + optional "Book a call →" Link.
+- [x] **Bookable detection** — Set intersection of usernames from `/public/scheduling/team/:slug/profile` ∩ team members. Only members in the strict bookable subset get the "Book a call" link.
+- [x] **Footer** — "Powered by Crelyzor" Link to `/`.
+- [x] **OG meta** — `[Team] · Crelyzor` title, description, OG image from `team.logoUrl` when present, alternates canonical, robots index:true, Twitter summary card.
+- [x] **JSON-LD** — Organization schema via `safeJsonLd()` helper. Name, url, optional logo, optional description, member array.
+- [x] **404** — `notFound()` falls through to existing not-found.tsx when team missing or soft-deleted.
+- [~] **OG image with dark background + gold accent line** — using the team's raw logoUrl directly; a dynamic ImageResponse rendering on `#0a0a0a` is a follow-up polish task.
 
 ---
 

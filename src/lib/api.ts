@@ -7,6 +7,10 @@ import type {
   BookingCreateInput,
   BookingConfirmationData,
 } from '@/types/scheduling';
+import type {
+  PublicTeamProfile,
+  PublicTeamSchedulingProfile,
+} from '@/types/team';
 
 type ApiEnvelope<T> = {
   status?: string;
@@ -262,6 +266,23 @@ export async function cancelBooking(
   if (!res.ok) {
     await throwApiError(res, 'Failed to cancel booking');
   }
+}
+
+// ── Public Teams (Phase 6 P14.c) ──────────────────────────────────────
+
+/** Server-side: full team profile (members + roles + team cards). */
+export function getPublicTeam(slug: string): Promise<PublicTeamProfile> {
+  return serverRequest<PublicTeamProfile>(`/public/teams/${slug}`);
+}
+
+/** Server-side: bookable subset of members. Page wraps in try/catch and
+ * degrades gracefully when this fails — the team profile still renders. */
+export function getPublicTeamScheduling(
+  slug: string
+): Promise<PublicTeamSchedulingProfile> {
+  return serverRequest<PublicTeamSchedulingProfile>(
+    `/public/scheduling/team/${slug}/profile`
+  );
 }
 
 // ── Team Invites (Phase 6 P14.a) ──────────────────────────────────────
