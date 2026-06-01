@@ -225,15 +225,13 @@ Two SSR pages (not one) — mirrors the personal `/schedule/[username]` + `/sche
 
 ---
 
-### P3 — Backend Coordination (dependencies for above)
+### P3 — Backend Coordination ✅ All shipped (Phase 6 P2 + P6)
 
-Listed here for visibility — these are tracked in `crelyzor-backend/TASKS.md` Phase 6 P2 and P6:
-
-- [ ] `GET /public/invites/:token` — no auth.
-- [ ] `POST /invites/:token/accept` — requires JWT.
-- [ ] `GET /public/teams/:slug` — no auth.
-- [ ] `GET /public/scheduling/team/:slug/profile` — no auth.
-- [ ] `GET /public/scheduling/team/:slug/:username` — no auth.
+- [x] `GET /public/invites/:token` — no auth. (Phase 6 P2)
+- [x] `POST /invites/:token/accept` — requires JWT. (Phase 6 P2)
+- [x] `GET /public/teams/:slug` — no auth. (Phase 6 P6)
+- [x] `GET /public/scheduling/team/:slug/profile` — no auth. (Phase 6 P6)
+- [x] `GET /public/scheduling/team/:slug/:username` — no auth. (Phase 6 P6)
 
 ---
 
