@@ -8,6 +8,7 @@ import type {
   BookingConfirmationData,
 } from '@/types/scheduling';
 import type {
+  PublicTeamMemberSchedulingProfile,
   PublicTeamProfile,
   PublicTeamSchedulingProfile,
 } from '@/types/team';
@@ -282,6 +283,17 @@ export function getPublicTeamScheduling(
 ): Promise<PublicTeamSchedulingProfile> {
   return serverRequest<PublicTeamSchedulingProfile>(
     `/public/scheduling/team/${slug}/profile`
+  );
+}
+
+/** Server-side: single team-member's team-scoped bookable event types.
+ * Throws on 404 (missing team/user, non-member, scheduling disabled). */
+export function getPublicTeamMemberScheduling(
+  slug: string,
+  username: string
+): Promise<PublicTeamMemberSchedulingProfile> {
+  return serverRequest<PublicTeamMemberSchedulingProfile>(
+    `/public/scheduling/team/${slug}/${username}`
   );
 }
 

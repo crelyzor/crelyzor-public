@@ -1,6 +1,6 @@
 # cards-frontend — Task List
 
-Last updated: 2026-06-01 (Phase 6 P14.c shipped ✅ — Public SSR /t/:slug team profile page. Hero with dark logo wrapper + gold border (or gold-initials fallback), white anchor card with member roster (avatar + role pill + bookable "Book a call →" link), JSON-LD Organization schema, dual-fetch with single-failure tolerance. P14.a + P14.b also live. P14.d team-member booking page is next.)
+Last updated: 2026-06-01 (Phase 6 P14.d shipped ✅ — Public team-member booking pages at /schedule/t/:slug/:username (picker) + /schedule/t/:slug/:username/:eventTypeSlug (booking flow). Reuses the personal BookingFlow component since the backend is team-agnostic at the API surface (slots + booking lookups by userId+slug; teamId inferred from EventType row). P14 family complete. Public crelyzor work for Phase 6 wraps here.)
 
 > **Rule:** When you complete a task, change `- [ ]` to `- [x]` and move it to the Done section.
 > **Legend:** `[ ]` Not started · `[~]` Has code but broken/incomplete · `[x]` Done and working
@@ -205,19 +205,23 @@ Route: `app/t/[slug]/page.tsx` (SSR). Dual fetch: `GET /api/v1/public/teams/:slu
 
 ---
 
-### P2 — Team Member Booking Page
+### P2 — Team Member Booking Page ✅ Complete (P14.d — 2026-06-01)
 
-New route: `app/schedule/t/[slug]/[username]/page.tsx` (SSR).
+Dev notes: `../docs/dev-notes/phase-6-p14d-team-booking-page.md`.
 
-- [ ] **SSR** — fetch team profile (`/public/scheduling/team/:slug/profile`) + member's team-scoped event types (`/public/scheduling/team/:slug/:username`).
-- [ ] **Page header** (above booking UI):
-  - Small bar (`flex items-center gap-3 text-xs text-neutral-500`): 28px team logo (`rounded-lg`) + team name (`text-neutral-900 font-medium`) + `→` (neutral-300) + "Book with **[Member Name]**".
-  - Subtle gold underline (`h-px bg-[#d4af61]/30 w-12 mt-3`) — single accent touch, no more.
-- [ ] **Booking flow** — reuse the existing personal booking layout (`app/schedule/[username]/[slug]/page.tsx` patterns). Event type list → slot picker → booking form → confirmation. No structural change; just data source.
-- [ ] **Booking submit** — `POST /public/bookings` (no change — booking references the EventType which carries `teamId`).
-- [ ] **Confirmation page** — small footer line: "Booked with [Member Name] at [Team]." + existing encryption assurance line.
-- [ ] **OG meta** — `"Book with [Member Name] at [Team] — Crelyzor"`.
-- [ ] **404** — team not found, member not on team, or member has no team-scoped scheduling.
+Two SSR pages (not one) — mirrors the personal `/schedule/[username]` + `/schedule/[username]/[slug]` split:
+
+- `app/schedule/t/[slug]/[username]/page.tsx` — event-type picker
+- `app/schedule/t/[slug]/[username]/[eventTypeSlug]/page.tsx` — booking flow
+
+- [x] **SSR** — `getPublicTeamMemberScheduling(slug, username)` via `serverRequest`. notFound() on 404 (missing team/user, non-member, scheduling disabled, no team event types — covers all backend 404 cases at once).
+- [x] **Team chrome strip** — 28px team logo (raw `<img>` with `referrerPolicy="no-referrer"`) OR gold-initials fallback · team name `<Link>` to `/t/:slug` · `ChevronRight` divider · "Book with **[Member Name]**" · gold underline `h-px w-12 bg-[#d4af61]/30`.
+- [x] **Event-type picker page** — MemberHero (avatar + name) + list of cards (title + description + Clock duration badge + Video/MapPin location badge) → Link to booking flow. Empty state "Nothing bookable yet" inside the white anchor card. Back link to `/t/:slug`.
+- [x] **Booking flow page** — reuses the existing `<BookingFlow>` component from `@/app/schedule/[username]/[slug]/BookingFlow` as-is. Backend is genuinely team-agnostic at the API surface: `slotService.getSlots` + `bookingService.createBooking` resolve EventType by `(userId, slug)` and infer teamId from the resolved row. host.name coalesces `user.name ?? user.username`.
+- [x] **Booking submit** — `POST /public/bookings` unchanged. Booking lands with `teamId` set; team owner's plan absorbs usage.
+- [x] **OG meta** — picker: "Book with [Member] at [Team] · Crelyzor". Booking: "Book [duration]-min [event] with [Member] · [Team]". Both robots:index:true + alternates canonical.
+- [x] **404** — all backend 404 paths (missing team/user, non-member, scheduling disabled) collapse to a single notFound() falling through to existing not-found.tsx.
+- [~] **Confirmation page** — for v1 this lands on the existing personal `/schedule/<username>/<slug>/confirmed` page (the BookingFlow's post-confirm redirect is hardcoded). Functionally correct; lacks team chrome on the confirm step. Marked with `TODO(P14.d-follow-up)` breadcrumbs in BookingFlow.tsx at lines ~566 and ~620 for the `redirectBase`/`backHref` prop refactor when user feedback indicates the chrome loss is confusing.
 
 ---
 

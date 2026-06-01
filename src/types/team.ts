@@ -53,3 +53,28 @@ export interface PublicTeamSchedulingProfile {
   };
   members: PublicTeamSchedulingMember[];
 }
+
+// Phase 6 P14.d — single team-member's bookable event types.
+// `locationType` is narrowed to the LocationType domain so it composes with
+// `SchedulingEventType` from @/types/scheduling without a cast.
+import type { LocationType } from '@/types/scheduling';
+
+export interface PublicTeamMemberSchedulingEventType {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  duration: number;
+  locationType: LocationType;
+}
+
+export interface PublicTeamMemberSchedulingProfile {
+  team: { name: string; slug: string; logoUrl: string | null };
+  user: {
+    name: string | null;
+    username: string;
+    avatarUrl: string | null;
+    timezone: string | null;
+  };
+  eventTypes: PublicTeamMemberSchedulingEventType[];
+}

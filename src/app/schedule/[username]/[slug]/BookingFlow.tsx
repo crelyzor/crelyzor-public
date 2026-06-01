@@ -563,6 +563,11 @@ export function BookingFlow({
         );
       }
 
+      // TODO(P14.d-follow-up): hardcodes the personal /schedule/:username
+      // path. When this component is mounted from the team route
+      // (/schedule/t/:slug/:username/:eventTypeSlug), the post-confirm
+      // redirect drops out of the team URL space. Add a `redirectBase` prop
+      // so the team page can pass `/schedule/t/<teamSlug>/<username>` here.
       router.push(
         `/schedule/${username}/${eventType.slug}/confirmed?bookingId=${result.booking.id}${isEmbed ? '&embed=1' : ''}`
       );
@@ -616,6 +621,10 @@ export function BookingFlow({
       >
         <div className="max-w-sm mx-auto">
           {!isEmbed && (
+            // TODO(P14.d-follow-up): mirror of the redirect TODO above —
+            // hardcodes the personal back-link. Team route currently bounces
+            // the guest to /schedule/<username>. A `backHref` prop lets the
+            // team page send them back to /schedule/t/<teamSlug>/<username>.
             <Link
               href={`/schedule/${username}`}
               className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-neutral-500 hover:text-neutral-400 transition-colors mb-4"
