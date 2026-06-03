@@ -1,4 +1,4 @@
-import type { PublicCardResponse } from '@/types/card';
+import type { PublicCardResponse, CardData } from '@/types/card';
 import type { PublicInvitePreview } from '@/types/invite';
 import type { PublicMeetingResponse } from '@/types/meeting';
 import type {
@@ -136,6 +136,40 @@ export function getPublicMeeting(
 
 export function getVCardUrl(username: string, slug?: string): string {
   return `${API_BASE}/public/card/${username}${slug ? `/${slug}` : ''}/vcard`;
+}
+
+export interface PublicTeamCardMember {
+  name: string | null;
+  username: string | null;
+  avatarUrl: string | null;
+  designation: string | null;
+  cardSlug: string | null;
+}
+
+export interface PublicTeamCardResponse {
+  card: CardData;
+  team: { name: string; slug: string };
+  member?: { name: string | null; username: string; designation: string | null };
+  members?: PublicTeamCardMember[];
+}
+
+export function getTeamCard(
+  teamSlug: string,
+  cardSlug: string
+): Promise<PublicTeamCardResponse> {
+  return serverRequest<PublicTeamCardResponse>(
+    `/public/teams/${teamSlug}/cards/${cardSlug}`
+  );
+}
+
+export function getTeamMemberCard(
+  teamSlug: string,
+  username: string,
+  cardSlug: string
+): Promise<PublicTeamCardResponse> {
+  return serverRequest<PublicTeamCardResponse>(
+    `/public/teams/${teamSlug}/${username}/cards/${cardSlug}`
+  );
 }
 
 // ── Client-callable functions ──────────────────────────────────────────

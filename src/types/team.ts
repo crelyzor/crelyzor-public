@@ -15,6 +15,7 @@ export interface PublicTeamMember {
     avatarUrl: string | null;
   };
   role: PublicTeamRole;
+  designation: string | null;
   teamCard: {
     slug: string;
     displayName: string;
@@ -52,6 +53,14 @@ export interface PublicTeamSchedulingProfile {
     logoUrl: string | null;
   };
   members: PublicTeamSchedulingMember[];
+}
+
+export interface PublicTeamCardMember {
+  name: string | null;
+  username: string | null;
+  avatarUrl: string | null;
+  designation: string | null;
+  cardSlug: string | null;
 }
 
 // Phase 6 P14.d — single team-member's bookable event types.
