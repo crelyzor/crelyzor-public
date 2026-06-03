@@ -1,38 +1,40 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { getTeamCard, type PublicTeamCardMember } from '@/lib/api';
+import {
+  getTeamCard,
+  getTeamMemberCard,
+  type PublicTeamCardMember,
+  type PublicTeamCardResponse,
+} from '@/lib/api';
+import { CardView } from '@/components/CardView';
 import { TeamCardFlip } from '@/components/TeamCardFlip';
 import { safeJsonLd } from '@/lib/jsonLd';
+import type { PublicCardResponse } from '@/types/card';
 
 interface Props {
-  params: Promise<{ slug: string; cardSlug: string }>;
+  params: Promise<{ slug: string; path: string[] }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug, cardSlug } = await params;
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
-  try {
-    const { card, team } = await getTeamCard(slug, cardSlug);
-    const title = `${card.displayName}${card.title ? ` — ${card.title}` : ''} · ${team.name}`;
-    const description = card.bio ?? `${card.displayName} — ${team.name} on Crelyzor.`;
-    const canonical = `${base}/t/${slug}/${cardSlug}`;
-    return {
-      title,
-      description,
-      alternates: { canonical },
-      openGraph: {
-        title,
-        description,
-        type: 'website',
-        url: canonical,
-        images: card.avatarUrl ? [{ url: card.avatarUrl }] : [],
+function toCardViewData(
+  res: PublicTeamCardResponse,
+  slug: string
+): { data: PublicCardResponse; username: string; cardSlug: string } {
+  const username = res.member?.username ?? slug;
+  return {
+    data: {
+      card: res.card,
+      user: {
+        id: '',
+        name: res.member?.name ?? res.card.displayName,
+        username,
+        avatarUrl: res.card.avatarUrl,
+        plan: 'PRO',
       },
-      twitter: { card: 'summary', title, description },
-    };
-  } catch {
-    return { title: 'Card not found · Crelyzor', robots: { index: false, follow: false } };
-  }
+    },
+    username,
+    cardSlug: res.card.slug,
+  };
 }
 
 const GOLD = '#d4af61';
@@ -114,19 +116,80 @@ function MemberRow({
   );
 }
 
-export default async function TeamCardPage({ params }: Props) {
-  const { slug, cardSlug } = await params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug, path } = await params;
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
 
-  let data;
   try {
-    data = await getTeamCard(slug, cardSlug);
+    let res: PublicTeamCardResponse;
+    if (path.length === 1) {
+      res = await getTeamCard(slug, path[0]);
+    } else if (path.length === 2) {
+      res = await getTeamMemberCard(slug, path[0], path[1]);
+    } else {
+      return { title: 'Not Found' };
+    }
+
+    const { card, team, member } = res;
+    const displayName = member?.name ?? card.displayName;
+    const title = `${displayName}${card.title ? ` — ${card.title}` : ''} · ${team.name}`;
+    const description = card.bio ?? `Connect with ${displayName} on Crelyzor.`;
+    const canonical = `${base}/t/${slug}/${path.join('/')}`;
+
+    return {
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: {
+        title,
+        description,
+        images: card.avatarUrl ? [{ url: card.avatarUrl }] : [],
+        type: 'profile',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: card.avatarUrl ? [card.avatarUrl] : [],
+      },
+    };
+  } catch {
+    return { title: 'Card Not Found' };
+  }
+}
+
+export default async function TeamCardPage({ params }: Props) {
+  const { slug, path } = await params;
+
+  if (path.length === 0 || path.length > 2) notFound();
+
+  let res: PublicTeamCardResponse;
+  try {
+    if (path.length === 1) {
+      res = await getTeamCard(slug, path[0]);
+    } else {
+      res = await getTeamMemberCard(slug, path[0], path[1]);
+    }
   } catch {
     notFound();
   }
 
-  const { card, team, members = [] } = data;
+  // Member card — full CardView with save contact, book meeting, etc.
+  if (path.length === 2) {
+    const { data, username, cardSlug } = toCardViewData(res, slug);
+    return (
+      <CardView
+        data={data}
+        username={username}
+        slug={cardSlug !== username ? cardSlug : undefined}
+      />
+    );
+  }
+
+  // Team card — custom layout with member roster
+  const { card, team, members = [] } = res;
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://crelyzor.app';
-  const canonical = `${base}/t/${slug}/${cardSlug}`;
+  const canonical = `${base}/t/${slug}/${path[0]}`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -145,7 +208,6 @@ export default async function TeamCardPage({ params }: Props) {
       />
 
       <div className="max-w-md mx-auto px-5 py-10">
-        {/* Team breadcrumb */}
         <Link
           href={`/t/${team.slug}`}
           className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-neutral-500 hover:text-neutral-700 transition-colors mb-6"
@@ -162,7 +224,6 @@ export default async function TeamCardPage({ params }: Props) {
           {team.name}
         </Link>
 
-        {/* Card */}
         {card.htmlContent ? (
           <TeamCardFlip
             htmlContent={card.htmlContent}
@@ -181,10 +242,12 @@ export default async function TeamCardPage({ params }: Props) {
           </div>
         )}
 
-        {/* Card identity */}
         <div
           className="mt-4 mb-8 px-5 py-4 rounded-2xl"
-          style={{ background: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
+          style={{
+            background: '#ffffff',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+          }}
         >
           <h1 className="text-base font-semibold text-neutral-900 leading-tight">
             {card.displayName}
@@ -193,11 +256,12 @@ export default async function TeamCardPage({ params }: Props) {
             <p className="text-xs text-neutral-500 mt-0.5">{card.title}</p>
           )}
           {card.bio && (
-            <p className="text-xs text-neutral-600 mt-2 leading-relaxed">{card.bio}</p>
+            <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
+              {card.bio}
+            </p>
           )}
         </div>
 
-        {/* Member list */}
         {members.length > 0 && (
           <section
             className="rounded-2xl overflow-hidden"

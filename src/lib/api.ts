@@ -149,7 +149,11 @@ export interface PublicTeamCardMember {
 export interface PublicTeamCardResponse {
   card: CardData;
   team: { name: string; slug: string };
-  member?: { name: string | null; username: string; designation: string | null };
+  member?: {
+    name: string | null;
+    username: string;
+    designation: string | null;
+  };
   members?: PublicTeamCardMember[];
 }
 

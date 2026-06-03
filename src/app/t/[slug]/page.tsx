@@ -182,7 +182,7 @@ function MemberTile({
         {displayName}
       </p>
       <p className="text-[10px] uppercase tracking-widest text-neutral-500 mt-1">
-        {ROLE_LABEL[member.role]}
+        {member.designation ?? ROLE_LABEL[member.role]}
       </p>
       {bookable && member.user.username && (
         <Link
