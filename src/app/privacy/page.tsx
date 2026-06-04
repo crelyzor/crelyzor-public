@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Read the Crelyzor Privacy Policy.',
 };
 
-const LAST_UPDATED = 'April 22, 2025';
+const LAST_UPDATED = 'June 4, 2026';
 
 export default function PrivacyPage() {
   return (
@@ -77,13 +77,27 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-2">
-              5. Data Storage & Security
+              5. Data Security
             </h2>
             <p>
-              Your data is stored on secure servers. We use industry-standard
-              encryption in transit (TLS) and at rest. Access is restricted to
-              authorised personnel only. No system is 100% secure — please use
-              strong passwords and report any suspected breaches immediately.
+              We take the security of your data seriously. Meeting transcripts,
+              AI summaries, and notes are encrypted at rest using AES-256-GCM.
+              Encryption is applied per-user: each account has its own
+              encryption key managed by Google Cloud Key Management Service
+              (KMS). Encryption keys are never stored alongside your data.
+            </p>
+            <p className="mt-3">
+              When you delete your account, your encryption key is permanently
+              destroyed. This means your encrypted data becomes
+              cryptographically unrecoverable — even from our own backups.
+              This practice, known as crypto-shredding, gives you a strong
+              guarantee that deletion is final.
+            </p>
+            <p className="mt-3">
+              All data is transmitted over HTTPS. Access to production systems
+              is restricted to authorised personnel, and we conduct regular
+              security reviews. No system is 100% secure — please report any
+              suspected vulnerabilities to us immediately.
             </p>
           </section>
 
