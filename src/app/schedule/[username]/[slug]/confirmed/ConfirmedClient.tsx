@@ -306,7 +306,10 @@ export function ConfirmedClient() {
           </div>
         )}
 
-        <div className="pt-4 pb-8 text-center">
+        <div className="pt-4 pb-8 text-center space-y-2">
+          <p className="text-xs text-neutral-400">
+            Your booking details are encrypted at rest.
+          </p>
           <Link
             href="/"
             className="text-[11px] tracking-widest uppercase text-neutral-400 hover:text-neutral-600 transition-colors"
