@@ -676,7 +676,11 @@ export function CardView({ data, username, slug, teamSlug }: CardViewProps) {
           )}
           <div className="px-4 py-3">
             <a
-              href={teamSlug ? `/schedule/t/${teamSlug}/${username}` : `/schedule/${username}`}
+              href={
+                teamSlug
+                  ? `/schedule/t/${teamSlug}/${username}`
+                  : `/schedule/${username}`
+              }
               className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
               style={{ backgroundColor: '#0a0a0a', color: accent }}
             >
