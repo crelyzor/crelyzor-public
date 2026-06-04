@@ -71,7 +71,6 @@ function getAmPm(isoUtc: string, tz: string): 'AM' | 'PM' {
   return dp as 'AM' | 'PM';
 }
 
-
 function toDateStr(y: number, m: number, d: number): string {
   return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 }
@@ -292,7 +291,13 @@ export function BookingFlow({
     setSelectedSlot(null);
     setSubmitError(null);
 
-    getSlots(username, eventType.slug, selectedDate, controller.signal, teamSlug)
+    getSlots(
+      username,
+      eventType.slug,
+      selectedDate,
+      controller.signal,
+      teamSlug
+    )
       .then((data) => setSlots(filterFutureSlots(data.slots)))
       .catch((err) => {
         if (err instanceof Error && err.name === 'AbortError') return;
@@ -301,7 +306,7 @@ export function BookingFlow({
       .finally(() => setSlotsLoading(false));
 
     return () => controller.abort();
-  }, [selectedDate, username, eventType.slug, slotsRetryKey]);
+  }, [selectedDate, username, eventType.slug, slotsRetryKey, teamSlug]);
 
   // ── Calendar helpers ──────────────────────────────────────────────────────────
 
@@ -741,7 +746,10 @@ export function BookingFlow({
               {/* Timezone read-only */}
               <div className="flex items-center gap-2 py-2 px-3 bg-neutral-50 rounded-lg">
                 <GlobeIcon />
-                <span className="text-[11px] text-neutral-500" suppressHydrationWarning>
+                <span
+                  className="text-[11px] text-neutral-500"
+                  suppressHydrationWarning
+                >
                   {formatTimezone(guestTimezone)}
                 </span>
               </div>
