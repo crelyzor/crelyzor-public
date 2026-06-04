@@ -175,8 +175,18 @@ function MemberTile({
   teamSlug: string;
 }) {
   const displayName = member.user.name ?? member.user.username ?? 'Member';
-  return (
-    <article className="rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 transition-colors flex flex-col items-start">
+  const username = member.user.username;
+
+  const href = username
+    ? member.teamCard
+      ? `/t/${teamSlug}/${username}/${member.teamCard.slug}`
+      : bookable
+        ? `/schedule/t/${teamSlug}/${username}`
+        : null
+    : null;
+
+  const inner = (
+    <>
       <MemberAvatar name={displayName} avatarUrl={member.user.avatarUrl} />
       <p className="text-sm font-medium text-neutral-900 mt-3 line-clamp-1">
         {displayName}
@@ -184,14 +194,26 @@ function MemberTile({
       <p className="text-[10px] uppercase tracking-widest text-neutral-500 mt-1">
         {member.designation ?? ROLE_LABEL[member.role]}
       </p>
-      {bookable && member.user.username && (
-        <Link
-          href={`/schedule/t/${teamSlug}/${member.user.username}`}
-          className="text-xs text-neutral-700 mt-3 hover:text-neutral-900 transition-colors"
-        >
-          Book a call →
-        </Link>
+      {!member.teamCard && bookable && (
+        <span className="text-xs text-neutral-500 mt-3">Book a call →</span>
       )}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:shadow-sm transition-all flex flex-col items-start"
+      >
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <article className="rounded-xl border border-neutral-200 p-4 flex flex-col items-start">
+      {inner}
     </article>
   );
 }

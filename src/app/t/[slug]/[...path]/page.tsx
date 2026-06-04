@@ -182,6 +182,7 @@ export default async function TeamCardPage({ params }: Props) {
         data={data}
         username={username}
         slug={cardSlug !== username ? cardSlug : undefined}
+        teamSlug={slug}
       />
     );
   }

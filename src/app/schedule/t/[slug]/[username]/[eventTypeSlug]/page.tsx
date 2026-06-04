@@ -167,6 +167,7 @@ export default async function TeamMemberBookingPage({ params }: Props) {
           timezone: profile.user.timezone,
         }}
         isEmbed={false}
+        teamSlug={slug}
       />
     </main>
   );

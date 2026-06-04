@@ -114,9 +114,10 @@ interface CardViewProps {
   data: PublicCardResponse;
   username: string;
   slug?: string;
+  teamSlug?: string;
 }
 
-export function CardView({ data, username, slug }: CardViewProps) {
+export function CardView({ data, username, slug, teamSlug }: CardViewProps) {
   const [flipped, setFlipped] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [savingContact, setSavingContact] = useState(false);
@@ -205,7 +206,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 boxShadow:
-                  '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
+                  '0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(212,175,97,0.10), 0 24px 64px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.3)',
               }}
             >
               {card.htmlContent ? (
@@ -373,7 +374,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
                 WebkitBackfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
                 boxShadow:
-                  '0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3)',
+                  '0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(212,175,97,0.10), 0 24px 64px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.3)',
               }}
             >
               {card.htmlBackContent ? (
@@ -675,7 +676,7 @@ export function CardView({ data, username, slug }: CardViewProps) {
           )}
           <div className="px-4 py-3">
             <a
-              href={`/schedule/${username}`}
+              href={teamSlug ? `/schedule/t/${teamSlug}/${username}` : `/schedule/${username}`}
               className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
               style={{ backgroundColor: '#0a0a0a', color: accent }}
             >

@@ -231,10 +231,12 @@ export async function getSlots(
   username: string,
   slug: string,
   date: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  teamSlug?: string
 ): Promise<SlotsResponse> {
+  const qs = teamSlug ? `?date=${date}&teamSlug=${teamSlug}` : `?date=${date}`;
   const res = await fetch(
-    `${API_BASE}/public/scheduling/slots/${username}/${slug}?date=${date}`,
+    `${API_BASE}/public/scheduling/slots/${username}/${slug}${qs}`,
     { cache: 'no-store', signal }
   );
   if (!res.ok) {
