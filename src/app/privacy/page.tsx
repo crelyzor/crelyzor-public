@@ -89,9 +89,9 @@ export default function PrivacyPage() {
             <p className="mt-3">
               When you delete your account, your encryption key is permanently
               destroyed. This means your encrypted data becomes
-              cryptographically unrecoverable — even from our own backups.
-              This practice, known as crypto-shredding, gives you a strong
-              guarantee that deletion is final.
+              cryptographically unrecoverable — even from our own backups. This
+              practice, known as crypto-shredding, gives you a strong guarantee
+              that deletion is final.
             </p>
             <p className="mt-3">
               All data is transmitted over HTTPS. Access to production systems
