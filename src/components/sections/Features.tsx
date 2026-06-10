@@ -96,8 +96,8 @@ export function Features() {
               <span style={{ color: GOLD }}>Ten superpowers.</span>
             </h2>
             <p className="text-[var(--muted-foreground)] text-sm leading-relaxed max-w-xs sm:text-right">
-              Replaces HiHello, Cal.com, Otter.ai, and Todoist. AI woven
-              through every layer.
+              Replaces HiHello, Cal.com, Otter.ai, and Todoist. AI woven through
+              every layer.
             </p>
           </div>
         </motion.div>

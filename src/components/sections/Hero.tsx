@@ -60,9 +60,7 @@ function MockNavbar({
         <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center shrink-0">
           <span className="text-[9px] text-neutral-300 font-medium">HR</span>
         </div>
-        <span className="text-sm text-neutral-200 font-medium">
-          Harsh
-        </span>
+        <span className="text-sm text-neutral-200 font-medium">Harsh</span>
         <ChevronDown className="w-3 h-3 text-neutral-500" />
       </div>
       <div className="flex items-center gap-1.5 bg-neutral-800/60 rounded-lg px-3 py-1.5">
@@ -404,9 +402,7 @@ function CardBody() {
             </div>
             <div>
               <p className="text-white text-sm font-medium">Crelyzor</p>
-              <p className="text-neutral-500 text-[10px]">
-                Harsh | Co-Founder
-              </p>
+              <p className="text-neutral-500 text-[10px]">Harsh | Co-Founder</p>
             </div>
           </div>
         ))}
@@ -466,9 +462,7 @@ function CardBody() {
           </div>
           <div className="px-3 pb-2">
             <p className="text-white font-semibold text-sm">Crelyzor</p>
-            <p className="text-neutral-500 text-[10px]">
-              Harsh | Co-Founder
-            </p>
+            <p className="text-neutral-500 text-[10px]">Harsh | Co-Founder</p>
             <p className="text-neutral-700 text-[9px] mt-0.5">/card-2</p>
             <div className="flex items-center gap-3 mt-1.5">
               <div className="flex items-center gap-1">
@@ -735,7 +729,9 @@ function TeamsBody() {
         >
           <div className="flex items-center gap-3 px-3 py-2.5 border-b border-neutral-800">
             <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center shrink-0">
-              <span className="text-[9px] text-neutral-300 font-medium">HR</span>
+              <span className="text-[9px] text-neutral-300 font-medium">
+                HR
+              </span>
             </div>
             <div>
               <p className="text-[10px] text-neutral-400">Personal</p>
@@ -758,7 +754,9 @@ function TeamsBody() {
               </span>
             </div>
             <div className="flex-1">
-              <p className="text-[10px] text-white font-medium">Crelyzor Team</p>
+              <p className="text-[10px] text-white font-medium">
+                Crelyzor Team
+              </p>
               <p className="text-[8px] text-neutral-600">3 members · Owner</p>
             </div>
             <div
@@ -788,7 +786,9 @@ function TeamsBody() {
                   {m.initials}
                 </span>
               </div>
-              <p className="text-[9px] text-neutral-300 font-medium">{m.name}</p>
+              <p className="text-[9px] text-neutral-300 font-medium">
+                {m.name}
+              </p>
               <p className="text-[7px] text-neutral-600">{m.role}</p>
             </div>
           ))}
