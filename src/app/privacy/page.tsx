@@ -89,14 +89,14 @@ export default function PrivacyPage() {
             <p className="mt-3">
               When you delete your account, your encryption key is permanently
               destroyed. This means your encrypted data becomes
-              cryptographically unrecoverable — even from our own backups. This
+              cryptographically unrecoverable, even from our own backups. This
               practice, known as crypto-shredding, gives you a strong guarantee
               that deletion is final.
             </p>
             <p className="mt-3">
               All data is transmitted over HTTPS. Access to production systems
               is restricted to authorised personnel, and we conduct regular
-              security reviews. No system is 100% secure — please report any
+              security reviews. No system is 100% secure. Please report any
               suspected vulnerabilities to us immediately.
             </p>
           </section>
@@ -142,10 +142,10 @@ export default function PrivacyPage() {
               You have the right to access, correct, or delete your personal
               data. To exercise these rights, contact us at{' '}
               <a
-                href="mailto:harshkeshari100@gmail.com"
+                href="mailto:support@crelyzor.app"
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
-                harshkeshari100@gmail.com
+                support@crelyzor.app
               </a>
               . We will respond within 30 days.
             </p>
@@ -170,10 +170,10 @@ export default function PrivacyPage() {
             <p>
               For privacy-related questions or data requests, contact us at{' '}
               <a
-                href="mailto:harshkeshari100@gmail.com"
+                href="mailto:support@crelyzor.app"
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
-                harshkeshari100@gmail.com
+                support@crelyzor.app
               </a>
               .
             </p>

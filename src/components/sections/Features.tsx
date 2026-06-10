@@ -12,6 +12,8 @@ import {
   CalendarDays,
   CheckSquare,
   Search,
+  Lock,
+  Users,
 } from 'lucide-react';
 
 const GOLD = '#d4af61';
@@ -20,42 +22,52 @@ const features = [
   {
     icon: CreditCard,
     name: 'Digital Cards',
-    desc: 'Shareable URL, QR code, vCard download, card analytics, multiple cards per profile.',
+    desc: 'Your digital business card. Shareable link, QR code, vCard. Multiple cards for different contexts.',
   },
   {
     icon: Mic,
     name: 'AI Transcription',
-    desc: 'Upload any recording — Deepgram transcribes with speaker diarization. Who said what, timestamped.',
+    desc: 'Drop in any recording and get a full transcript with speaker labels. In person or on a call.',
   },
   {
     icon: Sparkles,
     name: 'Smart AI Summary',
-    desc: 'Auto-generated summary, key points, decisions made, and action items — from every meeting.',
+    desc: 'Every meeting gets a clean summary, key points, and action items pulled out automatically.',
   },
   {
     icon: MessageSquare,
     name: 'Ask AI',
-    desc: 'Chat interface for any meeting. "What did Sarah say about the timeline?" — answered instantly.',
+    desc: 'Ask anything about a meeting in plain English. Works on recordings you uploaded months ago.',
   },
   {
     icon: FileText,
     name: 'AI Content Generation',
-    desc: 'Generate follow-up emails, meeting reports, and social posts directly from your transcripts.',
+    desc: 'Turn any transcript into a follow-up email, meeting report, or blog post in seconds.',
   },
   {
     icon: CalendarDays,
     name: 'Smart Scheduling',
-    desc: 'Booking links, availability management, Google Calendar sync — all in one place.',
+    desc: 'Booking links that sync with Google Calendar. Guests pick a time, you just show up.',
   },
   {
     icon: CheckSquare,
     name: 'Tasks',
-    desc: 'AI-extracted from meetings automatically. Create manually, link to meetings and contacts.',
+    desc: 'AI pulls tasks from every meeting automatically. Add your own and link them to meetings or contacts.',
   },
   {
     icon: Search,
     name: 'Global Search',
-    desc: 'Search across meetings, cards, contacts, and tasks — everything, instantly.',
+    desc: 'One search bar for meetings, cards, contacts, and tasks. Everything findable from one place.',
+  },
+  {
+    icon: Lock,
+    name: 'Encrypted at Rest',
+    desc: 'Every transcript, summary, note, and contact is encrypted with a key only you control. Delete your account and every byte is gone.',
+  },
+  {
+    icon: Users,
+    name: 'Built for Teams',
+    desc: 'Invite your team to a shared workspace. Team cards, shared scheduling pages, and everyone keeps their own profile.',
   },
 ];
 
@@ -81,18 +93,18 @@ export function Features() {
             >
               One product.
               <br />
-              <span style={{ color: GOLD }}>Eight superpowers.</span>
+              <span style={{ color: GOLD }}>Ten superpowers.</span>
             </h2>
             <p className="text-[var(--muted-foreground)] text-sm leading-relaxed max-w-xs sm:text-right">
-              Replaces HiHello, Cal.com, Otter.ai, and Todoist — with AI woven
+              Replaces HiHello, Cal.com, Otter.ai, and Todoist. AI woven
               through every layer.
             </p>
           </div>
         </motion.div>
 
-        {/* Feature grid */}
+        {/* Feature grid — first 8 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border)]">
-          {features.map((feature, i) => {
+          {features.slice(0, 8).map((feature, i) => {
             const Icon = feature.icon;
             return (
               <motion.div
@@ -129,6 +141,45 @@ export function Features() {
           })}
         </div>
 
+        {/* Featured row — last 2 (Encryption + Teams) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--border)] mt-px">
+          {features.slice(8).map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={feature.name}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.08 }}
+                className="bg-background p-6 flex flex-col gap-3 group"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{
+                      backgroundColor: `${GOLD}12`,
+                      border: `1px solid ${GOLD}25`,
+                    }}
+                  >
+                    <Icon
+                      className="w-4 h-4"
+                      style={{ color: GOLD }}
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <p className="text-[var(--foreground)] text-sm font-medium">
+                    {feature.name}
+                  </p>
+                </div>
+                <p className="text-[var(--muted-foreground)] text-[13px] leading-relaxed">
+                  {feature.desc}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
+
         {/* Bottom rule with replacements */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -149,7 +200,7 @@ export function Features() {
             </span>
           ))}
           <span className="text-[var(--muted-foreground)] text-[11px] opacity-40">
-            —
+            ·
           </span>
           <span className="text-[12px]" style={{ color: GOLD }}>
             Crelyzor

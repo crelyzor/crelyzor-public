@@ -3,7 +3,7 @@
 import { motion } from 'motion/react';
 
 const GOLD = '#d4af61';
-const FOUNDER_EMAIL = 'harshkeshari100@gmail.com';
+const FOUNDER_EMAIL = 'harsh@crelyzor.app';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.crelyzor.app';
 
 export function CTA() {
@@ -36,8 +36,7 @@ export function CTA() {
             <span style={{ color: GOLD }}>Everything connected.</span>
           </h2>
           <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mb-8 max-w-sm">
-            Cards, AI meetings, scheduling, tasks — free to start. No waitlist.
-            No credit card.
+            Cards, AI meetings, scheduling, tasks. Free to start. No waitlist. No credit card.
           </p>
           <a
             href={`${APP_URL}/signin`}
@@ -58,12 +57,12 @@ export function CTA() {
         >
           <p className="text-[var(--foreground)] text-sm leading-relaxed max-w-lg mb-5">
             Crelyzor is young. We know that. We&apos;re a small team building
-            something we wish existed — and we&apos;d rather have real people
+            something we wish existed. We&apos;d rather have real people
             using it and telling us what&apos;s wrong than spend months
             perfecting it in private.
             <br />
             <br />
-            If something breaks, feels off, or you have an idea — I want to hear
+            If something breaks, feels off, or you have an idea, I want to hear
             it directly.
           </p>
           <div className="flex items-center gap-4">

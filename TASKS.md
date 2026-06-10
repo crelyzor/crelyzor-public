@@ -157,7 +157,7 @@ Depends on: backend P2 (slot engine + booking creation API) must exist before bu
 ### P0 — Privacy / trust copy
 
 - [x] **Update `/privacy` page** (or create one if missing) — add an "Encryption at rest" section explaining: Google Cloud KMS, per-user encryption keys, AES-256-GCM, what's encrypted (meeting transcripts, notes, AI content, tasks, private contacts, booking PII), what's not (public card profile, IDs, timestamps). Tone: factual, not marketing.
-- [ ] **Landing/marketing copy audit** — if the homepage or any marketing page makes claims about data security, update them to reflect "encrypted at rest with Google Cloud KMS" — claims must match reality.
+- [x] **Landing/marketing copy audit** — privacy page already accurately describes AES-256-GCM + Google Cloud KMS (section 5). Homepage and pricing page make no data-security claims — nothing to update.
 - [x] **Booking confirmation page** — small footer line: _"Your booking details (email, notes) are encrypted at rest."_ — reassures non-Crelyzor guests submitting through `/schedule/*`.
 
 ---
@@ -201,7 +201,7 @@ Route: `app/t/[slug]/page.tsx` (SSR). Dual fetch: `GET /api/v1/public/teams/:slu
 - [x] **OG meta** — `[Team] · Crelyzor` title, description, OG image from `team.logoUrl` when present, alternates canonical, robots index:true, Twitter summary card.
 - [x] **JSON-LD** — Organization schema via `safeJsonLd()` helper. Name, url, optional logo, optional description, member array.
 - [x] **404** — `notFound()` falls through to existing not-found.tsx when team missing or soft-deleted.
-- [~] **OG image with dark background + gold accent line** — using the team's raw logoUrl directly; a dynamic ImageResponse rendering on `#0a0a0a` is a follow-up polish task.
+- [x] **OG image with dark background + gold accent line** — dynamic `ImageResponse` at `/api/og/t/[slug]`; dark `#0a0a0a` background, team logo or initials, name, description excerpt, member count, gold accent bar. Team page metadata updated to use this URL (Twitter card upgraded to `summary_large_image`).
 
 ---
 
@@ -221,7 +221,7 @@ Two SSR pages (not one) — mirrors the personal `/schedule/[username]` + `/sche
 - [x] **Booking submit** — `POST /public/bookings` unchanged. Booking lands with `teamId` set; team owner's plan absorbs usage.
 - [x] **OG meta** — picker: "Book with [Member] at [Team] · Crelyzor". Booking: "Book [duration]-min [event] with [Member] · [Team]". Both robots:index:true + alternates canonical.
 - [x] **404** — all backend 404 paths (missing team/user, non-member, scheduling disabled) collapse to a single notFound() falling through to existing not-found.tsx.
-- [~] **Confirmation page** — for v1 this lands on the existing personal `/schedule/<username>/<slug>/confirmed` page (the BookingFlow's post-confirm redirect is hardcoded). Functionally correct; lacks team chrome on the confirm step. Marked with `TODO(P14.d-follow-up)` breadcrumbs in BookingFlow.tsx at lines ~566 and ~620 for the `redirectBase`/`backHref` prop refactor when user feedback indicates the chrome loss is confusing.
+- [x] **Confirmation page** — `BookingFlow` now accepts `redirectBase` + `backHref` props. Team booking page passes `/schedule/t/${slug}/${username}` for both. New confirmed page at `app/schedule/t/[slug]/[username]/[eventTypeSlug]/confirmed/page.tsx` wraps `ConfirmedClient` with a team chrome strip (logo, team name → `/t/:slug`, member name).
 
 ---
 

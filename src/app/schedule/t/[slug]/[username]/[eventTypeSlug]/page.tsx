@@ -6,12 +6,6 @@
  * /public/bookings endpoints — they resolve EventType by (userId, slug) and
  * the backend infers teamId from the resolved row. No team-id is required
  * in the wire payload.
- *
- * TODO(P14.d-follow-up): BookingFlow hardcodes the confirmed-page redirect
- * (`/schedule/${username}/${slug}/confirmed`) and the back-link to the
- * member's personal `/schedule/${username}`. For team bookings that lands
- * the guest in the personal URL space on the confirm step. Acceptable for
- * v1; a `redirectBase` / `backHref` prop is the cleanest fix.
  */
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -168,6 +162,8 @@ export default async function TeamMemberBookingPage({ params }: Props) {
         }}
         isEmbed={false}
         teamSlug={slug}
+        redirectBase={`/schedule/t/${slug}/${profile.user.username}`}
+        backHref={`/schedule/t/${slug}/${profile.user.username}`}
       />
     </main>
   );
