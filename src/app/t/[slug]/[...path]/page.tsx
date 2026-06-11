@@ -136,6 +136,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const description = card.bio ?? `Connect with ${displayName} on Crelyzor.`;
     const canonical = `${base}/t/${slug}/${path.join('/')}`;
 
+    const ogImage = card.avatarUrl ?? `${base}/api/og/t/${slug}`;
     return {
       title,
       description,
@@ -143,14 +144,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title,
         description,
-        images: card.avatarUrl ? [{ url: card.avatarUrl }] : [],
+        images: [{ url: ogImage }],
         type: 'profile',
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
-        images: card.avatarUrl ? [card.avatarUrl] : [],
+        images: [ogImage],
       },
     };
   } catch {

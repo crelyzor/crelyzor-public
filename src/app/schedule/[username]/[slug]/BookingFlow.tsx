@@ -26,6 +26,10 @@ interface Props {
   } | null;
   isEmbed?: boolean;
   teamSlug?: string;
+  /** Base path for the post-confirm redirect. Defaults to `/schedule/${username}`. */
+  redirectBase?: string;
+  /** Href for the back-link in the header. Defaults to `/schedule/${username}`. */
+  backHref?: string;
 }
 
 // ── Time formatting helpers ────────────────────────────────────────────────────
@@ -224,6 +228,8 @@ export function BookingFlow({
   oldBooking,
   isEmbed = false,
   teamSlug,
+  redirectBase,
+  backHref,
 }: Props) {
   const router = useRouter();
   const formRef = useRef<HTMLDivElement>(null);
@@ -399,13 +405,9 @@ export function BookingFlow({
         );
       }
 
-      // TODO(P14.d-follow-up): hardcodes the personal /schedule/:username
-      // path. When this component is mounted from the team route
-      // (/schedule/t/:slug/:username/:eventTypeSlug), the post-confirm
-      // redirect drops out of the team URL space. Add a `redirectBase` prop
-      // so the team page can pass `/schedule/t/<teamSlug>/<username>` here.
+      const base = redirectBase ?? `/schedule/${username}`;
       router.push(
-        `/schedule/${username}/${eventType.slug}/confirmed?bookingId=${result.booking.id}${isEmbed ? '&embed=1' : ''}`
+        `${base}/${eventType.slug}/confirmed?bookingId=${result.booking.id}${isEmbed ? '&embed=1' : ''}`
       );
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
@@ -457,12 +459,8 @@ export function BookingFlow({
       >
         <div className="max-w-sm mx-auto">
           {!isEmbed && (
-            // TODO(P14.d-follow-up): mirror of the redirect TODO above —
-            // hardcodes the personal back-link. Team route currently bounces
-            // the guest to /schedule/<username>. A `backHref` prop lets the
-            // team page send them back to /schedule/t/<teamSlug>/<username>.
             <Link
-              href={`/schedule/${username}`}
+              href={backHref ?? `/schedule/${username}`}
               className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-neutral-500 hover:text-neutral-400 transition-colors mb-4"
             >
               <svg

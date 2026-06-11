@@ -61,7 +61,7 @@ function BusinessCard({
               </div>
               <div className="min-w-0 pt-1">
                 <h3 className="text-white font-semibold text-[17px] leading-tight">
-                  Harshit Rai
+                  Harsh
                 </h3>
                 <p
                   className="text-[11px] mt-1.5 uppercase tracking-widest"
@@ -175,7 +175,7 @@ export function Demo() {
               Shareable.
             </h2>
             <p className="text-[var(--muted-foreground)] text-base leading-relaxed mb-6">
-              A premium digital business card — with a 3D flip, connected to
+              A premium digital business card with a 3D flip. Connected to
               everything you do.
             </p>
             <button

@@ -47,6 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { team } = await getPublicTeam(slug);
     const description =
       team.description ?? `${team.name} — a team on Crelyzor.`;
+    const ogImage = `${base}/api/og/t/${slug}`;
     return {
       title: `${team.name} · Crelyzor`,
       description,
@@ -57,12 +58,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         description,
         type: 'website',
         url: canonical,
-        images: team.logoUrl ? [{ url: team.logoUrl }] : [],
+        images: [{ url: ogImage, width: 1200, height: 630 }],
       },
       twitter: {
-        card: 'summary',
+        card: 'summary_large_image',
         title: `${team.name} on Crelyzor`,
         description,
+        images: [ogImage],
       },
     };
   } catch {

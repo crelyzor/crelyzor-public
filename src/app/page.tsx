@@ -9,7 +9,7 @@ import { CTA } from '@/components/sections/CTA';
 export const metadata: Metadata = {
   title: 'Crelyzor — Your meetings remember everything',
   description:
-    'One tool for your identity, schedule, meetings, and work. Digital cards, AI meeting transcription, smart scheduling — all connected.',
+    'One tool for your identity, schedule, meetings, and work. Digital cards, AI meeting transcription, smart scheduling. All connected.',
 };
 
 const organizationJsonLd = {
@@ -19,7 +19,7 @@ const organizationJsonLd = {
   url: 'https://crelyzor.app',
   logo: 'https://crelyzor.app/assets/icon-512.png',
   description:
-    'All-in-one professional identity platform — digital cards, AI meeting transcription, and smart scheduling.',
+    'All-in-one professional identity platform: digital cards, AI meeting transcription, and smart scheduling.',
   sameAs: [],
 };
 
@@ -46,7 +46,7 @@ const softwareAppJsonLd = {
   operatingSystem: 'Web',
   url: 'https://crelyzor.app',
   description:
-    'All-in-one professional identity platform — digital cards, AI meeting transcription, smart scheduling, and task management.',
+    'All-in-one professional identity platform: digital cards, AI meeting transcription, smart scheduling, and task management.',
   offers: {
     '@type': 'Offer',
     price: '0',

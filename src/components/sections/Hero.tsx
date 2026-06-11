@@ -60,9 +60,7 @@ function MockNavbar({
         <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center shrink-0">
           <span className="text-[9px] text-neutral-300 font-medium">HR</span>
         </div>
-        <span className="text-sm text-neutral-200 font-medium">
-          Harshit Rai
-        </span>
+        <span className="text-sm text-neutral-200 font-medium">Harsh</span>
         <ChevronDown className="w-3 h-3 text-neutral-500" />
       </div>
       <div className="flex items-center gap-1.5 bg-neutral-800/60 rounded-lg px-3 py-1.5">
@@ -100,7 +98,7 @@ function HomeBody() {
     >
       <div className="text-center pt-6 pb-4 shrink-0">
         <p className="text-[9px] tracking-[0.15em] text-neutral-500 uppercase mb-1">
-          Good Evening, Harshit
+          Good Evening, Harsh
         </p>
         <p className="text-white font-semibold text-xl mb-1">
           It&apos;s Thursday, March 6
@@ -201,7 +199,7 @@ function HomeBody() {
                       </span>
                     </div>
                     <p className="text-white text-[9px] font-semibold leading-tight">
-                      Harshit Rai
+                      Harsh
                     </p>
                     <p
                       className="text-[7px] uppercase tracking-wider mt-0.5"
@@ -329,7 +327,7 @@ function MeetingBody() {
             Summary
           </p>
           <p className="text-neutral-400 text-[10px] leading-relaxed">
-            Discussion covered ethical frameworks for AI development — bias
+            Discussion covered ethical frameworks for AI development: bias
             mitigation, transparency requirements, and responsible deployment
             strategies for production systems.
           </p>
@@ -404,9 +402,7 @@ function CardBody() {
             </div>
             <div>
               <p className="text-white text-sm font-medium">Crelyzor</p>
-              <p className="text-neutral-500 text-[10px]">
-                Harshit Rai | Co-Founder
-              </p>
+              <p className="text-neutral-500 text-[10px]">Harsh | Co-Founder</p>
             </div>
           </div>
         ))}
@@ -447,7 +443,7 @@ function CardBody() {
                   <div>
                     <p className="text-white font-semibold text-sm">Crelyzor</p>
                     <p className="text-[9px] mt-0.5" style={{ color: GOLD }}>
-                      Harshit Rai | Co-Founder
+                      Harsh | Co-Founder
                     </p>
                     <div
                       className="w-5 h-px mt-1"
@@ -466,9 +462,7 @@ function CardBody() {
           </div>
           <div className="px-3 pb-2">
             <p className="text-white font-semibold text-sm">Crelyzor</p>
-            <p className="text-neutral-500 text-[10px]">
-              Harshit Rai | Co-Founder
-            </p>
+            <p className="text-neutral-500 text-[10px]">Harsh | Co-Founder</p>
             <p className="text-neutral-700 text-[9px] mt-0.5">/card-2</p>
             <div className="flex items-center gap-3 mt-1.5">
               <div className="flex items-center gap-1">
@@ -719,6 +713,138 @@ function CalendarBody() {
   );
 }
 
+function TeamsBody() {
+  return (
+    <div
+      className="flex flex-col h-full overflow-hidden"
+      style={{ backgroundColor: '#0a0a0a' }}
+    >
+      <div className="px-4 pt-4 pb-3 shrink-0">
+        <p className="text-[8px] tracking-widest text-neutral-600 uppercase mb-2">
+          Workspace
+        </p>
+        <div
+          className="rounded-xl border border-neutral-700 overflow-hidden"
+          style={{ backgroundColor: '#111' }}
+        >
+          <div className="flex items-center gap-3 px-3 py-2.5 border-b border-neutral-800">
+            <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center shrink-0">
+              <span className="text-[9px] text-neutral-300 font-medium">
+                HR
+              </span>
+            </div>
+            <div>
+              <p className="text-[10px] text-neutral-400">Personal</p>
+              <p className="text-[8px] text-neutral-700">Harsh</p>
+            </div>
+          </div>
+          <div
+            className="flex items-center gap-3 px-3 py-2.5"
+            style={{ backgroundColor: `${GOLD}08` }}
+          >
+            <div
+              className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+              style={{
+                backgroundColor: `${GOLD}20`,
+                border: `1px solid ${GOLD}50`,
+              }}
+            >
+              <span className="text-[9px] font-bold" style={{ color: GOLD }}>
+                C
+              </span>
+            </div>
+            <div className="flex-1">
+              <p className="text-[10px] text-white font-medium">
+                Crelyzor Team
+              </p>
+              <p className="text-[8px] text-neutral-600">3 members · Owner</p>
+            </div>
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: GOLD }}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="px-4 pb-3 shrink-0">
+        <p className="text-[8px] tracking-widest text-neutral-600 uppercase mb-2">
+          Members
+        </p>
+        <div className="flex gap-2">
+          {[
+            { initials: 'HR', name: 'Harsh', role: 'Owner' },
+            { initials: 'NK', name: 'Nikhil', role: 'Admin' },
+            { initials: 'DA', name: 'Dadrio', role: 'Member' },
+          ].map((m) => (
+            <div
+              key={m.initials}
+              className="flex-1 rounded-xl border border-neutral-800 p-2.5 flex flex-col items-center gap-1.5"
+              style={{ backgroundColor: '#111' }}
+            >
+              <div className="w-8 h-8 rounded-full bg-neutral-700 flex items-center justify-center">
+                <span className="text-[9px] text-neutral-300 font-medium">
+                  {m.initials}
+                </span>
+              </div>
+              <p className="text-[9px] text-neutral-300 font-medium">
+                {m.name}
+              </p>
+              <p className="text-[7px] text-neutral-600">{m.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 px-4 pb-4 min-h-0">
+        <p className="text-[8px] tracking-widest text-neutral-600 uppercase mb-2">
+          Team Booking Page
+        </p>
+        <div
+          className="rounded-xl border border-neutral-800 overflow-hidden"
+          style={{ backgroundColor: '#111' }}
+        >
+          <div className="flex items-center justify-between px-3 py-2 border-b border-neutral-800">
+            <div className="flex items-center gap-1.5">
+              <div
+                className="w-3 h-3 rounded-sm"
+                style={{
+                  backgroundColor: `${GOLD}40`,
+                  border: `1px solid ${GOLD}50`,
+                }}
+              />
+              <span className="text-[9px] text-neutral-400">
+                crelyzor.app/t/crelyzor
+              </span>
+            </div>
+            <span style={{ color: GOLD }} className="text-[8px]">
+              ↗ Live
+            </span>
+          </div>
+          <div className="p-3 flex gap-2">
+            {['Harsh', 'Nikhil', 'Dadrio'].map((name) => (
+              <div
+                key={name}
+                className="flex-1 rounded-lg border border-neutral-800 px-2 py-2 flex flex-col items-center gap-1"
+                style={{ backgroundColor: '#0a0a0a' }}
+              >
+                <div className="w-6 h-6 rounded-full bg-neutral-700 flex items-center justify-center">
+                  <span className="text-[7px] text-neutral-400">{name[0]}</span>
+                </div>
+                <p className="text-[8px] text-neutral-400">{name}</p>
+                <div
+                  className="text-[7px] px-1.5 py-0.5 rounded"
+                  style={{ backgroundColor: `${GOLD}15`, color: GOLD }}
+                >
+                  Book
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const STEPS: {
   label: string;
   desc: string;
@@ -728,7 +854,7 @@ const STEPS: {
 }[] = [
   {
     label: 'Your command center',
-    desc: 'One view. Your meetings, overdue tasks, your digital card — everything at a glance, every morning.',
+    desc: 'One view. Your meetings, overdue tasks, and your digital card. Everything at a glance, every morning.',
     activePath: 'home',
     Body: HomeBody,
     urlPath: 'app.crelyzor.app/home',
@@ -749,7 +875,7 @@ const STEPS: {
   },
   {
     label: 'Your whole week, one view',
-    desc: 'Meetings, GCal events, and tasks with due dates — all on one calendar. Drag to reschedule.',
+    desc: 'Meetings, GCal events, and tasks with due dates, all on one calendar. Drag to reschedule.',
     activePath: 'calendar',
     Body: CalendarBody,
     urlPath: 'app.crelyzor.app/calendar',
@@ -760,6 +886,13 @@ const STEPS: {
     activePath: 'cards',
     Body: CardBody,
     urlPath: 'app.crelyzor.app/cards',
+  },
+  {
+    label: 'Your whole team, one workspace',
+    desc: 'Invite your team, share meetings, and book externally with a team scheduling page. Each member keeps their own identity.',
+    activePath: 'home',
+    Body: TeamsBody,
+    urlPath: 'app.crelyzor.app/home',
   },
 ];
 
@@ -829,7 +962,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row sm:items-end gap-6"
           >
             <p className="text-[var(--muted-foreground)] text-lg leading-relaxed max-w-sm">
-              Cards, scheduling, AI transcription, tasks — one tool for your
+              Cards, scheduling, AI transcription, tasks. One tool for your
               identity and your work.
             </p>
             <div className="flex items-center gap-3">

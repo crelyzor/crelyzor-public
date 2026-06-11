@@ -7,7 +7,7 @@ import { Check, X, ArrowRight, Mail } from 'lucide-react';
 import { HomeNavbar } from '@/components/HomeNavbar';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
-const SUPPORT_EMAIL = 'harshkeshari100@gmail.com';
+const SUPPORT_EMAIL = 'support@crelyzor.app';
 const GOLD = '#d4af61';
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ const enterprisePlan = {
   label: 'Enterprise',
   tag: 'Recommended',
   name: 'Pro / Business',
-  description: 'Talk to us — get the plan that fits you.',
+  description: "Talk to us and we'll find the right plan.",
   cta: 'Talk to us',
   ctaHref: `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Business Plan Inquiry')}`,
   features: [
@@ -106,15 +106,15 @@ const comparisonRows = [
 const faqs = [
   {
     q: 'What counts as an AI credit?',
-    a: 'One credit ≈ one AI operation (a summary, a task extraction, a content generation, or a few Ask AI messages). Credits are calculated from OpenAI token usage — 1 credit per ~1,300 input tokens or ~220 output tokens.',
+    a: 'One credit ≈ one AI operation (a summary, a task extraction, a content generation, or a few Ask AI messages). Credits are calculated from OpenAI token usage (1 credit per ~1,300 input tokens or ~220 output tokens).',
   },
   {
     q: 'What is auto-record & transcribe for Google Meet?',
-    a: 'Crelyzor automatically joins your Google Meet calls just before they start, records the audio, transcribes it, and runs the full AI pipeline — summary, key points, and tasks — no manual upload needed. Available on Pro and Business.',
+    a: 'Crelyzor automatically joins your Google Meet calls just before they start, records the audio, transcribes it, and runs the full AI pipeline: summary, key points, and tasks. No manual upload needed. Available on Pro and Business.',
   },
   {
     q: 'Do credits roll over month to month?',
-    a: 'No — transcription minutes, AI credits, and recording hours reset on the 1st of each month. Unused credits do not carry over.',
+    a: 'No. Transcription minutes, AI credits, and recording hours reset on the 1st of each month. Unused credits do not carry over.',
   },
   {
     q: 'How do I upgrade right now?',
@@ -122,11 +122,11 @@ const faqs = [
   },
   {
     q: 'Can I downgrade back to Free?',
-    a: "Yes — just email us and we'll downgrade your account at the end of your current billing period.",
+    a: "Yes. Just email us and we'll downgrade your account at the end of your current billing period.",
   },
   {
     q: 'Is there a team plan?',
-    a: 'Not yet — Crelyzor is currently designed for individual professionals. Team billing is on the roadmap. Reach out if this is a blocker.',
+    a: 'Not yet. Crelyzor is currently designed for individual professionals. Team billing is on the roadmap. Reach out if this is a blocker.',
   },
 ];
 
@@ -194,7 +194,7 @@ export default function PricingPage() {
           </h1>
           <p className="mt-6 text-base text-muted-foreground leading-relaxed max-w-md mx-auto">
             No credit card required. Every plan includes meetings, cards,
-            scheduling, and AI — right out of the box.
+            scheduling, and AI right out of the box.
           </p>
         </div>
       </section>
@@ -358,7 +358,7 @@ export default function PricingPage() {
               Full comparison
             </h2>
             <p className="mt-2 text-sm text-muted">
-              Everything side by side — no surprises.
+              Everything side by side, no surprises.
             </p>
           </div>
 
