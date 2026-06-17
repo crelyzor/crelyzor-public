@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Read the Crelyzor Privacy Policy.',
 };
 
-const LAST_UPDATED = 'June 4, 2026';
+const LAST_UPDATED = 'June 17, 2026';
 
 export default function PrivacyPage() {
   return (
@@ -55,23 +55,48 @@ export default function PrivacyPage() {
               3. AI Processing
             </h2>
             <p>
-              Meeting audio and transcripts are processed using third-party AI
-              services (including OpenAI and Deepgram) to generate summaries,
-              tasks, and other content. These providers process data on our
-              behalf under appropriate data processing agreements.
+              Meeting audio and transcripts you create within Crelyzor are
+              processed using third-party AI services (including OpenAI and
+              Deepgram) to generate summaries, tasks, and other content. These
+              providers process this data on our behalf under appropriate data
+              processing agreements, and do not use it to train their own
+              models.
+            </p>
+            <p className="mt-3">
+              We do <strong>not</strong> use any data obtained through Google
+              Workspace APIs (such as your Google Calendar or Google Tasks data)
+              to develop, improve, or train generalized or non-personalized AI
+              and machine learning models. Google user data is never sent to
+              third-party AI providers.
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-2">
-              4. Google Integration
+              4. Google Integration & Limited Use
             </h2>
             <p>
-              If you connect Google Calendar, we access your calendar events
-              solely to display them within Crelyzor and to create meeting
-              blocks you explicitly request. We do not read, store, or share
-              your Google data beyond what is necessary to provide these
-              features.
+              If you connect your Google account, we access your Google Calendar
+              and Google Tasks data solely to provide the features you
+              explicitly request — displaying your calendar within Crelyzor,
+              creating and updating meeting blocks, checking your availability,
+              and syncing meeting action items to Google Tasks. We use this data
+              only to provide and improve these user-facing features. We do not
+              use it for advertising, we do not sell it, and we do not share it
+              with third parties or AI providers.
+            </p>
+            <p className="mt-3">
+              Crelyzor&apos;s use and transfer of information received from
+              Google APIs to any other app will adhere to the{' '}
+              <a
+                href="https://developers.google.com/terms/api-services-user-data-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-foreground transition-colors"
+              >
+                Google API Services User Data Policy
+              </a>
+              , including the Limited Use requirements.
             </p>
           </section>
 
